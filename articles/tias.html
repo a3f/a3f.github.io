@@ -1,0 +1,631 @@
+﻿<!DOCTYPE html>
+<html xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.com/2008/fbml" xmlns:article="http://ogp.me/ns/article" lang="en-AU" class="squarespace-damask yui3-js-enabled js flexbox canvas canvastext webgl no-touch hashchange history draganddrop rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms no-csstransforms3d csstransitions video audio svg inlinesvg svgclippaths wf-proximanova-i1-active wf-proximanova-i3-active wf-proximanova-i4-active wf-proximanova-i6-active wf-proximanova-i7-active wf-proximanova-i8-active wf-proximanova-i9-active wf-proximanova-n1-active wf-proximanova-n3-active wf-proximanova-n4-active wf-proximanova-n6-active wf-proximanova-n7-active wf-proximanova-n8-active wf-proximanova-n9-active wf-active" itemscope="" itemtype="http://schema.org/Article" style="">
+<div id="yui3-css-stamp" style="position: absolute !important; visibility: hidden !important">
+</div>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <!-- r4193 -->
+  <!-- This is Squarespace. -->
+<!-- implicit-ramblings -->
+<link charset="utf-8" rel="stylesheet" id="yui_3_17_2_1_1433497664487_191" href="http://static.squarespace.com/universal/styles-compressed/dialog-dd87de1218e5c20cccd1ec7b55528b18-min.css">
+<link charset="utf-8" rel="stylesheet" id="yui_3_17_2_1_1433497664487_192" href="http://static.squarespace.com/universal/styles-compressed/comments-3bc2f812f5fb0dc45ef50888e2054ffe-min.css">
+</script>
+<!--<base href="">-->
+<base href=".">
+<meta charset="utf-8">
+<title>سي ليست لغة ”جرب و شوف اللي يطلع لك“</title>
+<link rel="shortcut icon" type="image/x-icon" href="http://ramblings.implicit.net/favicon.ico">
+<link rel="canonical" href="./tias_files/tias.html">
+<link rel="canonical" href="http://ramblings.implicit.net/posts/2014/4/20/c-is-not-a-try-it-and-see-language"/>
+<meta property="og:site_name" content="Ramblings"/>
+<meta property="og:title" content="سي ليست لغة ”جرب و شوف اللي يطلع لك“"/>
+<meta property="og:latitude" content="40.7207559"/>
+<meta property="og:longitude" content="-74.00076130000002"/>
+<meta property="og:url" content="http://ramblings.implicit.net/posts/2014/4/20/c-is-not-a-try-it-and-see-language"/>
+<meta property="og:type" content="article"/>
+<meta property="og:description" content="على عكس بعض اللغات، فالتجربة ليست خير معلم في تعلم لغة السي. سبب ذلك وجود برامج سي سليمة لا تولد أي تحذيرات أو أخطاء في بعض البيئات ولكن سلوكها يختلف جذريا باختلاف الكومبيلر أو نظام التشغيل أو عوامل عشوائية لا تمت للموضوع بصلة على الوهلة الأولى.
+
+السي لديها ثلاث مفاهيم: السلوك غير المعرف. السلوك غير المحدد والسلوك المحدد من قبل البيئة."/>
+<meta itemprop="name" content="سي ليست لغة ”جرب و شوف اللي يطلع لك“"/>
+<meta itemprop="url" content="http://ramblings.implicit.net/posts/2014/4/20/c-is-not-a-try-it-and-see-language"/>
+<meta itemprop="description" content="على عكس بعض اللغات، فالتجربة ليست خير معلم في تعلم لغة السي. سبب ذلك وجود برامج سي سليمة لا تولد أي تحذيرات أو أخطاء في بعض البيئات ولكن سلوكها يختلف جذريا باختلاف الكومبيلر أو نظام التشغيل أو عوامل عشوائية لا تمت للموضوع بصلة على الوهلة الأولى.
+
+السي لديها ثلاث مفاهيم: السلوك غير المعرف. السلوك غير المحدد والسلوك المحدد من قبل البيئة."/>
+<meta itemprop="name" content="سي ليست لغة ”جرب و شوف اللي يطلع لك“"/>
+<meta name="twitter:title" content="سي ليست لغة ”جرب و شوف اللي يطلع لك“"/>
+<meta name="twitter:url" content="http://ramblings.implicit.net/posts/2014/4/20/c-is-not-a-try-it-and-see-language"/>
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="على عكس بعض اللغات، فالتجربة ليست خير معلم في تعلم لغة السي. سبب ذلك وجود برامج سي سليمة لا تولد أي تحذيرات أو أخطاء في بعض البيئات ولكن سلوكها يختلف جذريا باختلاف الكومبيلر أو نظام التشغيل أو عوامل عشوائية لا تمت للموضوع بصلة على الوهلة الأولى.
+
+السي لديها ثلاث مفاهيم: السلوك غير المعرف. السلوك غير المحدد والسلوك المحدد من قبل البيئة."/>
+<meta itemprop="name" content="سي ليست لغة ”جرب و شوف اللي يطلع لك“"/>
+<meta name="description" content="على عكس بعض اللغات، فالتجربة ليست خير معلم في تعلم لغة السي. سبب ذلك وجود برامج سي سليمة لا تولد أي تحذيرات أو أخطاء في بعض البيئات ولكن سلوكها يختلف جذريا باختلاف الكومبيلر أو نظام التشغيل أو عوامل عشوائية لا تمت للموضوع بصلة على الوهلة الأولى.
+
+السي لديها ثلاث مفاهيم: السلوك غير المعرف. السلوك غير المحدد والسلوك المحدد من قبل البيئة."/>
+<meta itemprop="name" content="سي ليست لغة ”جرب و شوف اللي يطلع لك“" />
+<script type="text/javascript" async="" src="./tias_files/ga.js">
+</script>
+<script type="text/javascript">SQUARESPACE_ROLLUPS = {};</script>
+<script>(function(rollups, name) { if (!rollups[name]) { rollups[name] = {}; } rollups[name].js = ["//static.squarespace.com/universal/scripts-compressed/common-a9af15397173dec05f8f-min.js"]; })(SQUARESPACE_ROLLUPS, 'squarespace-common');</script>
+<script>(function(rollups, name) { if (!rollups[name]) { rollups[name] = {}; } rollups[name].js = ["//static.squarespace.com/universal/scripts-compressed/commerce-6f5d4485751054c17723-min.js"]; })(SQUARESPACE_ROLLUPS, 'squarespace-commerce');</script>
+<script>(function(rollups, name) { if (!rollups[name]) { rollups[name] = {}; } rollups[name].css = ["//static.squarespace.com/universal/styles-compressed/commerce-7adb43fa211d452cd060c240625da2bc-min.css"]; })(SQUARESPACE_ROLLUPS, 'squarespace-commerce');</script>
+<script type="text/javascript" data-sqs-type="dynamic-assets-loader">(function() {(function(a){function d(a){-1!==a.indexOf(".js")?document.write('<script type="text/javascript" src="'+a+'" onerror="__dynamicAssetLoaderErrorLogger(this)">\x3c/script>'):document.write('<link rel="stylesheet" type="text/css" href="'+a+'" onerror="__dynamicAssetLoaderErrorLogger(this)" />')}try{if(window.top!=window&&window.top.Squarespace&&window.top.Squarespace.frameAvailable){window.top.Squarespace.frameAvailable(window,SQUARESPACE_ROLLUPS);return}}catch(e){console.error(e)}window.__dynamicAssetLoaderErrorLogger=
+function(a){var b=new XMLHttpRequest;b.open("GET","/api/rollups/error?path="+encodeURIComponent(a.src||a.href)+"&page="+encodeURIComponent(window.location.href),!0);b.send()};for(var c in a){if(a[c].js)for(var b=0;b<a[c].js.length;b++)d(a[c].js[b]);if(a[c].css)for(b=0;b<a[c].css.length;b++)d(a[c].css[b])}})(SQUARESPACE_ROLLUPS);
+})();</script>
+<script type="text/javascript" src="./tias_files/common-a9af15397173dec05f8f-min.js" onerror="__dynamicAssetLoaderErrorLogger(this)">
+</script>
+<script type="text/javascript" src="./tias_files/commerce-6f5d4485751054c17723-min.js" onerror="__dynamicAssetLoaderErrorLogger(this)">
+</script>
+<link rel="stylesheet" type="text/css" href="./tias_files/commerce-7adb43fa211d452cd060c240625da2bc-min.css" onerror="__dynamicAssetLoaderErrorLogger(this)">
+<script type="text/javascript" data-sqs-type="imageloader">(function() {var SQUARESPACE_SIZES=[2500,1500,1E3,750,500,300,100],IMAGE_LOADING_CLASS="loading",ImageLoader=new function(){this.load=function(a,b){function c(a,b,c){var d=new Image;d.onload=b;d.onerror=c;d.src=a}a.getDOMNode&&(a=a.getDOMNode());var d=this._getDataFromNode(a,b),e=!(!d.dimensions||!d.dimensions.width||!d.dimensions.height),l=d.load+"";if("false"===l)return!1;var g=d.mode;if(e&&("fit"==g||"fill"==g)){g=a.parentNode;if(!g)return console.error("Not doing anything, parentNode not found."),!1;if(!this.refresh(a,
+b,g))return!1}var n=this._intendToLoad(a,d);if("string"==typeof n&&"viewport"!==l){var m=this.getUrl(n,d),d=a.getAttribute("data-image-resolution");a.getAttribute("src")!==m&&this.isValidResolution(n,d)&&(a.onload=function(){a.className=a.className.replace(IMAGE_LOADING_CLASS," ").trim();a.setAttribute("data-image-resolution",n)},!a.getAttribute("src")&&-1===a.className.indexOf(IMAGE_LOADING_CLASS)&&(a.className+=(a.className?" ":"")+IMAGE_LOADING_CLASS),!a.getAttribute("src")&&e?a.setAttribute("src",
+m):c(m,function(){e?a.setAttribute("src",m):(a.setAttribute("data-image-dimensions",this.width+"x"+this.height),ImageLoader.load(a,b))},function(){a.className=a.className.replace(IMAGE_LOADING_CLASS," ").trim();a.setAttribute("src",m)}));return!0}return n};this.refresh=function(a,b,c){a.getDOMNode&&(a=a.getDOMNode());c&&c.getDOMNode&&(c=c.getDOMNode());c=c||a.parentNode;if(!c)return console.error("Not doing anything, parentNode not found."),!1;var d=this._getDataFromNode(a,b),e=c.offsetWidth,l=c.offsetHeight;
+b=d.mode;if("none"!=b){var g=d.dimensions.width,n=d.dimensions.height,m=g/n,q=e/l;if(d.fixedRatio)"fill"==b&&q>m||"fit"==b&&q<m?(h=100,k=100*(q/m),r=(100-k)*d.focalPoint.y,p=0):(h=100*(m/q),k=100,r=0,p=(100-h)*d.focalPoint.x),a.style.top=r+"%",a.style.left=p+"%",a.style.width=h+"%",a.style.height=k+"%";else{var f;"fill"===b?f=m>q?l/n:e/g:"fit"===b&&(f=m<q?l/n:e/g);!d.stretch&&"fit"==b&&1<f&&(f=1);var h=Math.ceil(g*f),k=Math.ceil(n*f);if(0===h||0===k)return!1;var p,r;"fill"===b?(p=Math.min(Math.max(e/
+2-h*d.focalPoint.x,e-h),0),r=Math.min(Math.max(l/2-k*d.focalPoint.y,l-k),0)):"fit"===b&&(f=d.fitAlignment,p=f.left?0:f.right?e-h:h<e?(e-h)/2:0,r=f.top?0:f.bottom?l-k:k<l?(l-k)/2:0,"inline"==this._getStyle(a,"display")&&(a.style.fontSize="0px"),this._resetAlt(a,function(){h-=a.offsetHeight-a.clientHeight;k-=a.offsetWidth-a.clientWidth}));a.style.top=Math.ceil(r)+"px";a.style.left=Math.ceil(p)+"px";a.style.width=Math.ceil(h)+"px";a.style.height=Math.ceil(k)+"px"}p=this._getStyle(c,"position");a.style.position=
+"relative"==p?"absolute":"relative";if("fill"==b&&(b=this._getStyle(c,"overflow"),!b||"hidden"!=b))c.style.overflow="hidden";return!0}};this._intendToLoad=function(a,b){function c(c,d){"none"===b.mode&&(a.style.width=null,a.style.height=null);var e=parseFloat(a.getAttribute(c)),f=parseFloat(e);if(!f||isNaN(f))e=g._getStyle(a,c),f=parseFloat(e);if(!f||isNaN(f))e=g._getStyle(a,"max-"+c,"max"+(c.substr(0,1).toUpperCase()+c.substr(1))),f=parseFloat(e);if(0===d||e)switch(g._stringType(e)){case "percentage":d=
+parseInt(e,10)/100*l["offset"+c.substr(0,1).toUpperCase()+c.substr(1)];break;case "number":d=parseInt(e,10)}!f&&0!==d&&!a.getAttribute("src")&&(d=0);return d}b=b||this._getDataFromNode(a);if(!b.source)return!1;var d=a.offsetWidth,e=a.offsetHeight,l=a.parentNode,g=this;this._resetAlt(a,function(){d=c("width",d);e=c("height",e)});0===d&&0===e?(d=b.dimensions.width,e=b.dimensions.height):0===d?d=this.getDimensionForValue("width",e,b):0===e&&(e=this.getDimensionForValue("height",d,b));"viewport"===b.load&&
+(a.style.width=Math.floor(d)+"px",a.style.height=Math.floor(e)+"px");return this.getSquarespaceSize(d,e,b)};this._getDataFromNode=function(a,b){b=b||{};var c={focalPoint:{x:0.5,y:0.5},dimensions:{width:null,height:null},mode:"none",fitAlignment:{center:!0},load:"true",stretch:!0,fixedRatio:!1};if(b.focalPoint)c.focalPoint=b.focalPoint;else{var d=a.getAttribute("data-image-focal-point");if(d&&(d=d.split(","))&&2==d.length)c.focalPoint={x:parseFloat(d[0]),y:parseFloat(d[1])}}if(b.dimensions)c.dimensions=
+b.dimensions;else if((d=a.getAttribute("data-image-dimensions"))&&(d=d.split("x"))&&2==d.length)c.dimensions={width:parseInt(d[0],10),height:parseInt(d[1],10)};b.mode?c.mode=b.mode:a.parentNode&&(d=a.parentNode.className,-1!==d.indexOf("content-fill")?c.mode="fill":-1!==d.indexOf("content-fit")&&(c.mode="fit"));if("fit"===c.mode&&a.parentNode&&(d=b.fitAlignment||a.getAttribute("data-alignment")||a.parentNode.getAttribute("data-alignment")))c.fitAlignment={top:-1!==d.indexOf("top"),left:-1!==d.indexOf("left"),
+center:-1!==d.indexOf("center"),right:-1!==d.indexOf("right"),bottom:-1!==d.indexOf("bottom")};if(b.load)c.load=b.load;else if(d=a.getAttribute("data-load"))c.load=d;if("undefined"!==typeof b.stretch)c.stretch=b.stretch;else if(d=a.getAttribute("data-image-stretch"))c.stretch="true"===d?!0:!1;c.source=b.source?b.source:a.getAttribute("data-src");if(c.source&&(-1!==c.source.indexOf("squarespace.com")||-1!==c.source.indexOf("squarespace.net"))&&"http:"===c.source.substr(0,5)&&"https"===window.location.protocol.substr(0,
+5))c.source=c.source.replace("http://","https://");if(b.fixedRatio)c.fixedRatio=b.fixedRatio;else if(d=a.getAttribute("data-fixed-ratio"))c.fixedRatio="true"==d;return c};this._stringType=function(a){return"string"===typeof a&&-1!==a.indexOf("%")?"percentage":isNaN(parseInt(a,10))?NaN:"number"};this._getStyle=function(a,b,c){var d;a.currentStyle?d=a.currentStyle[c||b]:window.getComputedStyle&&(d=document.defaultView.getComputedStyle(a,null).getPropertyValue(b));return d};this._isVisible=function(a){a=
+a.getBoundingClientRect();return 0<=a.left&&0<=a.top||0<=a.bottom&&0<=a.right||0<=a.left&&0<=a.bottom||0<=a.right&&0<=a.top};this.getSquarespaceSize=function(a,b,c){a=Math.max(b/(c.dimensions.height/c.dimensions.width),a);"undefined"===typeof app&&"number"===typeof window.devicePixelRatio&&(a*=window.devicePixelRatio);for(b=1;b<SQUARESPACE_SIZES.length&&!(a>SQUARESPACE_SIZES[b]);b++);return SQUARESPACE_SIZES[b-1]+"w"};this.getDimensionForValue=function(a,b,c){var d=c.dimensions.width;c=c.dimensions.height;
+return"width"==a?d/c*b:"height"==a?c/d*b:NaN};this.getUrl=function(a,b){var c=b.source;return a&&("/"==c[0]||-1!=c.indexOf("squarespace.com")||-1!=c.indexOf("squarespace.net"))?(-1===c.indexOf("format="+a)&&(c=c+(-1!==c.indexOf("?")?"&":"?")+"format="+a),window.Static&&window.Static.IN_BACKEND&&-1===c.indexOf("storage=local")&&(c+="&storage=local"),c):b.source};this.isValidResolution=function(a,b){a=parseInt(a,10);b=parseInt(b,10);return isNaN(a)||isNaN(b)?!0:a>b};this._resetAlt=function(a,b){var c=
+a.getAttribute("alt"),d=c&&0<c.length&&!a.getAttribute("src");if(d){var e=a.style.display;a.removeAttribute("alt");a.style.display="none";a.offsetHeight+0;a.style.display=e}b.call(this);d&&a.setAttribute("alt",c)};this.bootstrap=function(){var a=document.images;if(0<a.length)for(var b=0,c=a.length;b<c;b++)((a[b].hasAttribute?a[b].hasAttribute("data-image"):a[b].attributes["data-image"])||(a[b].hasAttribute?a[b].hasAttribute("data-src"):a[b].attributes["data-src"]))&&"false"!==(a[b].getAttribute?a[b].getAttribute("data-load"):
+a[b].attributes["data-load"])+""&&ImageLoader.load(a[b])}};window.ImageLoader=ImageLoader;window.YUI&&YUI.add("squarespace-imageloader",function(a){});
+})();</script>
+<script>Static.SQUARESPACE_CONTEXT = {"facebookAppId":"314192535267336","rollups":{"squarespace-audio-player":{"css":"//static.squarespace.com/universal/styles-compressed/audio-player-76e4bfcc3f9830beb388bae2002fbe6c-min.css","js":"//static.squarespace.com/universal/scripts-compressed/audio-player-04a18eae56f3308120ae-min.js"},"squarespace-calendar-block-renderer":{"css":"//static.squarespace.com/universal/styles-compressed/calendar-block-renderer-1cadc867f4061dac72e24880516afe5d-min.css","js":"//static.squarespace.com/universal/scripts-compressed/calendar-block-renderer-dcda103ad390943732fd-min.js"},"squarespace-chartjs-helpers":{"css":"//static.squarespace.com/universal/styles-compressed/chartjs-helpers-9935a41d63cf08ca108505d288c1712e-min.css","js":"//static.squarespace.com/universal/scripts-compressed/chartjs-helpers-c98003284966ea9d0817-min.js"},"squarespace-comments":{"css":"//static.squarespace.com/universal/styles-compressed/comments-3bc2f812f5fb0dc45ef50888e2054ffe-min.css","js":"//static.squarespace.com/universal/scripts-compressed/comments-e0d7461a7cd18df11aa4-min.js"},"squarespace-dialog":{"css":"//static.squarespace.com/universal/styles-compressed/dialog-dd87de1218e5c20cccd1ec7b55528b18-min.css","js":"//static.squarespace.com/universal/scripts-compressed/dialog-5748bbbfcbb5ab7dbac9-min.js"},"squarespace-events-collection":{"css":"//static.squarespace.com/universal/styles-compressed/events-collection-1cadc867f4061dac72e24880516afe5d-min.css","js":"//static.squarespace.com/universal/scripts-compressed/events-collection-bfacfe3ba752fe6134bd-min.js"},"squarespace-pinterest":{"css":"//static.squarespace.com/universal/styles-compressed/pinterest-d41d8cd98f00b204e9800998ecf8427e-min.css","js":"//static.squarespace.com/universal/scripts-compressed/pinterest-de9d80ec22f262945ba3-min.js"},"squarespace-tourdates":{"css":"//static.squarespace.com/universal/styles-compressed/tourdates-c93b2c960daab39b171b6ba3fcf0b344-min.css","js":"//static.squarespace.com/universal/scripts-compressed/tourdates-30c9b039b4523453cc4c-min.js"}},"pageType":50,"website":{"id":"5351cb23e4b0768cad09714f","identifier":"implicit-ramblings","contentModifiedOn":1413003526572,"cloneable":false,"developerMode":false,"siteStatus":{},"language":"en-AU","timeZone":"Australia/Sydney","machineTimeZoneOffset":36000000,"timeZoneOffset":36000000,"timeZoneAbbr":"EST","siteTitle":"Ramblings","siteTagLine":"A collection of posts about C","siteDescription":"<p>A collection of posts about the C programming language, focusing on common misconceptions.</p>","location":{"mapZoom":12.0,"mapLat":40.7207559,"mapLng":-74.0007613},"shareButtonOptions":{},"authenticUrl":"http://ramblings.implicit.net","baseUrl":"http://ramblings.implicit.net","primaryDomain":"ramblings.implicit.net","typekitId":"","statsMigrated":false,"imageMetadataProcessingEnabled":true},"websiteSettings":{"id":"5351cb23e4b0768cad097150","websiteId":"5351cb23e4b0768cad09714f","type":"Personal","subject":"Software and IT","subjects":[{"systemSubject":"tech"}],"country":"AU","state":"","markdownMode":false,"simpleLikingEnabled":false,"lastAgreedTermsOfService":2,"defaultPostFormat":"%y/%m/%d/%t","commentLikesAllowed":true,"commentAnonAllowed":true,"commentThreaded":true,"commentApprovalRequired":true,"commentAvatarsOn":true,"commentSortType":1,"commentFlagThreshold":0,"commentFlagsAllowed":true,"commentEnableByDefault":true,"commentDisableAfterDaysDefault":0,"disqusShortname":"","notFoundPageId":"5351cbb3e4b07854cfc36870","homepageTitleFormat":"%s","collectionTitleFormat":"%c \u2014 %s","itemTitleFormat":"%i \u2014 %s","commentsEnabled":true,"allowSquarespacePromotion":true,"storeSettings":{"returnPolicy":null,"termsOfService":null,"privacyPolicy":null,"orderRefundedSubjectFormat":"%s: Order #%o Refunded","orderRefundedTitleFormat":"Order Refunded: #%o","expressCheckout":false,"useLightCart":false,"showNoteField":false,"currenciesSupported":["USD"],"defaultCurrency":"USD","selectedCurrency":"USD","measurementStandard":1,"showCustomCheckoutForm":false,"enableMailingListOptInByDefault":true,"stripeConnected":false,"isLive":false,"storeState":3},"useEscapeKeyToLogin":false,"ssBadgeType":1,"ssBadgePosition":4,"ssBadgeVisibility":1,"ssBadgeDevices":1,"pinterestOverlayOptions":{"mode":"disabled","size":"small","shape":"rect","color":"white"}},"websiteCloneable":false,"collection":{"title":"Posts","id":"5351cbb3e4b07854cfc36870","fullUrl":"/"},"item":{"title":"C is not a \u201Ctry it and see\u201D language","id":"53531992e4b0c64d5e6daeb1","fullUrl":"/posts/2014/4/20/c-is-not-a-try-it-and-see-language","publicCommentCount":0,"commentState":1,"recordType":1},"subscribed":false,"appDomain":"squarespace.com","secureDomain":"https://implicit-ramblings.squarespace.com","templateTweakable":true,"tweakJSON":{"aspect-ratio":"Auto","gallery-arrow-style":"No Background","gallery-aspect-ratio":"3:2 Standard","gallery-auto-crop":"true","gallery-autoplay":"false","gallery-design":"Slideshow","gallery-info-overlay":"Show on Hover","gallery-loop":"false","gallery-navigation":"Bullets","gallery-show-arrows":"true","gallery-transitions":"Fade","galleryArrowBackground":"rgba(34,34,34,1)","galleryArrowColor":"rgba(255,255,255,1)","galleryAutoplaySpeed":"3","galleryCircleColor":"rgba(255,255,255,1)","galleryInfoBackground":"rgba(0, 0, 0, .7)","galleryThumbnailSize":"100px","gridSize":"350px","gridSpacing":"20px","prodItemThumbSize":"50px","prodItemZoomMultiplier":"200%","prodListGutter":"28px","prodListImageWidth":"100%","prodPerRow":"3","product-gallery-auto-crop":"false","product-image-auto-crop":"true","product-item-gallery":"Slideshow","product-item-image-alignment":"Left","product-item-image-zoom":"true","product-item-size":"1:1 Square","product-item-stacked-banner":"true","product-list-layout-ratio":"Thirds"},"templateId":"4f73704924acb4f1e8095afa","pageFeatures":[1,2,4],"impersonatedSession":false,"demoCollections":[{"collectionId":"4f54f979e4b03dfa00ec2fc5","deleted":true},{"collectionId":"5085c5e984ae308a80148578","deleted":true},{"collectionId":"50860dd3e4b0c9f0193bb235","deleted":true},{"collectionId":"5086a4e6e4b0944df25c7a90","deleted":true},{"collectionId":"51129bebe4b081e5ce23ebff","deleted":true}],"isFacebookTab":false,"tzData":{"zones":[[600,"AN","AE%sT",null]],"rules":{"AN":[[1996,2005,null,"Mar","lastSun","2:00s","0","S"],[2001,2007,null,"Oct","lastSun","2:00s","1:00","D"],[2006,"only",null,"Apr","Sun>=1","2:00s","0","S"],[2007,"only",null,"Mar","lastSun","2:00s","0","S"],[2008,"max",null,"Apr","Sun>=1","2:00s","0","S"],[2008,"max",null,"Oct","Sun>=1","2:00s","1:00","D"]]}}}; SquarespaceFonts.loadViaContext(); Squarespace.load(window); </script>
+
+<link rel="alternate" type="application/rss+xml" title="RSS Feed" href="http://ramblings.implicit.net/posts?format=RSS">
+<script type="text/javascript" src="./tias_files/kbrrZ-rLZfT9gT9fPxe6nyA3MdxUYhuuoEz3b0gwxajfeC6ffFHN4UJLFRbh52jhWD9DFQBRjRJDZQsKw2Sh5eFyZ2MoFDIXZyToScBljcUTdciDOc8lSeUTjh8XOco8ifUaiaS0ScBljcUTdciDOc8lSeUTjh8XOco8ifUTdWgC-AFTifukjAuKde80Zaw0SaBujW48Sagyjh90jhNlOfG0-Au3de8R-WblScBljcUTdciDO1FUiABkZWF3.js">
+</script>
+<link rel="stylesheet" href="http://use.typekit.net/c/0a7432/1w;proxima-nova,2,cdc:V:i1,fsR:V:i3,cdh:V:i4,cdf:V:i6,cdX:V:i7,cdZ:V:i8,cdV:V:i9,cdb:V:n1,cdj:V:n3,cdg:V:n4,gVK:V:n6,cdW:V:n7,cdY:V:n8,cdT:V:n9/d?3bb2a6e53c9684ffdc9a9bf11b5b2a628a0d41ed88bee72d00e0039140ff02ec86b6d9953038ad1ad484c6304374488f1d65516d5db9eb7055eabe28796b95d99ae150735b69431e4ac053dd596353d34aadf3be96bad3b8f8bc968b38c7100902979a6546cbf82a19bfb19ae46b45fd9dd5fda0fce04595335bb57cdeeba4b4ecfc616d04b27285e25617724e6b8548cceaec7502c29cb5c77b58c7c6db8d6dc6ffb85ab5ecf9068a1e64" media="all">
+<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+<link rel="stylesheet" type="text/css" href="./tias_files/css">
+<!--[if gte IE 9]> <link rel="stylesheet" type="text/css" href="//static1.squarespace.com/static/sitecss/5351cb23e4b0768cad09714f/45/4f73704924acb4f1e8095afa/5359c23fe4b07842e58874b3/4193-05142015/1400107274536/site.css?&filterFeatures=false&part=1"/>
+<link rel="stylesheet" type="text/css" href="//static1.squarespace.com/static/sitecss/5351cb23e4b0768cad09714f/45/4f73704924acb4f1e8095afa/5359c23fe4b07842e58874b3/4193-05142015/1400107274536/site.css?&filterFeatures=false&part=2"/>
+<link rel="stylesheet" type="text/css" href="//static1.squarespace.com/static/sitecss/5351cb23e4b0768cad09714f/45/4f73704924acb4f1e8095afa/5359c23fe4b07842e58874b3/4193-05142015/1400107274536/site.css?&filterFeatures=false&part=3"/>
+<link rel="stylesheet" type="text/css" href="//static1.squarespace.com/static/sitecss/5351cb23e4b0768cad09714f/45/4f73704924acb4f1e8095afa/5359c23fe4b07842e58874b3/4193-05142015/1400107274536/site.css?&filterFeatures=false&part=4"/>
+<![endif]-->
+<!--[if lt IE 9]>
+<script src="//static.squarespace.com">
+</script>
+<link rel="stylesheet" type="text/css" href="//static1.squarespace.com/static/sitecss/5351cb23e4b0768cad09714f/45/4f73704924acb4f1e8095afa/5359c23fe4b07842e58874b3/4193-05142015/1400107274536/site.css?&filterFeatures=false&noMedia=true&part=1"/>
+<link rel="stylesheet" type="text/css" href="//static1.squarespace.com/static/sitecss/5351cb23e4b0768cad09714f/45/4f73704924acb4f1e8095afa/5359c23fe4b07842e58874b3/4193-05142015/1400107274536/site.css?&filterFeatures=false&noMedia=true&part=2"/>
+<link rel="stylesheet" type="text/css" href="//static1.squarespace.com/static/sitecss/5351cb23e4b0768cad09714f/45/4f73704924acb4f1e8095afa/5359c23fe4b07842e58874b3/4193-05142015/1400107274536/site.css?&filterFeatures=false&noMedia=true&part=3"/>
+<link rel="stylesheet" type="text/css" href="//static1.squarespace.com/static/sitecss/5351cb23e4b0768cad09714f/45/4f73704924acb4f1e8095afa/5359c23fe4b07842e58874b3/4193-05142015/1400107274536/site.css?&filterFeatures=false&noMedia=true&part=4"/>
+<![endif]-->
+<!--[if !IE]> -->
+<link rel="stylesheet" type="text/css" href="./tias_files/site.css">
+<!-- <![endif]-->
+<script type="text/javascript"> var _gaq = _gaq || []; _gaq.push(['_setAccount', 'UA-33071288-2']); _gaq.push(['_trackPageview']); (function() { var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true; ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s); })(); </script>
+<!-- End of Squarespace Headers -->
+
+  
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+	
+</head>
+
+<body dir="rtl" id="item-53531992e4b0c64d5e6daeb1" class="header-display-default fixed-header-position-on post-author-off sidebar-display-none   gallery-design-slideshow aspect-ratio-auto lightbox-style-dark gallery-navigation-bullets gallery-info-overlay-show-on-hover gallery-aspect-ratio-32-standard gallery-arrow-style-no-background gallery-transitions-fade gallery-show-arrows gallery-auto-crop   product-design-version-is-legacy product-list-gallery-grid product-list-layout-ratio-thirds product-item-size-11-square product-image-auto-crop product-list-titles-under product-list-alignment-center product-list-text-alignment-left  show-product-price product-item-gallery-slideshow product-item-image-alignment-left product-item-carousel-crop product-gallery-size-11-square  product-item-stacked-banner product-item-image-zoom product-item-thumbnails-left product-item-text-alignment-left product-item-excerpt-alignment-left product-item-excerpt-position-middle show-product-item-nav product-social-sharing product-list-status-rectangle product-list-status-placement-top-right product-list-status-flag-placement-top-right product-list-status-banner-placement-top    event-thumbnails event-thumbnail-size-32-standard event-date-label event-date-label-time event-list-show-cats event-list-date event-list-time event-list-address   event-icalgcal-links  event-excerpts  event-item-back-link      opentable-style-light newsletter-style-dark small-button-style-solid small-button-shape-square medium-button-style-solid medium-button-shape-square large-button-style-solid large-button-shape-square button-style-default button-corner-style-square native-currency-code-usd view-item collection-type-blog collection-5351cbb3e4b07854cfc36870 collection-layout-default mobile-style-available logo-site-title">
+
+	
+	  <div class="mobile-nav clear">
+			
+<div class="show-nav">
+</div>
+
+<nav class="nav clear" data-content-field="navigation">
+	
+
+	<div class="nav-link">
+
+		
+
+			
+				<a href="http://ramblings.implicit.net/" class="blog-collection active-link">
+<span>Original Post</span>
+</a>
+	
+
+			
+
+			
+
+		
+	</div>
+	
+
+	<div class="nav-link">
+
+		
+
+			
+		<a href="http://a3f.at" class="page-collection">
+<span>Translator's Site</span>
+</a>
+			
+
+			
+
+		
+	</div>
+	
+
+	<div class="nav-link">
+
+		
+
+			
+
+			
+				<a href="" class="external-link">
+<span>
+</span>
+</a>
+			
+
+		
+	</div>
+	
+</nav>
+
+
+	  </div>
+	
+
+	  <header id="header">
+
+	    <div class="wrapper clear">
+
+				
+	      <div id="logo" data-content-field="site-title">
+	        <h1 data-shrink-original-size="33">
+	        	<a href="http://ramblings.implicit.net/">
+	        		
+	        		<div class="site-title">Ramblings</div>
+	        	</a>
+	      	</h1>
+	      </div>
+	      <script>
+	        Y.use('squarespace-ui-base', function(Y) {
+	          Y.one("#logo h1").plug(Y.Squarespace.TextShrink, {
+	            parentEl: Y.one('#logo')
+	          });
+	        });
+	      </script>
+
+	      
+	      
+	      <div class="site-tagline">A collection of posts about C</div>
+	     	
+
+	     	<div class="primary-nav clear">
+	    		
+<div class="show-nav">
+</div>
+
+<nav class="nav clear" data-content-field="navigation">
+	
+
+	<div class="nav-link">
+
+		
+
+			
+				<a href="http://ramblings.implicit.net/" class="blog-collection active-link">
+<span>Original Post</span>
+</a>
+			
+
+			
+
+		
+	</div>
+	
+
+	
+
+	<div class="nav-link">
+
+		
+
+			
+		<a href="http://a3f.at" class="page-collection">
+<span>Translator's Site</span>
+</a>
+			
+
+			
+
+		
+	</div>
+	
+
+	<div class="nav-link">
+
+		
+
+			
+
+			
+				<a href="" class="external-link">
+<span>
+</span>
+</a>
+			
+
+		
+	</div>
+	
+</nav>
+
+
+	    	</div>
+
+	    </div>
+	  </header>
+
+	  <div id="site" class="clear" style="margin-top: 131px;">
+	    <div class="wrapper clear">
+
+	    	<div id="content" class="clear">
+	    		<div class="wrapper clear" data-content-field="main-content">
+
+				    <!-- // CATEGORY NAV -->
+				    
+
+	    			<section role="main" class="item clear">
+	<article class="entry hentry tag-c author-chris post-type-text clear" id="article-53531992e4b0c64d5e6daeb1" data-item-id="53531992e4b0c64d5e6daeb1">
+
+		<div class="entry-content clear">
+
+			
+
+			<div class="header clear">
+				<h1 data-content-field="title" class="post-title">
+				
+				  <a href="./tias_files/tias.html">سي ليست لغة ”جرب و شوف اللي يطلع لك“</a>
+				
+				</h1>
+			</div>
+
+			<div class="body">
+
+				<div class="sqs-layout sqs-grid-12 columns-12" data-layout-label="Post Body" data-type="item" data-updated-on="1397957596817" id="item-53531992e4b0c64d5e6daeb1">
+<div class="row sqs-row">
+<div class="col sqs-col-12 span-12">
+<div class="sqs-block html-block sqs-block-html" data-block-type="2" id="block-yui_3_10_1_1_1397960646993_72911">
+<div class="sqs-block-content">
+	<!-- START -->
+<p>
+	على عكس بعض اللغات، فالتجربة ليست خير معلم في تعلم لغة السي. سبب ذلك وجود برامج سي سليمة لا تولد أي تحذيرات أو أخطاء في بعض البيئات ولكن سلوكها يختلف جذريا باختلاف برنامج الترجمة أو نظام التشغيل أو عوامل عشوائية لا تمت للموضوع بصلة على الوهلة الأولى.<br>
+يعزى ذلك إلى ثلاثة مفاهيم في السي: السلوك غير المعرف. السلوك غير المحدد والسلوك المحدد من قبل البيئة.</p>
+<h3>السلوك غير المعرف
+(Undefined Behavior)
+</h3>
+<p>السلوك غير المعرف معرف في معيار C11 مادة ٣.٤.٣&rlm;pl:</p>
+<p style="margin-right:40px">
+هو سلوك، نتج عن إستخدم تركيبة برمجية غير portable أو خاطئة أو بيانات خاطئة، لم يحدد له هذا المعيار الدولي أية شروط.
+</p>
+<p>
+في الهامش توجد هذه الملحوظة:
+</p>
+<p>
+</p>
+<p style="margin-right:40px">
+<strong>ملحوظة</strong> تمتد التبعات المحتملة للسلوك غير المعرف من تجاهل الوضع تماما ونتائج غير متوقعة مرورا بسلوك يختلف من بيئة لأخرى (ربما من غير رسائل تحذيرية) وحتى إيقاف تشغيل البرنامج أو عملية الترجمة عنوة مع رسالة خطأ.</p>
+<p style="margin-right:40px">
+<strong>مثال</strong> من مواضع السلوك غير المعرف سلوك البرنامج عند حدوث طفح لعدد صحيح (Integer Overflow).
+</p>
+<p>
+يذكر معيار السي ما لا يقل عن ٢٠٠ طريقة مختلفة لحدوث السلوك غير المعرف. لن نذكرها كلها هنا ولكن سنختار بعض الأمثلة:
+</p>
+</div>
+</div>
+<div class="sqs-block code-block sqs-block-code" data-block-type="23" id="block-yui_3_10_1_1_1397949804880_109068">
+<div class="sqs-block-content">
+	<pre dir="ltr" class="source-code">
+/* تتبع مؤشر انقضت فترة حياته */
+// C11 §6.2.4p2    
+char *x = malloc(4); 
+free(x); 
+printf("%p\n", (void *)x); //سلوك غير معرف 
+
+/* طرء عدة تغييرات على كائن دون فواصل (Sequence Points) &rlm; */
+// C11 §6.5p2
+int x = 42; 
+x = x++; //سلوك غير معرف 
+ 
+/* تأشير المؤشر إلى الخانة التالية لنهاية مصفوفة */
+// C11 §6.5.6p8
+int a[3];
+*p = a + 4; //سلوك غير معرف 
+ 
+/* محاولة تغيير ثابت نصّي */
+// C11 §6.4.5p7
+char *x = "foo";
+x[0] = 'b';  //سلوك غير معرف 
+ </pre>
+</div>
+</div>
+<div class="sqs-block markdown-block sqs-block-markdown" data-block-type="44" id="block-yui_3_10_1_1_1397949804880_113790">
+<div class="sqs-block-content">
+<p>
+عند حدوث السلوك غير المعرف، لا يشترط المعيار أن تقوم بيئة السي باصدار أي تحذيرات ولها مطلق الحرية أن تفعل ما تشاء بما فيه أن تهيء لك أن البرنامج يسير كما تريد.
+</p>
+
+<p>
+علاوة على ذلك، فالسلوك غير المعرف يجعل البرنامج بأكمله غير معرف وليس فقط النقطة التي بها الكود المسبب. تأمل هذا المثال من "Defining the undefinedness of C":
+</p>
+</div>
+</div>
+<div class="sqs-block code-block sqs-block-code" data-block-type="23" id="block-yui_3_10_1_1_1397949804880_124768">
+<div class="sqs-block-content">
+<pre dir="ltr" class="source-code">#include &lt;stdio.h&gt;<br>
+<br>int main(void) {<br>    int r = 0, d = 0;<br>    for (int i = 0; i &lt; 5; i++) {<br>        printf("%d\n", i);<br>        r += 5 / d; // divides by zero<br>    }<br>    return r;<br>}<br>
+</pre>
+</div>
+</div>
+<div class="sqs-block html-block sqs-block-html" data-block-type="2" id="block-yui_3_10_1_1_1397949804880_125758">
+<div class="sqs-block-content">
+<p>ربما من المنطقي أن نتوقع أن printf سيتم تنفيذها ولو لمرة واحدة وسيطبع فيها الصفر. ولما لا والسلوك غير المعرف (القسمة على صفر) لا يحدث إلا في السطر التالي. لكن في واقع الأمر يحق لبرنامج الترجمة أن يفترض إستحالة حدوث السلوك غير المعرف لأنه لو حدث فله أن يفعل كيفما يشاء.<br>
+من أساليب الإستمثال الشائعة (Optimization) هو نقل  5 / d خارج حلقة for لأن قيمة d لا تتغير. في حالة أن 5 / d تسببت في الإغلاق القسري للبرنامج لن يتم تنفيذ أي من إستدعاءات printf.</p>
+<h3>السلوك غير المحدد
+(Unspecified Behavior)
+</h3>
+<p>
+السلوك غير المحدد معرف في معيار C11 مادة ٤.٤.٣&rlm;:
+</p>
+<p style="margin-right: 40px;">
+استخدام قيمة غير محددة أو أي سلوك أخر حدد له هذا المعيار الدولي إمكانيتين أو أكثر ولم يضع أية شروط للأوضاع التي يتم فيها إختيار إحداهم.
+<span style="font-size:12.000000pt"></span>
+</p>
+<p>
+ويوجد مثال:
+</p>
+<p style="margin-right: 40px;">
+<strong>مثال</strong> من أمثلة السلوك غير المحدد الترتيب الذي يتم به تنفيذ معطيات الدوال.
+</p>
+<p>
+يذكر معيار السي ٥٠ طريقة لحدوث السلوك غير المحدد. هنا بعض الأمثلة:
+</p>
+</div>
+</div>
+<div class="sqs-block code-block sqs-block-code" data-block-type="23" id="block-yui_3_10_1_1_1397958035492_21252">
+<div class="sqs-block-content">
+	<pre dir="ltr" class="source-code">
+/* نتوج نفس المصفوفة عن ثابتين نصيين */
+// C11 §6.4.5p7
+char *a = "foo";
+char *b = "foo";
+printf("%d\n", a == b); //سلوك غير محدد 
+    
+/* ترتيب تنفيذ التعبيرات الفرعية 
+ * غير المفصولة من خلال 
+ * Sequence Points */
+// C11 §6.5
+f() &amp;&amp; g(); // يتم الإستدعاء من اليسار إلى اليمين لأن &&فاصل 
+x = f() + g(); // غير محدد أيهم يتم تنفيذه قبل الأخر
+</pre>
+</div>
+</div>
+<div class="sqs-block html-block sqs-block-html" data-block-type="2" id="block-yui_3_10_1_1_1397958035492_24379">
+<div class="sqs-block-content">
+<p>
+على عكس السلوك غير المعرف فالسلوك غير المحدد له عدد نهائي من الإمكانيات. متى يتم إختيار احداهم من قبل بيئة السي غير محدد.
+</p>
+<h3>سلوك معرف من قبل البيئة
+(Implementation-defined Behavior)
+</h3>
+<p>
+السلوك المعرف من قبل البيئة معرف في C11 مادة ١.٤.٣&rlm;:
+</p>
+<p style="margin-right: 40px;">
+هو سلوك غير محدد توثق فيه البيئة على أي أساس تم الإختيار
+</p>
+<p>
+مصحوبة بهذا المثال:
+</p>
+<p style="margin-right: 40px;">
+<strong>مثال</strong> من أمثلة السلوك المعرف من قبل البيئة هو مد أكبر بت (bit) عند إجراء عملية shift لليمين على عدد صحيح ذو إشارة.
+</p>
+<p>
+يذكر معيار السي ما لا يقل عن ١٠٠ طريقة مختلفة لحدوث السلوك المحدد من قبل البيئة. هنا بعض الأمثلة:
+</p>
+</div>
+</div>
+<div class="sqs-block code-block sqs-block-code" data-block-type="23" id="block-yui_3_10_1_1_1397958035492_31356">
+<div class="sqs-block-content">
+	<pre dir="ltr" class="source-code">
+/* أي تعريف غير معياري للدالة الرئيسية
+ * أي عدا
+ *     int main(void)
+ *     int main(int argc, char *argv[])
+ * و ما يماثلهم  
+ */
+// C11 §5.1.2.2.1p1
+void main(void) { // ربما يتم السماح بها
+                  // لو وثقت البيئة ذلك 
+    return 0;
+} 
+    
+/* عدد البت في البايت الواحد */
+// C11 §3.6 and §5.2.4.2.1p1
+printf("%d\n", CHAR_BIT); // سلوك محدد من قبل البيئة
+                          // لا يجوز أن يقل عن ٨
+
+/* القيم العددية للحروف 
+ * وقت تشغيل البرنامج 
+ */
+// C11 §5.2.1p1
+printf("%d\n", 'a'); // سلوك محدد من قبل البيئة 
+    
+/* ناتج تحويل المؤشر لنوع عدد صحيح والعكس */
+// C11 §6.3.2.3p5 and §6.3.2.3p6
+char y, *x = &amp;y;
+int i = (int)x; // سلوك محدد من قبل البيئة. وغير معرف 
+                // إذا تعدى الناتج السعة التخزينية للنوع 
+</pre>
+</div>
+</div>
+<div class="sqs-block html-block sqs-block-html" data-block-type="2" id="block-yui_3_10_1_1_1397958035492_37762">
+<div class="sqs-block-content">
+<h3>الخلاصة</h3>
+<p>
+عند البرمجة بالسي، من المهم جدا أن يكون هناك على الأقل معرفة سطحية بنوعية الأشياء التي تولد سلوكا غير معرف أو غير محدد أو معرف من قبل البيئة. يوفر معيار السي قائمة مفيدة في نهاية Annex J:
+</p>
+<ul>
+<li>J.1 &rlm; Unspecified behavior</li>
+<li>J.2  &rlm; Undefined behavior</li>
+<li>J.3  &rlm; Implementation-defined behavior</li>
+</ul>
+<h3>
+روابط ذات صلة
+</h3>
+<ul dir="ltr">
+<li>
+<a href="http://blog.llvm.org/2011/05/what-every-c-programmer-should-know.html">What Every C Programmer Should Know About Undefined Behavior</a>
+</li>
+</ul>
+<h3>
+مراجع
+</h3>
+<ol dir="ltr" >
+<li>Ellison, C., &amp; Rosu, G. (2012). <a href="https://www.ideals.illinois.edu/bitstream/handle/2142/30780/ellison-rosu-2012-tr.pdf">Defining the undefinedness of C</a>&nbsp;(pdf).</li>
+</ol>
+<h3>
+تعليق المترجم
+</h3>
+<ul>
+	<li>يعرف معيار C11 البيئة (Implementation) كالآتي 
+<p style="margin-left:40px;text-align:left;">
+particular set of software, running in a particular translation environment under particular
+    control options, that performs translation of programs for, and supports execution of
+    functions in, a particular execution environment
+</p>
+أي أنها تشمل برنامج الترجمة (Compiler) وبيئة التشغيل (libc). تم إستخدم لفظ بيئة لتعذر إيجاد لفظ مناسب ل Implementation دون لبس مع Application.
+</li>
+<li>
+	Portable تعني أن البرنامج خال من الأشياء غير المعرفة تماما من قبل السي. الكلمة العربية "متنقل" لم أرتئيها مناسبة.
+</li>
+<li>
+	يمكن شراء المعيار C11 من منظمة ISO أو مطالعة نسخة بدون غلاف الأيزو من
+	<a href="http://a3f.at/std/c11.txt">
+		هنا
+	</a>.
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+				
+
+				
+
+				
+				<!--nav class="pagination clear">
+					Newer:<a href="http://ramblings.implicit.net/posts/2014/4/21/there-is-no-stack">There is no stack</a>
+<span>
+</span>Older:<a href="http://ramblings.implicit.net/posts/2014/4/19/the-confusion-between-pointers-and-arrays">The confusion between pointers and arrays in C</a>
+			  </nav-->
+			  
+
+</div>
+
+			</div>
+
+		</div>
+
+    <div class="details">
+    	<div class="detail-item date">
+<span>Posted</span>
+<time class="published" datetime="2014-04-20">April 20, 2014</time>
+</div>
+    	<div class="detail-item author">
+<span>Author</span>Chris</div>
+    	
+    	<div class="detail-item tags">
+<span>Tags</span>
+<a href="http://ramblings.implicit.net/?tag=C">C</a>
+</div>
+    	
+    	
+    </div>
+
+  </article>
+</section>
+	    		</div>
+	    	</div>
+
+		  	<div id="sidebar" class="clear">
+		  		<div class="sqs-layout sqs-grid-1 columns-1 empty" data-layout-label="Sidebar Content" data-type="block-field" id="sqs-layout-sidebar">
+<div class="row sqs-row">
+<div class="col sqs-col-1 span-1">
+</div>
+</div>
+</div>
+		  	</div>
+
+	  	</div>
+	  </div>
+
+	  <footer id="footer">
+
+	    <div class="wrapper social-off clear">
+	      <div class="sqs-layout sqs-grid-12 columns-12" data-layout-label="Footer Content" data-type="block-field" data-updated-on="1398596611354" id="sqs-layout-footer">
+<div class="row sqs-row">
+<div class="col sqs-col-12 span-12">
+<div class="sqs-block html-block sqs-block-html" data-block-type="2" id="block-10ca67db4ce7117ee3e4">
+<div class="sqs-block-content">
+<p class="text-align-center">
+<span style="font-size:14.399999618530273px" dir="ltr">©2014 Chris. Translated by a3f.</span>
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+	      
+					
+				
+	    </div>
+
+			<script type="text/javascript" data-sqs-type="imageloader-bootstraper">(function() {if(window.ImageLoader) { window.ImageLoader.bootstrap(); }})();</script>
+<script>Squarespace.afterBodyLoad(Y);</script>
+
+	  </footer>
+<div class="absolute-cart-box">
+<div id="yui_3_17_2_1_1433497664487_201" class="yui3-widget sqs-widget sqs-pill-shopping-cart sqs-scalable-hidden" style="visibility: hidden; opacity: 0; transform: scale(0.94);">
+<div id="yui_3_17_2_1_1433497664487_203" class="sqs-pill-shopping-cart-content dark">
+<div class="icon">
+</div>
+
+<div class="details">
+  Cart&nbsp;-&nbsp;
+    <span class="total-quantity">0</span>
+    <span class="suffix">items</span>
+</div>
+
+<span class="subtotal">
+  <span class="price">
+<span class="sqs-money-native">0.00</span>
+</span>
+</span>
+</div>
+</div>
+</div>
+		
+		<script type="text/javascript" src="./tias_files/saved_resource">
+</script>
+	  
+
+
+
+</body>
+<div>
+</div>
+</html>
+
