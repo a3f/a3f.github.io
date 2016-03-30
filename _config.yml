@@ -1,0 +1,38 @@
+# Site settings
+title: a3f.at
+url: "http://a3f.at"    # the protocol and hostname of your site, eg. `http://laobubu.github.io`
+baseurl: "" # the prefix of your site uri, eg. `/jekyll-theme-EasyBook` or just one slash `/`
+#timezone: Asia/Chongqing
+description: >
+  A blog about stuff I'd like to blog about.
+
+# Your information
+#email: ahmad@a3f.at
+author: Ahmad Fatoum
+avatar: "https://s.gravatar.com/avatar/5196fa2c2fd25a7cf71e708c31a871a6?s=135"
+profile: I like to hack stuff
+#twitter_username: twitter_username
+github_username:  a3f
+stackoverflow_username:  1257035/a3f
+
+# Comment Service (Disqus or 多说)
+#  choose one and un-comment the line to active it
+disqus_shortname: a3f   # get one: https://disqus.com/admin/signup/
+#duoshuo_shortname: xxx  # get one: http://duoshuo.com/create-site/
+
+permalink: /articles/:title
+gems:
+ - jekyll-paginate
+ - jekyll-gist
+ - jemoji
+
+# Build settings
+paginate: 5
+paginate_path: "page:num"
+
+highlighter: rouge
+markdown: kramdown
+
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge

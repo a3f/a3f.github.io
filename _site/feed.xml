@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>a3f.at</title>
+    <description>One or more sentences introducing this blog.
+</description>
+    <link>http://127.0.0.1:4000/</link>
+    <atom:link href="http://127.0.0.1:4000/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Wed, 30 Mar 2016 23:12:28 +0200</pubDate>
+    <lastBuildDate>Wed, 30 Mar 2016 23:12:28 +0200</lastBuildDate>
+    <generator>Jekyll v3.1.2</generator>
+    
+      <item>
+        <title>Syntactic sugarcoating for memory mapped registers</title>
+        <description>&lt;p&gt;Most instruction set architectures (ISAs) nowadays utilize &lt;a href=&quot;https://en.wikipedia.org/wiki/Memory-mapped_I/O&quot;&gt;memory mapped IO&lt;/a&gt; (MMIO). Some address ranges are decoded as being directed at IO devices instead of RAM.&lt;/p&gt;
+
+&lt;p&gt;For example, on the ARM Cortex-M, the System tick timer’s control register is located at &lt;code class=&quot;highlighter-rouge&quot;&gt;0xE000E010&lt;/code&gt;.
+If you wish to calibrate the timer, you can do this easily from C with a tiny bit of pointer fiddling:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;volatile&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0xE000E010&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;or the more readable&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;typedef&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;volatile&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;reg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;#define SYSTICK_CTRL (*(reg*)0xE000E010)
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SYSTICK_CTRL&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;In this post, I want to compare different approaches of wrapping access to such a register.&lt;/p&gt;
+
+&lt;h2 id=&quot;approach-i-least-effort&quot;&gt;Approach I: Least effort&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;volatile&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0xE000E010&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Pros:&lt;/strong&gt; It works and it won’t get any faster than that.&lt;/p&gt;
+
+&lt;p&gt;The syntax used is standard C syntax, casting integers (&lt;code class=&quot;highlighter-rouge&quot;&gt;0xE000E010&lt;/code&gt; is an &lt;code class=&quot;highlighter-rouge&quot;&gt;unsigned int&lt;/code&gt;&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;) to pointers is implementation-defined behavior, but if you deal with MMIO, the implementation should do the right thing with it.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;volatile&lt;/code&gt; is necessary because the compiler is inclined to believe that all variables are its own. Thus running: &lt;code class=&quot;highlighter-rouge&quot;&gt;*(unsigned long*)0xE000E010 = 0; *(unsigned long*)0xE000E010 = 1;&lt;/code&gt; is the same as &lt;code class=&quot;highlighter-rouge&quot;&gt;*(unsigned long*)0xE000E010 = 1; &lt;/code&gt; as far as the compiler is concerned because the &lt;code class=&quot;highlighter-rouge&quot;&gt;0&lt;/code&gt; is overwritten anyway.&lt;/p&gt;
+
+  &lt;p&gt;With MMIO though, writing has a real world side effect that need not be optimized away. This is the main use for &lt;code class=&quot;highlighter-rouge&quot;&gt;volatile&lt;/code&gt;&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;Cons:&lt;/strong&gt; Magic numbers are bad. You won’t get rid of them, but at least put them in a header.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#define SYSTICK_CTRL 0xE000E010
+&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SYSTICK_CTRL&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;isn’t much better, so let’s skip that one.&lt;/p&gt;
+
+&lt;p&gt;Before we move on, let’s have a look at the THUMB assembly GCC generated&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;volatile&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0xE000E010&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;b6&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;	&lt;span class=&quot;n&quot;&gt;f24e&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;0310&lt;/span&gt; 	&lt;span class=&quot;n&quot;&gt;movw&lt;/span&gt;	&lt;span class=&quot;n&quot;&gt;r3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;57360&lt;/span&gt;	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xe010&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;ba&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;	&lt;span class=&quot;n&quot;&gt;f2ce&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;0300&lt;/span&gt; 	&lt;span class=&quot;n&quot;&gt;movt&lt;/span&gt;	&lt;span class=&quot;n&quot;&gt;r3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;57344&lt;/span&gt;	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xe000&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;be&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;	&lt;span class=&quot;mi&quot;&gt;2205&lt;/span&gt;      	&lt;span class=&quot;n&quot;&gt;movs&lt;/span&gt;	&lt;span class=&quot;n&quot;&gt;r2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;c0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;	&lt;span class=&quot;mi&quot;&gt;601&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;      	&lt;span class=&quot;n&quot;&gt;str&lt;/span&gt;	&lt;span class=&quot;n&quot;&gt;r2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;r3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;r3&lt;/code&gt; will point to our SysTick register. &lt;code class=&quot;highlighter-rouge&quot;&gt;r2&lt;/code&gt; has the &lt;code class=&quot;highlighter-rouge&quot;&gt;5&lt;/code&gt; we want to put in. The THUMB ISA doesn’t support moving 32 bit immediates at once, so we have a move for the lower 16 bit of the address, then a 16 bit move for the top bits. Finally we store &lt;code class=&quot;highlighter-rouge&quot;&gt;r3[0]&lt;/code&gt; (i.e. &lt;code class=&quot;highlighter-rouge&quot;&gt;*r3&lt;/code&gt;) into &lt;code class=&quot;highlighter-rouge&quot;&gt;r2&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;approach-ii-the-usual&quot;&gt;Approach II: The usual&lt;/h2&gt;
+
+&lt;p&gt;Probably the most widely used&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#define SYSTICK_CTRL (*(unsigned long volatile*)0xE000E010)
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SYSTICK_CTRL&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;After preprocessing, you get the same output as Approach I. But this is more readable and has the magic numbers moved out of the way. You can go the extra mile and have a global header with all addresses, which you then include into the &lt;code class=&quot;highlighter-rouge&quot;&gt;SysTick.h&lt;/code&gt; header. This is particularly useful, if addresses were to change. Say, you are writing a cheat tool for a game and need to maintain pointers to your health and ammo count. Having all the addresses at one place makes it a bit more straight forward to update the addresses, when the game itself gets updated.&lt;/p&gt;
+
+&lt;h2 id=&quot;approach-iii-accessors&quot;&gt;Approach III: Accessors&lt;/h2&gt;
+&lt;p&gt;We won’t talk a lot about this one, but for completion’s sake:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;inline&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;setSysTickCtrl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;SYSTICK_CTRL&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;inline&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;getSysTickCtrl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SYSTICK_CTRL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The common setter/getter pattern. C99’s &lt;code class=&quot;highlighter-rouge&quot;&gt;inline&lt;/code&gt; is a hint at the compiler, that this function should be inlined (i.e. copy-pasted) into the calling code. &lt;code class=&quot;highlighter-rouge&quot;&gt;static&lt;/code&gt; specifies internal &lt;a href=&quot;http://en.cppreference.com/w/c/language/storage_duration&quot;&gt;linkage&lt;/a&gt;, which means the compiler need not expect another function outside the current translation unit (standardese for source file) to call this function.&lt;/p&gt;
+
+&lt;p&gt;This approach has &lt;a href=&quot;https://gcc.gnu.org/onlinedocs/gcc/Inline.html&quot;&gt;no overhead&lt;/a&gt; but I find it ugly. Having getters and setters allows for mocking out parts for unit testing, but I think mocking should happen at the driver not at the register level.&lt;/p&gt;
+
+&lt;p&gt;One could write this as macros at the cost of type safety, but for this, it wouldn’t matter.&lt;/p&gt;
+
+&lt;h2 id=&quot;approach-iv-pointer-to-array&quot;&gt;Approach IV: Pointer to array&lt;/h2&gt;
+
+&lt;p&gt;Controlling SysTick involves 4 sequential registers in memory. Instead of defining every one, we just define the base as an array and use an index&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;enum&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SYSTICK_CTRL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SYSTICK_LOAD&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SYSTICK_VAL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SYSTICK_CAL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;volatile&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SysTick&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0xE000E010&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;SysTick&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SYSTICK_CTRL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;SysTick&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SYSTICK_VAL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;When many related registers are used, this approach looks neater, because it&#39;s easier to parse and possibly  reusable. If you have for example `UART0`, `UART1`, `UART2`, `UART3` as memory mapped serial ports, you could write code like this:
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;enum&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;U_TX&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;U_RX&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;U_END&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;typedef&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;volatile&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;uart_dev&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;U_END&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;uart_dev&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dev1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UART0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dev2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UART1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;n&quot;&gt;dev1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;U_TX&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dev2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;U_RX&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Cons:&lt;/strong&gt; The &lt;code class=&quot;highlighter-rouge&quot;&gt;enum&lt;/code&gt; looks ugly, but because everything except structs and unions shares a single namespace in C, you should prefix your enums, to avoid identifier clashes. Also, this approach isn’t as safe, because you can avoid the enums and use integer indices directly.&lt;/p&gt;
+
+&lt;p&gt;Additionally, &lt;code class=&quot;highlighter-rouge&quot;&gt;SysTick&lt;/code&gt; is a global object. If we define it in more than one translation unit, the linker will complain. Solution: Make it &lt;code class=&quot;highlighter-rouge&quot;&gt;static&lt;/code&gt;&lt;sup id=&quot;fnref:4&quot;&gt;&lt;a href=&quot;#fn:4&quot; class=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;. The downside is that we need to silence&lt;sup id=&quot;fnref:5&quot;&gt;&lt;a href=&quot;#fn:5&quot; class=&quot;footnote&quot;&gt;5&lt;/a&gt;&lt;/sup&gt; warnings about including the header when we don’t use &lt;code class=&quot;highlighter-rouge&quot;&gt;SysTick&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Finally, the code generated can be&lt;sup id=&quot;fnref:6&quot;&gt;&lt;a href=&quot;#fn:6&quot; class=&quot;footnote&quot;&gt;6&lt;/a&gt;&lt;/sup&gt; suboptimal:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SysTick&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SYSTICK_CTRL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;ba&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;	&lt;span class=&quot;n&quot;&gt;f240&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;0300&lt;/span&gt; 	&lt;span class=&quot;n&quot;&gt;movw&lt;/span&gt;	&lt;span class=&quot;n&quot;&gt;r3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;be&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;	&lt;span class=&quot;n&quot;&gt;f2c2&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;0300&lt;/span&gt; 	&lt;span class=&quot;n&quot;&gt;movt&lt;/span&gt;	&lt;span class=&quot;n&quot;&gt;r3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8192&lt;/span&gt;	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x2000&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;c2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;	&lt;span class=&quot;mi&quot;&gt;681&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;      	&lt;span class=&quot;n&quot;&gt;ldr&lt;/span&gt;	&lt;span class=&quot;n&quot;&gt;r3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;r3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;c4&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;	&lt;span class=&quot;mi&quot;&gt;2205&lt;/span&gt;      	&lt;span class=&quot;n&quot;&gt;movs&lt;/span&gt;	&lt;span class=&quot;n&quot;&gt;r2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;c6&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;	&lt;span class=&quot;mi&quot;&gt;601&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;      	&lt;span class=&quot;n&quot;&gt;str&lt;/span&gt;	&lt;span class=&quot;n&quot;&gt;r2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;r3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The code grew by a &lt;code class=&quot;highlighter-rouge&quot;&gt;ldr&lt;/code&gt; (pseudo-)instruction. &lt;code class=&quot;highlighter-rouge&quot;&gt;ldr&lt;/code&gt; loads a value from memory into a register. Because &lt;code class=&quot;highlighter-rouge&quot;&gt;SysTick&lt;/code&gt; is a pointer which is prone to change, directly encoding the address as immediate into the instruction stream isn’t possible anymore. If only there was a way to tell the compiler, that our SysTick pointer won’t ever change… Yes, you guessed right, we need to use a &lt;code class=&quot;highlighter-rouge&quot;&gt;const&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Our definition now looks like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;volatile&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SysTick&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0xE000E010&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; that we want the pointer to be &lt;code class=&quot;highlighter-rouge&quot;&gt;const&lt;/code&gt; and the integer pointee to be &lt;code class=&quot;highlighter-rouge&quot;&gt;volatile&lt;/code&gt;. Thus the &lt;code class=&quot;highlighter-rouge&quot;&gt;volatile&lt;/code&gt; is before the &lt;code class=&quot;highlighter-rouge&quot;&gt;*&lt;/code&gt; operator and the &lt;code class=&quot;highlighter-rouge&quot;&gt;const&lt;/code&gt; after it. The parentheses are there because otherwise it would define an array of pointers, not a pointer to an array.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;After adding &lt;code class=&quot;highlighter-rouge&quot;&gt;const&lt;/code&gt;, the extra indirection isn’t necessary anymore and the generated code is the same as in our first example. The other cons are still there though.&lt;/p&gt;
+
+&lt;h2 id=&quot;approach-v-pointer-to-struct&quot;&gt;Approach V: Pointer to struct&lt;/h2&gt;
+
+&lt;p&gt;If you have something with attributes, you would use a struct/record data type. So why not here?&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;stdint.h&amp;gt;
+&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;typedef&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;uint32_t&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;u32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;u32&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ctrl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;u32&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;u32&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;curr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;u32&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;volatile&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SysTick&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0xE000E010&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;SysTick&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctrl&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This looks more like it. The code generated is still the same as the first, but the source code is a lot more readable. The abstraction isn’t complete though, There is still a pointer you need to dereference.&lt;/p&gt;
+
+&lt;p&gt;While the example here works, others might not. Imagine we have a buffer, where an Ethernet frame is put into. Assuming EtherType 0x0800, we’ll have the source IP address at offset 26 of that buffer.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;stdint.h&amp;gt;
+&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IPv4&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;uint8_t&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MAC_header&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;14&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;uint8_t&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IPv4_stuff_I_do_not_care_about&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;uint32_t&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;source_ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;destination_ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;uint8_t&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;even_more_IPv4_stuff_I_do_not_care_about&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[];&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Let’s guess, what is &lt;code class=&quot;highlighter-rouge&quot;&gt;sizeof(struct IPv4)&lt;/code&gt;? It can’t be any less than 34 bytes, but is it exactly so? On my desktop machine and probably on yours, &lt;code class=&quot;highlighter-rouge&quot;&gt;sizeof(struct IPv4) == 36&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;With &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;stddef.h&amp;gt;&lt;/code&gt;’s &lt;code class=&quot;highlighter-rouge&quot;&gt;offsetof&lt;/code&gt;, you can see the reason for that:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;stddef.h&amp;gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;source_ip should be at $%d, but it&#39;s at $%d&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;mi&quot;&gt;14&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;offsetof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IPv4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;source_ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Output:&lt;/strong&gt; source_ip should be at $26, but it’s at $28&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;These two extra bytes are padding. 28 is divisible by 4 and as such can be directly loaded into a register. If it were instead at 26, it would cross a 4-byte boundary and the compiler would need to emit two memory accesses instead of one&lt;sup id=&quot;fnref:7&quot;&gt;&lt;a href=&quot;#fn:7&quot; class=&quot;footnote&quot;&gt;7&lt;/a&gt;&lt;/sup&gt;. Thus the struct was optimized to allow a faster access at the cost of 2 bytes of wasted space.
+While that’s fine if the struct is ours, in this case it’s imposed on us, so we need to force the compiler not to use padding.&lt;/p&gt;
+
+&lt;p&gt;In Approach V, we didn’t run into this problem because every member is suitably aligned already. The compiler couldn’t do anything better&lt;sup id=&quot;fnref:8&quot;&gt;&lt;a href=&quot;#fn:8&quot; class=&quot;footnote&quot;&gt;8&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;p&gt;The C11 standard &lt;a href=&quot;http://en.cppreference.com/w/c/language/_Alignof&quot;&gt;allows&lt;/a&gt; us to specify only a minimum alignment for members, but we want a maximum alignment of 1 byte, that is a densely packed struct without holes.&lt;/p&gt;
+
+&lt;p&gt;Many compilers, especially those aimed at embedded C development, have this as an extension.
+In GCC it looks like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#define __packed __attribute((packed))__
+&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IPv4&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;__packed&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;uint8_t&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MAC_header&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;14&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;uint8_t&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IPv4_stuff_I_do_not_care_about&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;uint32_t&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;source_ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;destination_ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;uint8_t&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;even_more_IPv4_stuff_I_do_not_care_about&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[];&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Checking again, we see that &lt;code class=&quot;highlighter-rouge&quot;&gt;source_ip&lt;/code&gt; is now 26 bytes into &lt;code class=&quot;highlighter-rouge&quot;&gt;struct IPv4&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Using packed structs makes it easy to shoot yourself into the foot with unaligned accesses&lt;sup id=&quot;fnref:9&quot;&gt;&lt;a href=&quot;#fn:9&quot; class=&quot;footnote&quot;&gt;9&lt;/a&gt;&lt;/sup&gt;. As we only use the packed struct for the syntax sugar and won’t be casting stuff, we should be safe.&lt;/p&gt;
+
+&lt;h2 id=&quot;approach-vi-anonymous-pointer-to-struct&quot;&gt;Approach VI: Anonymous pointer to struct&lt;/h2&gt;
+
+&lt;p&gt;Another solution is not to define any variables at all and combine II and V:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SysTick_&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;__packed&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;u32&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ctrl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;u32&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;u32&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;curr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;u32&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;#define SysTick (*(struct SysTick_ volatile *)0xE000E010)
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This approach yields the exact same code, The only difference is that we have to&lt;sup id=&quot;fnref:10&quot;&gt;&lt;a href=&quot;#fn:10&quot; class=&quot;footnote&quot;&gt;10&lt;/a&gt;&lt;/sup&gt; pollute the struct namespace with a &lt;code class=&quot;highlighter-rouge&quot;&gt;struct SysTick_&lt;/code&gt;, but that’s a non-issue.&lt;/p&gt;
+
+&lt;p&gt;A more pressing issue is that, unlike the prior approach, you can’t just write &lt;code class=&quot;highlighter-rouge&quot;&gt;print *SysTick&lt;/code&gt; when it’s in scope to read out the registers in GDB.&lt;/p&gt;
+
+&lt;h2 id=&quot;approach-vii-linker-magic&quot;&gt;Approach VII: Linker magic&lt;/h2&gt;
+
+&lt;p&gt;The static const pointer to a packed struct approach gave us a nice syntax. Although, the resulting code did use the address directly and not a pointer, the syntax still involved dereferencing.
+What about having a &lt;code class=&quot;highlighter-rouge&quot;&gt;SysTick&lt;/code&gt; variable that can be accessed without dereferencing?&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;extern&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;volatile&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;u32&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ctrl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;u32&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;u32&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;curr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;u32&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SysTick&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;SysTick&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctrl&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This certainly looks nice. You can use &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;amp;SysTick&lt;/code&gt; to get back &lt;code class=&quot;highlighter-rouge&quot;&gt;0xE000E010&lt;/code&gt; and use the &lt;code class=&quot;highlighter-rouge&quot;&gt;.&lt;/code&gt; operator directly.&lt;/p&gt;
+
+&lt;p&gt;Code produced is the same as in the previous approach. It needs a little linker magic though:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;SECTIONS&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;SysTick&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xE000E010&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This informs the linker that the SysTick symbol refers to the address of &lt;code class=&quot;highlighter-rouge&quot;&gt;0xE000E010&lt;/code&gt;. This file, called a ldscript (linker editor script), would be fed to the linker, like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;addrs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ld&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Another perk is that this approach is the only one, where you can write &lt;code class=&quot;highlighter-rouge&quot;&gt;print SysTick&lt;/code&gt; in GDB and have it read out the registers, regardless of the line currently executing. This is because &lt;code class=&quot;highlighter-rouge&quot;&gt;SysTick&lt;/code&gt; is a global and from GDB’s view always in scope. With static pointers, you would have to write &lt;code class=&quot;highlighter-rouge&quot;&gt;print *&#39;file.c&#39;::SysTick&lt;/code&gt;, if you aren’t currently stepping through a file defining &lt;code class=&quot;highlighter-rouge&quot;&gt;SysTick&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Cons:&lt;/strong&gt; Obvious disadvantage here is that linker magic differs greatly from linker to linker and specifying the address in C code directly is more portable.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;strong&gt;So&lt;/strong&gt;, that concludes what I got to say about this. I am going with Approach V for SysTick and the other Cortex-M registers I am wrapping. For my game cheat I am using Approach VII, because I make heavy use of GNU C anyway and having the linker script act as a config file where you can easily change addresses is kinda neat, especially when you are doing this a lot. It also avoids having to cast stuff. This is especially useful when a lot of the addresses are function pointers, writing&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;extern&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;player_say&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;msg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// extern is superflous, but it conveys the intent better
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;is just better to look at than&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;player_say&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;msg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)())&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x004073F0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Not to mention the C++&lt;sup id=&quot;fnref:11&quot;&gt;&lt;a href=&quot;#fn:11&quot; class=&quot;footnote&quot;&gt;11&lt;/a&gt;&lt;/sup&gt; version:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;client_print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)(&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;surface&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;font&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;red&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;green&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;blue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;alignment&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x004B4DD0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;No, thanks.&lt;/p&gt;
+
+&lt;p&gt;PS: I haven’t written any blog posts before and still trying to figure out what’s the right mixture of detail and conciseness. If you got corrections, suggestions or questions, feel free to comment them. :-)&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;On the 32-Bit ARM Cortex at least. &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:2&quot;&gt;
+      &lt;p&gt;Equally important is the fact that &lt;code class=&quot;highlighter-rouge&quot;&gt;volatile&lt;/code&gt; accesses are not reordered against each other meaning that the &lt;code class=&quot;highlighter-rouge&quot;&gt;0&lt;/code&gt; will be written before the &lt;code class=&quot;highlighter-rouge&quot;&gt;1&lt;/code&gt;. Some ISAs, like our ARM here, buffer memory accesses and do not even enforce an &lt;a href=&quot;http://preshing.com/20120930/weak-vs-strong-memory-models/&quot;&gt;access order&lt;/a&gt; unless explicitly asked with &lt;code class=&quot;highlighter-rouge&quot;&gt;volatile&lt;/code&gt; or a memory barrier. Compilers also like to do reordering. &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:3&quot;&gt;
+      &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;objdump -dS binary_file&lt;/code&gt; but &lt;code class=&quot;highlighter-rouge&quot;&gt;gcc -S source_file&lt;/code&gt; works too. &lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:4&quot;&gt;
+      &lt;p&gt;The alternative of having an extern declaration and defining the variable in only one file would inhibit optimization. See the next disassembly. &lt;a href=&quot;#fnref:4&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:5&quot;&gt;
+      &lt;p&gt;In GCC by having the definitions between &lt;code class=&quot;highlighter-rouge&quot;&gt;#pragma GCC diagnostic push&lt;/code&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;#pragma GCC diagnostic ignored &quot;-Wunused-variable&quot;&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;#pragma GCC diagnostic pop&lt;/code&gt;. &lt;a href=&quot;#fnref:5&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:6&quot;&gt;
+      &lt;p&gt;As we already use &lt;code class=&quot;highlighter-rouge&quot;&gt;static&lt;/code&gt;, the compiler can treat non-const-qualified &lt;code class=&quot;highlighter-rouge&quot;&gt;SysTick&lt;/code&gt; as &lt;code class=&quot;highlighter-rouge&quot;&gt;const&lt;/code&gt; anyway as long the current translation unit doesn’t modify it. GCC does so, but only if you don’t have a &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;amp;SysTick&lt;/code&gt; anywhere in the file. If you do, it will generate the superflous indirection shown. C offers the &lt;code class=&quot;highlighter-rouge&quot;&gt;register&lt;/code&gt; keyword to inhibit taking the address of objects, which could prove useful here, were it allowed at file scope. Jens Gustedt has a nice &lt;a href=&quot;https://gustedt.wordpress.com/2012/08/17/named-constants/&quot;&gt;article on named constants&lt;/a&gt; and a convincing proposal for allowing &lt;code class=&quot;highlighter-rouge&quot;&gt;register const&lt;/code&gt; at file scope. &lt;a href=&quot;#fnref:6&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:7&quot;&gt;
+      &lt;p&gt;We are talking about ARM here. The x86’s behavior in that regard is an outlier. &lt;a href=&quot;#fnref:7&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:8&quot;&gt;
+      &lt;p&gt;This shouln’t mean that the compiler might do as it pleases. It is prohibited from reordering members and adding padding before the first. Anywhere else is up to the compiler’s discretion, but struct layout for a particular architecture is a quite predictable matter, so skipping &lt;code class=&quot;highlighter-rouge&quot;&gt;__attribute__((packed))&lt;/code&gt; for &lt;code class=&quot;highlighter-rouge&quot;&gt;SysTick&lt;/code&gt; without problems is a safe bet. &lt;a href=&quot;#fnref:8&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:9&quot;&gt;
+
+      &lt;p&gt;While some architectures allow unaligned access and even go great lengths to make the performance hit negligible, many more don’t.
+An unaligned access might yield an exception or even worse undefined behavior (like access the next aligned memory address instead).&lt;/p&gt;
+
+      &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;IPv4&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ip_packet&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;...;&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;uint32_t&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;ip&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ip_packet&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;source_ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// OK, compiler knows source_ip&#39;s alignment
+&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;uint32_t&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;source_ip&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ip_packet&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;source_ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;ip&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;source_ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// NOT OK, Compiler assumes default alignment, compiles to unaligned access
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;So keep that in mind.&lt;/p&gt;
+
+      &lt;p&gt;&lt;strong&gt;Fun fact of the day:&lt;/strong&gt; Linux puts IPv4 packets at 2 byte boundaries &lt;em&gt;not&lt;/em&gt; divisible by 4, so that source/destintation IP are 32bit-aligned. Similarily, some switch &lt;a href=&quot;https://en.wikipedia.org/wiki/ASIC&quot;&gt;ASIC&lt;/a&gt;s inject padding bytes into the packet, to allow speedy handling of packets by the switch’s CPU. &lt;a href=&quot;#fnref:9&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:10&quot;&gt;
+
+      &lt;p&gt;While &lt;code class=&quot;highlighter-rouge&quot;&gt;#define SysTick ((struct { u32 ctrl, load, curr, cal; } volatile *)0xE000E010)&lt;/code&gt; seems to avoid the namespace pollution, it opens a much worse can of worms. Every use of &lt;code class=&quot;highlighter-rouge&quot;&gt;SysTick&lt;/code&gt; expands to a different object with a different type, as no two anonymous structs in a translation unit are the same. I can’t think off the bat of an example where this would be problematic for &lt;code class=&quot;highlighter-rouge&quot;&gt;SysTick&lt;/code&gt;, but for completion’s take, imagine this:&lt;/p&gt;
+
+      &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#define SysTick ((struct __packed { u32 ctrl, load, curr, cal; } *)0xE000E010)
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SysTick&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctrl&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;SysTick&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctrl&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+      &lt;/div&gt;
+      &lt;p&gt;We dropped the &lt;code class=&quot;highlighter-rouge&quot;&gt;volatile&lt;/code&gt;. Because the second and third line refer to different objects, they might be reordered. So having &lt;code class=&quot;highlighter-rouge&quot;&gt;SysTick-&amp;gt;ctrl&lt;/code&gt; be &lt;code class=&quot;highlighter-rouge&quot;&gt;1&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;0&lt;/code&gt; afterwards are equally valid. &lt;a href=&quot;#fnref:10&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:11&quot;&gt;
+      &lt;p&gt;In C, the address can be cast by &lt;code class=&quot;highlighter-rouge&quot;&gt;(int (*)())&lt;/code&gt;, because &lt;code class=&quot;highlighter-rouge&quot;&gt;()&lt;/code&gt; means a variable amount of arguments. In C++, &lt;code class=&quot;highlighter-rouge&quot;&gt;()&lt;/code&gt; means &lt;code class=&quot;highlighter-rouge&quot;&gt;(void)&lt;/code&gt;. &lt;a href=&quot;#fnref:11&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Wed, 30 Mar 2016 21:00:00 +0200</pubDate>
+        <link>http://127.0.0.1:4000/articles/register-syntax-sugar</link>
+        <guid isPermaLink="true">http://127.0.0.1:4000/articles/register-syntax-sugar</guid>
+        
+        
+        <category>embedded</category>
+        
+        <category>C</category>
+        
+        <category>programming</category>
+        
+      </item>
+    
+  </channel>
+</rss>
