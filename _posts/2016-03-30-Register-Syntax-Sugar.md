@@ -60,7 +60,7 @@ Before we move on, let's have a look at the THUMB assembly GCC generated[^3]:
   c0:	601a      	str	r2, [r3, #0]
 ```
 
-`r3` will point to our SysTick register. `r2` has the `5` we want to put in. The THUMB ISA doesn't support moving 32 bit immediates at once, so we have a move for the lower 16 bit of the address, then a 16 bit move for the top bits. Finally we store `r3[0]` (i.e. `*r3`) into `r2`.
+`r3` will point to our SysTick register. `r2` has the `5` we want to put in. The THUMB ISA doesn't support moving 32 bit immediates at once, so we have a move for the lower 16 bits of the address, then a 16 bit move for the top bits. Finally we store `r3[0]` (i.e. `*r3`) into `r2`.
 
 ## Approach II: The usual ##
 
@@ -98,7 +98,7 @@ Controlling SysTick involves 4 sequential registers in memory. Instead of defini
 
 ```c
 enum {SYSTICK_CTRL, SYSTICK_LOAD, SYSTICK_VAL, SYSTICK_CAL};
-unsigned long volatile (*SysTick[4]) = (void*)0xE000E010;
+unsigned long volatile (*SysTick)[4] = (void*)0xE000E010;
 SysTick[SYSTICK_CTRL] = 5;
 SysTick[SYSTICK_VAL] = 0;
 ```
@@ -133,7 +133,7 @@ The code grew by a `ldr` (pseudo-)instruction. `ldr` loads a value from memory i
 Our definition now looks like this:
 
 ```c
-unsigned long volatile (* const SysTick[4]) = (void*)0xE000E010;
+unsigned long volatile (* const SysTick)[4] = (void*)0xE000E010;
 ```
 
 > **Note:** that we want the pointer to be `const` and the integer pointee to be `volatile`. Thus the `volatile` is before the `*` operator and the `const` after it. The parentheses are there because otherwise it would define an array of pointers, not a pointer to an array.
