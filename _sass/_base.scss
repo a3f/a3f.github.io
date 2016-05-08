@@ -4,13 +4,13 @@ body {
 	font-size: $base-font-size;
 	line-height: $base-line-height;
 }
-a {
+a , a:visited {
 	text-decoration: none;
-	color: #036;
+	color: $color-link;
 }
 a:hover, a:focus {
 	text-decoration:underline;
-	color: #069;
+	color: $color-link-hover;
 }
 blockquote {
 	background: #FFF;

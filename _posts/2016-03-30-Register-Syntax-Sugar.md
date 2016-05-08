@@ -107,7 +107,7 @@ When many related registers are used, this approach looks neater, because it's e
 
 ```c
 enum {U_TX, U_RX, U_END};
-typedef unsigned long volatile (*uart_dev[U_END]);
+typedef unsigned long volatile (*uart_dev)[U_END];
 uart_dev dev1 = UART0, dev2 = UART1;
 while (1) 
     dev1[U_TX] = dev2[U_RX];

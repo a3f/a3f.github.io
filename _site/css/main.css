@@ -7,11 +7,11 @@ body {
 
 a {
   text-decoration: none;
-  color: #036; }
+  color: #0063c6; }
 
 a:hover, a:focus {
   text-decoration: underline;
-  color: #069; }
+  }
 
 blockquote {
   background: #FFF;
