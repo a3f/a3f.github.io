@@ -1,0 +1,30 @@
+<html>
+  <head>
+    <title>qwerty2ar.html</title>
+    <script type='text/javascript'> 
+      function convert() {
+        var string = document.getElementById("string").value; 
+        var qwerty = "N<>?HJKLP" + "qwertyuiop[]asdfghjkl;'zxcvbnm,./`";
+        var arabic = "آ,.؟أ-،إ;" + "ضصثقفغعهخحجدشسيبلاتنمكطئءؤرلىةوزظاذ";
+        var map = {};
+        for (var i = 0; i < qwerty.length; ++i) {
+            map[qwerty.charAt(i)] = arabic.charAt(i);
+        }
+
+        escaped = qwerty.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+        var regex = new RegExp("([" + escaped + "])", "gi");
+        string = string.replace(
+            regex,
+            function(chr) { return map[chr] != undefined ? map[chr] : chr; }
+        );
+        document.getElementById("string").value = string;
+      }
+    </script>
+  </head>
+  <body>
+    <form name="search" action="#">
+        <textarea style="width: 300px; height: 150px;" name="string" id="string"></textarea><br>
+      <input type="button" name="btnser" onclick="convert()" value="Convert" />
+    </form>
+  </body>
+</html>
