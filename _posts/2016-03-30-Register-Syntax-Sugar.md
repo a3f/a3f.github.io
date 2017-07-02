@@ -103,16 +103,6 @@ SysTick[SYSTICK_CTRL] = 5;
 SysTick[SYSTICK_VAL] = 0;
 ```
 
-When many related registers are used, this approach looks neater, because it's easier to parse and possibly reusable. If you have for example `UART0`, `UART1`, `UART2`, `UART3` as memory mapped serial ports, you could write code like this:
-
-```c
-enum {U_TX, U_RX, U_END};
-typedef unsigned long volatile (*uart_dev)[U_END];
-uart_dev dev1 = UART0, dev2 = UART1;
-while (1) 
-    dev1[U_TX] = dev2[U_RX];
-```
-
 **Cons:** The `enum` looks ugly, but because enumeration constants share a single name space with other identifiers in C, you should prefix your enums, to avoid identifier clashes. Also, this approach isn't as safe, because you can avoid the enums and use integer indices directly. 
 
 Additionally, `SysTick` is a global object. If we define it in more than one translation unit, the linker will complain. Solution: Make it `static`[^4]. The downside is that we need to silence[^5] warnings about including the header when we don't use `SysTick`.
