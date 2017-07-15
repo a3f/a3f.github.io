@@ -99,8 +99,8 @@ Controlling SysTick involves 4 sequential registers in memory. Instead of defini
 ```c
 enum {SYSTICK_CTRL, SYSTICK_LOAD, SYSTICK_VAL, SYSTICK_CAL};
 unsigned long volatile (*SysTick)[4] = (void*)0xE000E010;
-SysTick[SYSTICK_CTRL] = 5;
-SysTick[SYSTICK_VAL] = 0;
+(*SysTick)[SYSTICK_CTRL] = 5;
+(*SysTick)[SYSTICK_VAL] = 0;
 ```
 
 **Cons:** The `enum` looks ugly, but because enumeration constants share a single name space with other identifiers in C, you should prefix your enums, to avoid identifier clashes. Also, this approach isn't as safe, because you can avoid the enums and use integer indices directly. 
