@@ -92,15 +92,15 @@ This approach has [no overhead][inline] but I find it ugly. Having getters and s
 
 One could write this as macros at the cost of type safety, but for this, it wouldn't matter.
 
-## Approach IV: Pointer to array##
+## Approach IV: Pointer to successive elements ##
 
-Controlling SysTick involves 4 sequential registers in memory. Instead of defining every one, we just define the base as an array and use an index
+Controlling SysTick involves 4 sequential registers in memory. Instead of defining every one, we just define a pointer to the base and use an index
 
 ```c
 enum {SYSTICK_CTRL, SYSTICK_LOAD, SYSTICK_VAL, SYSTICK_CAL};
-unsigned long volatile (*SysTick)[4] = (void*)0xE000E010;
-(*SysTick)[SYSTICK_CTRL] = 5;
-(*SysTick)[SYSTICK_VAL] = 0;
+unsigned long volatile *SysTick = (void*)0xE000E010;
+SysTick[SYSTICK_CTRL] = 5;
+SysTick[SYSTICK_VAL] = 0;
 ```
 
 **Cons:** The `enum` looks ugly, but because enumeration constants share a single name space with other identifiers in C, you should prefix your enums, to avoid identifier clashes. Also, this approach isn't as safe, because you can avoid the enums and use integer indices directly. 
@@ -123,10 +123,10 @@ The code grew by a `ldr` (pseudo-)instruction. `ldr` loads a value from memory i
 Our definition now looks like this:
 
 ```c
-unsigned long volatile (* const SysTick)[4] = (void*)0xE000E010;
+unsigned long volatile * const SysTick = (void*)0xE000E010;
 ```
 
-> **Note:** that we want the pointer to be `const` and the integer pointee to be `volatile`. Thus the `volatile` is before the `*` operator and the `const` after it. The parentheses are there because otherwise it would define an array of pointers, not a pointer to an array.
+> **Note:** that we want the pointer to be `const` and the integer pointee to be `volatile`. Thus the `volatile` is before the `*` operator and the `const` after it.
 
 After adding `const`, the extra indirection isn't necessary anymore and the generated code is the same as in our first example. The other cons are still there though.
 
