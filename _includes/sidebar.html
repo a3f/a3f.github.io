@@ -17,7 +17,11 @@
     {% endif %}
     {% if site.cpan_username %}
     <a href="http://search.cpan.org/~{{ site.cpan_username }}">CPAN</a>
-
+    {% endif %}
+  </p>
+  <p class="contact">
+    {% if site.gontributions_url %}
+    <a href="/{{ site.gontributions_url }}">Contributions Elsewhere</a>
     {% endif %}
   </p>
 </div>

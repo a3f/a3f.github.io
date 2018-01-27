@@ -15,6 +15,7 @@ profile: I like to hack stuff
 github_username:  a3f
 cpan_username:  athreef
 stackoverflow_username:  1257035/a3f
+gontributions_url:  contributions.html
 
 # Comment Service (Disqus or 多说)
 #  choose one and un-comment the line to active it
@@ -22,7 +23,7 @@ disqus_shortname: a3f   # get one: https://disqus.com/admin/signup/
 #duoshuo_shortname: xxx  # get one: http://duoshuo.com/create-site/
 
 permalink: /articles/:title
-gems:
+plugins:
  - jekyll-paginate
  - jekyll-gist
  - jemoji

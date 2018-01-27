@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css">
+        html, body, div, span, applet, object, iframe,
+        h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+        a, abbr, acronym, address, big, cite, code,
+        del, dfn, em, img, ins, kbd, q, s, samp,
+        small, strike, strong, sub, sup, tt, var,
+        b, u, i, center,
+        dl, dt, dd, ol, ul, li,
+        fieldset, form, label, legend,
+        table, caption, tbody, tfoot, thead, tr, th, td,
+        article, aside, canvas, details, embed,
+        figure, figcaption, footer, header, hgroup,
+        menu, nav, output, ruby, section, summary,
+        time, mark, audio, video {
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+
+        body {
+            font-size: 16px;
+            font-family: sans-serif;
+            line-height: 1.5;
+            width: 100%;
+        }
+
+        ol, ul {
+            list-style: none;
+        }
+
+        * {
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        a:hover {
+            cursor: pointer;
+        }
+
+         
+        .container {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -ms-flex-flow: column;
+            flex-flow: column;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .cards-container {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+         
+        .cards {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -ms-flex-flow: column;
+            flex-flow: column;
+            width: 320px;
+        }
+
+        .card {
+            padding: 20px;
+            border: 1px solid lightgray;
+            border-radius: 10px;
+
+            margin-top: 10px;
+        }
+
+        @media screen and (min-width: 460px) {
+            .cards {
+                -webkit-box-orient: horizontal;
+                -webkit-box-direction: normal;
+                -ms-flex-flow: row wrap;
+                flex-flow: row wrap;
+
+            }
+
+            .card {
+                -ms-flex-preferred-size: 320px;
+                flex-basis: 320px;
+                margin: 10px;
+            }
+        }
+
+        @media screen and (min-width: 680px) {
+            .cards {
+                -ms-flex-preferred-size: 680px;
+                flex-basis: 680px;
+            }
+        }
+
+        @media screen and (min-width: 1020px) {
+            .cards {
+                -ms-flex-preferred-size: 1020px;
+                flex-basis: 1020px;
+            }
+        }
+
+        @media screen and (min-width: 1360px) {
+            .cards {
+                -ms-flex-preferred-size: 1360px;
+                flex-basis: 1360px;
+            }
+        }
+
+         
+        .card {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -ms-flex-flow: column;
+            flex-flow: column;
+        }
+
+        .card .header {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: horizontal;
+            -webkit-box-direction: normal;
+            -ms-flex-flow: row;
+            flex-flow: row;
+        }
+
+        .card .header img {
+            width: 100px;
+            height: 100px;
+        }
+
+        .card .header .title {
+            margin-left: 10px;
+        }
+
+        .card .description {
+            margin-top: 10px;
+        }
+
+        @media screen and (max-width: 319px) {
+            .card .header {
+                -webkit-box-orient: vertical;
+                -webkit-box-direction: normal;
+                -ms-flex-flow: column;
+                flex-flow: column;
+            }
+
+            .card .header .title {
+                margin-left: 0;
+            }
+        }
+
+        .tags {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: horizontal;
+            -webkit-box-direction: normal;
+            -ms-flex-flow: row wrap;
+            flex-flow: row wrap;
+        }
+
+        .tag {
+            font-size: 13px;
+            background-color: #9da9b1;
+            border-radius: 5px;
+            padding: 5px;
+            margin-right: 5px;
+            margin-top: 5px;
+        }
+
+        footer {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -ms-flex-flow: column;
+            flex-flow: column;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+        }
+    </style>
+    <title>My open source contributions</title>
+</head>
+<body>
+
+<div class="container">
+    <h1><a href="/" style="border-bottom: 2px dotted #000; text-decoration: none;">My</a> open source contributions</h1>
+    <i><p><i>Overall 1311 contributions in 16 projects</i></p></i>
+    <div class="cards-container">
+        <ul class="cards">
+            
+            <li class="card">
+                <div class="header">
+                    
+                    <section class="title">
+                        <h2>
+                            
+                            <a href="https://wireshark.org">Wireshark</a>
+                            
+                        </h2>
+                        
+                        <em>32 contributions</em>
+                        
+                    </section>
+                </div>
+                
+                <div class="description">
+                    <p>Network traffic analyzer</p>
+                </div>
+                
+                
+                    <ul class="tags">
+                        
+                        <li class="tag">C</li>
+                        
+                        <li class="tag">Networking</li>
+                        
+                    </ul>
+                
+            </li>
+            
+            <li class="card">
+                <div class="header">
+                    
+                    <section class="title">
+                        <h2>
+                            
+                            <a href="https://kernel.org">Linux</a>
+                            
+                        </h2>
+                        
+                        <em>2 contributions</em>
+                        
+                    </section>
+                </div>
+                
+                <div class="description">
+                    <p>Free Unix-like kernel</p>
+                </div>
+                
+                
+                    <ul class="tags">
+                        
+                        <li class="tag">Networking</li>
+                        
+                        <li class="tag">Documentation</li>
+                        
+                    </ul>
+                
+            </li>
+            
+            <li class="card">
+                <div class="header">
+                    
+                    <section class="title">
+                        <h2>
+                            
+                            <a href="http://perldoc.perl.org/ExtUtils/MakeMaker.html">ExtUtils::MakeMaker</a>
+                            
+                        </h2>
+                        
+                        <em>1 contribution</em>
+                        
+                    </section>
+                </div>
+                
+                <div class="description">
+                    <p>Perl core module for writing Makefiles for extension modules</p>
+                </div>
+                
+                
+                    <ul class="tags">
+                        
+                        <li class="tag">macOS</li>
+                        
+                    </ul>
+                
+            </li>
+            
+            <li class="card">
+                <div class="header">
+                    
+                    <section class="title">
+                        <h2>
+                            
+                            <a href="https://www.haskell.org/ghc/">Glasgow Haskell Compiler</a>
+                            
+                        </h2>
+                        
+                        <em>2 contributions</em>
+                        
+                    </section>
+                </div>
+                
+                <div class="description">
+                    <p>De-facto standard Haskell Compiler</p>
+                </div>
+                
+                
+                    <ul class="tags">
+                        
+                        <li class="tag">Haskell</li>
+                        
+                        <li class="tag">WinAPI</li>
+                        
+                    </ul>
+                
+            </li>
+            
+            <li class="card">
+                <div class="header">
+                    
+                    <section class="title">
+                        <h2>
+                            
+                            <a href="http://www.raylib.com">raylib</a>
+                            
+                        </h2>
+                        
+                        <em>31 contributions</em>
+                        
+                    </section>
+                </div>
+                
+                <div class="description">
+                    <p>simple and easy-to-use library to learn videogames programming</p>
+                </div>
+                
+                
+                    <ul class="tags">
+                        
+                        <li class="tag">CMake</li>
+                        
+                        <li class="tag">CI</li>
+                        
+                    </ul>
+                
+            </li>
+            
+            <li class="card">
+                <div class="header">
+                    
+                    <section class="title">
+                        <h2>
+                            
+                            <a href="http://spore.github.io/">Net::HTTP::Spore</a>
+                            
+                        </h2>
+                        
+                        <em>13 contributions</em>
+                        
+                    </section>
+                </div>
+                
+                <div class="description">
+                    <p>Perl implementation of the POrtable Rest Environment</p>
+                </div>
+                
+                
+                    <ul class="tags">
+                        
+                        <li class="tag">Perl</li>
+                        
+                    </ul>
+                
+            </li>
+            
+            <li class="card">
+                <div class="header">
+                    
+                    <section class="title">
+                        <h2>
+                            
+                            <a href="https://metacpan.org/pod/TeX::Encode">TeX::Encode</a>
+                            
+                        </h2>
+                        
+                        <em>6 contributions</em>
+                        
+                    </section>
+                </div>
+                
+                <div class="description">
+                    <p>Encode/decode Perl utf-8 strings into TeX</p>
+                </div>
+                
+                
+                    <ul class="tags">
+                        
+                        <li class="tag">Perl</li>
+                        
+                    </ul>
+                
+            </li>
+            
+            <li class="card">
+                <div class="header">
+                    
+                    <section class="title">
+                        <h2>
+                            
+                            <a href="http://c4ev3.github.io/">c4ev3</a>
+                            
+                        </h2>
+                        
+                        <em>113 contributions</em>
+                        
+                    </section>
+                </div>
+                
+                <div class="description">
+                    <p>Native C/C&#43;&#43; Programming for the LEGO® EV3</p>
+                </div>
+                
+                
+                    <ul class="tags">
+                        
+                        <li class="tag">C</li>
+                        
+                        <li class="tag">Linux</li>
+                        
+                        <li class="tag">Eclipse</li>
+                        
+                    </ul>
+                
+            </li>
+            
+            <li class="card">
+                <div class="header">
+                    
+                    <section class="title">
+                        <h2>
+                            
+                            <a href="https://metacpan.org/pod/Alien::Build">Alien::Build</a>
+                            
+                        </h2>
+                        
+                        <em>1 contribution</em>
+                        
+                    </section>
+                </div>
+                
+                <div class="description">
+                    <p>Build external dependencies for use in CPAN</p>
+                </div>
+                
+                
+                    <ul class="tags">
+                        
+                        <li class="tag">Perl</li>
+                        
+                        <li class="tag">pkg-config</li>
+                        
+                    </ul>
+                
+            </li>
+            
+            <li class="card">
+                <div class="header">
+                    
+                    <section class="title">
+                        <h2>
+                            
+                            <a href="http://lshw.ezix.org/">lshw</a>
+                            
+                        </h2>
+                        
+                        <em>1 contribution</em>
+                        
+                    </section>
+                </div>
+                
+                <div class="description">
+                    <p>HardWare LiSter for Linux</p>
+                </div>
+                
+                
+            </li>
+            
+            <li class="card">
+                <div class="header">
+                    
+                    <section class="title">
+                        <h2>
+                            
+                            <a href="https://metacpan.org/pod/Crypt::XTEA">Crypt::XTEA</a>
+                            
+                        </h2>
+                        
+                        <em>3 contributions</em>
+                        
+                    </section>
+                </div>
+                
+                <div class="description">
+                    <p>Implementation of the eXtended Tiny Encryption Algorithm</p>
+                </div>
+                
+                
+                    <ul class="tags">
+                        
+                        <li class="tag">Perl</li>
+                        
+                    </ul>
+                
+            </li>
+            
+            <li class="card">
+                <div class="header">
+                    
+                    <section class="title">
+                        <h2>
+                            
+                            <a href="https://brew.sh/">Homebrew</a>
+                            
+                        </h2>
+                        
+                        <em>1 contribution</em>
+                        
+                    </section>
+                </div>
+                
+                <div class="description">
+                    <p>The missing package manager for macOS</p>
+                </div>
+                
+                
+                    <ul class="tags">
+                        
+                        <li class="tag">macOS</li>
+                        
+                    </ul>
+                
+            </li>
+            
+            <li class="card">
+                <div class="header">
+                    
+                    <section class="title">
+                        <h2>
+                            
+                            <a href="https://epl-viz.github.io/">EPL-Viz</a>
+                            
+                        </h2>
+                        
+                        <em>170 contributions</em>
+                        
+                    </section>
+                </div>
+                
+                <div class="description">
+                    <p>Visualizer for Ethernet POWERLINK Traffic</p>
+                </div>
+                
+                
+                    <ul class="tags">
+                        
+                        <li class="tag">Ethernet POWERLINK</li>
+                        
+                    </ul>
+                
+            </li>
+            
+            <li class="card">
+                <div class="header">
+                    
+                    <section class="title">
+                        <h2>
+                            
+                            <a href="http://ar.cppreference.com/w/c">cppreference.com</a>
+                            
+                        </h2>
+                        
+                        <em>802 contributions</em>
+                        
+                    </section>
+                </div>
+                
+                <div class="description">
+                    <p>C reference, wiki-style</p>
+                </div>
+                
+                
+                    <ul class="tags">
+                        
+                        <li class="tag">C</li>
+                        
+                    </ul>
+                
+            </li>
+            
+            <li class="card">
+                <div class="header">
+                    
+                    <section class="title">
+                        <h2>
+                            
+                            <a href="https://wikipedia.org">Wikipedia</a>
+                            
+                        </h2>
+                        
+                        <em>132 contributions</em>
+                        
+                    </section>
+                </div>
+                
+                <div class="description">
+                    <p>Free online encyclopedia</p>
+                </div>
+                
+                
+            </li>
+            
+            <li class="card">
+                <div class="header">
+                    
+                    <section class="title">
+                        <h2>
+                            
+                            <a href="http://kaitai.io">Kaitai Struct</a>
+                            
+                        </h2>
+                        
+                        <em>1 contribution</em>
+                        
+                    </section>
+                </div>
+                
+                <div class="description">
+                    <p>Binary structure parser generator</p>
+                </div>
+                
+                
+                    <ul class="tags">
+                        
+                        <li class="tag">Perl</li>
+                        
+                    </ul>
+                
+            </li>
+            
+        </ul>
+    </div>
+</div>
+<footer>
+    <i>Created on 2018-01-27 with <a href="https://github.com/jubalh/gontributions">gontributions</a></i>
+</footer>
+</body>
+</html>
