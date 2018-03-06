@@ -6,9 +6,9 @@ categories: embedded C programming
 permalink: /articles/register-syntax-sugar
 ---
 
-Most instruction set architectures (ISAs) nowadays utilize [memory mapped IO][MMIO] (MMIO). Some address ranges are decoded as being directed at IO devices instead of RAM.
+In architectures utilizing [memory mapped IO][MMIO] (MMIO), some address ranges are decoded as being directed at IO devices instead of "normal" memory.
 
-For example, on the ARM Cortex-M, the System tick timer's control register is located at `0xE000E010`.
+For example, on the ARM Cortex-M, the System tick timer's control register is mapped at `0xE000E010`.
 If you wish to calibrate the timer, you can do this easily from C with a tiny bit of pointer fiddling:
 
 ```c
