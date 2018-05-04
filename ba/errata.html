@@ -1,0 +1,19 @@
+<html>
+  <head>
+    <title>Errata: Generic Industrial Ethernet Communication for the Linux Kernel</title>
+  </head>
+  <body>
+    <ul>
+      <li> Page 10 ambiguously refers to the interrupt controller as the "hardware". Bottom half is also a misnomer, as both the previous top and bottom halves run in thread context with threaded IRQs.
+        <blockquote>Linux solves this with threaded IRQs: Ideally, the top half does only the bare minimum of checking whether the handler is responsible[4], acknowledges it to the hardware and returns. The kernel then automatically wakes up a dedicated IRQ handler thread for bottom half processing. This thread is then subject to normal kernel scheduling.
+          <br/><br/>
+          Footnote [4]: IRQ lines may be shared.</blockquote>
+        should be:
+        <blockquote>Linux solves this with threaded IRQs: The interrupt line is temporarily disabled and a dedicated IRQ handler thread is scheduled for executing what used to be the top[4] and bottom halves in a process context subject to normal kernel scheduling.
+          <br/><br/>
+          Footnote [4]: If the interrupt line is shared, the driver must also supply a hardirq handler that checks if the interrupt originates from the appropriate device.</blockquote>
+      </li>
+
+    </ul>
+  </body>
+</html>
