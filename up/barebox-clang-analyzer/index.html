@@ -1,0 +1,1101 @@
+<html>
+<head>
+<title>barebox-compiletest - scan-build results</title>
+<link type="text/css" rel="stylesheet" href="scanview.css"/>
+<script src="sorttable.js"></script>
+<script language='javascript' type="text/javascript">
+function SetDisplay(RowClass, DisplayVal)
+{
+  var Rows = document.getElementsByTagName("tr");
+  for ( var i = 0 ; i < Rows.length; ++i ) {
+    if (Rows[i].className == RowClass) {
+      Rows[i].style.display = DisplayVal;
+    }
+  }
+}
+
+function CopyCheckedStateToCheckButtons(SummaryCheckButton) {
+  var Inputs = document.getElementsByTagName("input");
+  for ( var i = 0 ; i < Inputs.length; ++i ) {
+    if (Inputs[i].type == "checkbox") {
+      if(Inputs[i] != SummaryCheckButton) {
+        Inputs[i].checked = SummaryCheckButton.checked;
+        Inputs[i].onclick();
+      }
+    }
+  }
+}
+
+function returnObjById( id ) {
+    if (document.getElementById)
+        var returnVar = document.getElementById(id);
+    else if (document.all)
+        var returnVar = document.all[id];
+    else if (document.layers)
+        var returnVar = document.layers[id];
+    return returnVar;
+}
+
+var NumUnchecked = 0;
+
+function ToggleDisplay(CheckButton, ClassName) {
+  if (CheckButton.checked) {
+    SetDisplay(ClassName, "");
+    if (--NumUnchecked == 0) {
+      returnObjById("AllBugsCheck").checked = true;
+    }
+  }
+  else {
+    SetDisplay(ClassName, "none");
+    NumUnchecked++;
+    returnObjById("AllBugsCheck").checked = false;
+  }
+}
+</script>
+<!-- SUMMARYENDHEAD -->
+</head>
+<body>
+<h1>barebox-compiletest - scan-build results</h1>
+
+<table>
+<tr><th>User:</th><td>a3f@geraet</td></tr>
+<tr><th>Working Directory:</th><td>/home/a3f/dl/barebox-compiletest</td></tr>
+<tr><th>Command Line:</th><td>make</td></tr>
+<tr><th>Clang Version:</th><td>clang version 10.0.0-4 
+</td></tr>
+<tr><th>Date:</th><td>Mon May 11 08:53:35 2020</td></tr>
+</table>
+<h2>Bug Summary</h2><table>
+<thead><tr><td>Bug Type</td><td>Quantity</td><td class="sorttable_nosort">Display?</td></tr></thead>
+<tr style="font-weight:bold"><td class="SUMM_DESC">All Bugs</td><td class="Q">332</td><td><center><input type="checkbox" id="AllBugsCheck" onClick="CopyCheckedStateToCheckButtons(this);" checked/></center></td></tr>
+<tr><th>Dead store</th><th colspan=2></th></tr>
+<tr><td class="SUMM_DESC">Dead assignment</td><td class="Q">127</td><td><center><input type="checkbox" onClick="ToggleDisplay(this,'bt_dead_store_dead_assignment');" checked/></center></td></tr>
+<tr><td class="SUMM_DESC">Dead increment</td><td class="Q">2</td><td><center><input type="checkbox" onClick="ToggleDisplay(this,'bt_dead_store_dead_increment');" checked/></center></td></tr>
+<tr><td class="SUMM_DESC">Dead initialization</td><td class="Q">52</td><td><center><input type="checkbox" onClick="ToggleDisplay(this,'bt_dead_store_dead_initialization');" checked/></center></td></tr>
+<tr><td class="SUMM_DESC">Dead nested assignment</td><td class="Q">22</td><td><center><input type="checkbox" onClick="ToggleDisplay(this,'bt_dead_store_dead_nested_assignment');" checked/></center></td></tr>
+<tr><th>Logic error</th><th colspan=2></th></tr>
+<tr><td class="SUMM_DESC">Array subscript is undefined</td><td class="Q">2</td><td><center><input type="checkbox" onClick="ToggleDisplay(this,'bt_logic_error_array_subscript_is_undefined');" checked/></center></td></tr>
+<tr><td class="SUMM_DESC">Assigned value is garbage or undefined</td><td class="Q">19</td><td><center><input type="checkbox" onClick="ToggleDisplay(this,'bt_logic_error_assigned_value_is_garbage_or_undefined');" checked/></center></td></tr>
+<tr><td class="SUMM_DESC">Branch condition evaluates to a garbage value</td><td class="Q">5</td><td><center><input type="checkbox" onClick="ToggleDisplay(this,'bt_logic_error_branch_condition_evaluates_to_a_garbage_value');" checked/></center></td></tr>
+<tr><td class="SUMM_DESC">Dereference of null pointer</td><td class="Q">42</td><td><center><input type="checkbox" onClick="ToggleDisplay(this,'bt_logic_error_dereference_of_null_pointer');" checked/></center></td></tr>
+<tr><td class="SUMM_DESC">Dereference of undefined pointer value</td><td class="Q">1</td><td><center><input type="checkbox" onClick="ToggleDisplay(this,'bt_logic_error_dereference_of_undefined_pointer_value');" checked/></center></td></tr>
+<tr><td class="SUMM_DESC">Division by zero</td><td class="Q">8</td><td><center><input type="checkbox" onClick="ToggleDisplay(this,'bt_logic_error_division_by_zero');" checked/></center></td></tr>
+<tr><td class="SUMM_DESC">Garbage return value</td><td class="Q">4</td><td><center><input type="checkbox" onClick="ToggleDisplay(this,'bt_logic_error_garbage_return_value');" checked/></center></td></tr>
+<tr><td class="SUMM_DESC">Result of operation is garbage or undefined</td><td class="Q">38</td><td><center><input type="checkbox" onClick="ToggleDisplay(this,'bt_logic_error_result_of_operation_is_garbage_or_undefined');" checked/></center></td></tr>
+<tr><td class="SUMM_DESC">Uninitialized argument value</td><td class="Q">7</td><td><center><input type="checkbox" onClick="ToggleDisplay(this,'bt_logic_error_uninitialized_argument_value');" checked/></center></td></tr>
+<tr><td class="SUMM_DESC">Unix API</td><td class="Q">3</td><td><center><input type="checkbox" onClick="ToggleDisplay(this,'bt_logic_error_unix_api');" checked/></center></td></tr>
+</table>
+<h2>Reports</h2>
+
+<table class="sortable" style="table-layout:automatic">
+<thead><tr>
+  <td>Bug Group</td>
+  <td class="sorttable_sorted">Bug Type<span id="sorttable_sortfwdind">&nbsp;&#x25BE;</span></td>
+  <td>File</td>
+  <td>Function/Method</td>
+  <td class="Q">Line</td>
+  <td class="Q">Path Length</td>
+  <td class="sorttable_nosort"></td>
+  <!-- REPORTBUGCOL -->
+</tr></thead>
+<tbody>
+<tr class="bt_logic_error_array_subscript_is_undefined"><td class="DESC">Logic error</td><td class="DESC">Array subscript is undefined</td><td>fs/ubifs/tnc.c</td><td class="DESC">ubifs_tnc_next_ent</td><td class="Q">2323</td><td class="Q">33</td><td><a href="report-287078.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-287078.html" -->
+</tr>
+<tr class="bt_logic_error_array_subscript_is_undefined"><td class="DESC">Logic error</td><td class="DESC">Array subscript is undefined</td><td>fs/ubifs/tnc.c</td><td class="DESC">resolve_collision</td><td class="Q">641</td><td class="Q">27</td><td><a href="report-c4d29a.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-c4d29a.html" -->
+</tr>
+<tr class="bt_logic_error_assigned_value_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Assigned value is garbage or undefined</td><td>lib/glob.c</td><td class="DESC">barebox_glob</td><td class="Q">151</td><td class="Q">26</td><td><a href="report-9a41af.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-9a41af.html" -->
+</tr>
+<tr class="bt_logic_error_assigned_value_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Assigned value is garbage or undefined</td><td>drivers/net/enc28j60.c</td><td class="DESC">enc28j60_hw_rx</td><td class="Q">776</td><td class="Q">26</td><td><a href="report-6d9726.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-6d9726.html" -->
+</tr>
+<tr class="bt_logic_error_assigned_value_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Assigned value is garbage or undefined</td><td>common/memsize.c</td><td class="DESC">get_ram_size</td><td class="Q">77</td><td class="Q">6</td><td><a href="report-8a8078.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-8a8078.html" -->
+</tr>
+<tr class="bt_logic_error_assigned_value_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Assigned value is garbage or undefined</td><td>drivers/misc/ubootvar.c</td><td class="DESC">ubootenv_probe</td><td class="Q">313</td><td class="Q">19</td><td><a href="report-b79d81.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-b79d81.html" -->
+</tr>
+<tr class="bt_logic_error_assigned_value_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Assigned value is garbage or undefined</td><td>drivers/net/phy/mv88e6xxx/port.c</td><td class="DESC">mv88e6xxx_port_read_status</td><td class="Q">526</td><td class="Q">13</td><td><a href="report-577be9.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-577be9.html" -->
+</tr>
+<tr class="bt_logic_error_assigned_value_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Assigned value is garbage or undefined</td><td>fs/ubifs/tnc.c</td><td class="DESC">ubifs_tnc_next_ent</td><td class="Q">2323</td><td class="Q">40</td><td><a href="report-9f5bf3.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-9f5bf3.html" -->
+</tr>
+<tr class="bt_logic_error_assigned_value_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Assigned value is garbage or undefined</td><td>drivers/mtd/nand/nand_base.c</td><td class="DESC">nand_do_write_ops</td><td class="Q">2384</td><td class="Q">3</td><td><a href="report-92e927.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-92e927.html" -->
+</tr>
+<tr class="bt_logic_error_assigned_value_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Assigned value is garbage or undefined</td><td>drivers/mtd/devices/docg3.c</td><td class="DESC">doc_write</td><td class="Q">1045</td><td class="Q">16</td><td><a href="report-b9dda2.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-b9dda2.html" -->
+</tr>
+<tr class="bt_logic_error_assigned_value_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Assigned value is garbage or undefined</td><td>drivers/regulator/helpers.c</td><td class="DESC">regulator_get_voltage_sel_regmap</td><td class="Q">326</td><td class="Q">3</td><td><a href="report-314ed2.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-314ed2.html" -->
+</tr>
+<tr class="bt_logic_error_assigned_value_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Assigned value is garbage or undefined</td><td>drivers/mtd/ubi/barebox.c</td><td class="DESC">ubi_api_rename_volumes</td><td class="Q">444</td><td class="Q">28</td><td><a href="report-a7b07a.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-a7b07a.html" -->
+</tr>
+<tr class="bt_logic_error_assigned_value_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Assigned value is garbage or undefined</td><td>drivers/net/e1000/eeprom.c</td><td class="DESC">e1000_invm_cdev_write</td><td class="Q">1289</td><td class="Q">15</td><td><a href="report-02b1c5.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-02b1c5.html" -->
+</tr>
+<tr class="bt_logic_error_assigned_value_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Assigned value is garbage or undefined</td><td>drivers/mtd/ubi/eba.c</td><td class="DESC">ubi_eba_read_leb</td><td class="Q">579</td><td class="Q">1</td><td><a href="report-8e667e.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-8e667e.html" -->
+</tr>
+<tr class="bt_logic_error_assigned_value_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Assigned value is garbage or undefined</td><td>drivers/mtd/ubi/fastmap.c</td><td class="DESC">ubi_attach_fastmap</td><td class="Q">734</td><td class="Q">6</td><td><a href="report-88c4ec.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-88c4ec.html" -->
+</tr>
+<tr class="bt_logic_error_assigned_value_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Assigned value is garbage or undefined</td><td>drivers/net/e1000/main.c</td><td class="DESC">e1000_copper_link_preconfig</td><td class="Q">1107</td><td class="Q">39</td><td><a href="report-fb609d.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-fb609d.html" -->
+</tr>
+<tr class="bt_logic_error_assigned_value_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Assigned value is garbage or undefined</td><td>fs/ubifs/tnc_misc.c</td><td class="DESC">ubifs_search_zbranch</td><td class="Q">141</td><td class="Q">1</td><td><a href="report-199e36.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-199e36.html" -->
+</tr>
+<tr class="bt_logic_error_assigned_value_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Assigned value is garbage or undefined</td><td>fs/ubifs/tnc.c</td><td class="DESC">fallible_resolve_collision</td><td class="Q">830</td><td class="Q">11</td><td><a href="report-e020d7.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-e020d7.html" -->
+</tr>
+<tr class="bt_logic_error_assigned_value_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Assigned value is garbage or undefined</td><td>fs/ubifs/tnc.c</td><td class="DESC">fallible_resolve_collision</td><td class="Q">829</td><td class="Q">27</td><td><a href="report-651992.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-651992.html" -->
+</tr>
+<tr class="bt_logic_error_assigned_value_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Assigned value is garbage or undefined</td><td>drivers/mtd/ubi/fastmap.c</td><td class="DESC">ubi_attach_fastmap</td><td class="Q">711</td><td class="Q">94</td><td><a href="report-6f68cc.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-6f68cc.html" -->
+</tr>
+<tr class="bt_logic_error_assigned_value_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Assigned value is garbage or undefined</td><td>common/memsize.c</td><td class="DESC">get_ram_size</td><td class="Q">84</td><td class="Q">12</td><td><a href="report-c23693.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-c23693.html" -->
+</tr>
+<tr class="bt_logic_error_branch_condition_evaluates_to_a_garbage_value"><td class="DESC">Logic error</td><td class="DESC">Branch condition evaluates to a garbage value</td><td>lib/zstd/decompress.c</td><td class="DESC">ZSTD_findFrameCompressedSize</td><td class="Q">1553</td><td class="Q">50</td><td><a href="report-0652e8.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-0652e8.html" -->
+</tr>
+<tr class="bt_logic_error_branch_condition_evaluates_to_a_garbage_value"><td class="DESC">Logic error</td><td class="DESC">Branch condition evaluates to a garbage value</td><td>common/imd.c</td><td class="DESC">imd_verify_crc32</td><td class="Q">402</td><td class="Q">32</td><td><a href="report-925c8e.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-925c8e.html" -->
+</tr>
+<tr class="bt_logic_error_branch_condition_evaluates_to_a_garbage_value"><td class="DESC">Logic error</td><td class="DESC">Branch condition evaluates to a garbage value</td><td>drivers/hw_random/mxc-rngc.c</td><td class="DESC">mxc_rngc_read</td><td class="Q">154</td><td class="Q">3</td><td><a href="report-ace83b.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-ace83b.html" -->
+</tr>
+<tr class="bt_logic_error_branch_condition_evaluates_to_a_garbage_value"><td class="DESC">Logic error</td><td class="DESC">Branch condition evaluates to a garbage value</td><td>commands/uimage.c</td><td class="DESC">do_uimage</td><td class="Q">87</td><td class="Q">14</td><td><a href="report-92f7d9.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-92f7d9.html" -->
+</tr>
+<tr class="bt_logic_error_branch_condition_evaluates_to_a_garbage_value"><td class="DESC">Logic error</td><td class="DESC">Branch condition evaluates to a garbage value</td><td>common/globalvar.c</td><td class="DESC">nvvar_save</td><td class="Q">641</td><td class="Q">10</td><td><a href="report-c3e8d3.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-c3e8d3.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/eeprom/at24.c</td><td class="DESC">at24_eeprom_write</td><td class="Q">305</td><td class="Q">1</td><td><a href="report-38ada2.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-38ada2.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>fs/squashfs/inode.c</td><td class="DESC">squashfs_read_inode</td><td class="Q">358</td><td class="Q">1</td><td><a href="report-dc8520.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-dc8520.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/pci/pcie-designware-host.c</td><td class="DESC">dw_pcie_rd_other_conf</td><td class="Q">199</td><td class="Q">1</td><td><a href="report-e6c2ac.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-e6c2ac.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/nvmem/core.c</td><td class="DESC">nvmem_cell_prepare_write_buffer</td><td class="Q">597</td><td class="Q">1</td><td><a href="report-c3d469.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-c3d469.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/mci/mci_spi.c</td><td class="DESC">mmc_spi_set_ios</td><td class="Q">325</td><td class="Q">1</td><td><a href="report-c82685.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-c82685.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>common/state/backend_storage.c</td><td class="DESC">state_storage_read</td><td class="Q">201</td><td class="Q">1</td><td><a href="report-a925c1.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-a925c1.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/host/xhci.c</td><td class="DESC">xhci_clear_port_change_bit</td><td class="Q">819</td><td class="Q">1</td><td><a href="report-009908.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-009908.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>commands/mm.c</td><td class="DESC">do_mem_mm</td><td class="Q">80</td><td class="Q">1</td><td><a href="report-cc7eb8.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-cc7eb8.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/musb/musb_host.c</td><td class="DESC">musb_start_urb</td><td class="Q">259</td><td class="Q">1</td><td><a href="report-e4e956.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-e4e956.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/mtd/ubi/upd.c</td><td class="DESC">ubi_more_update_data</td><td class="Q">299</td><td class="Q">1</td><td><a href="report-272e59.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-272e59.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/of/address.c</td><td class="DESC">of_pci_range_parser_one</td><td class="Q">225</td><td class="Q">1</td><td><a href="report-ecc3ce.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-ecc3ce.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/dwc3/gadget.c</td><td class="DESC">dwc3_send_gadget_ep_cmd</td><td class="Q">387</td><td class="Q">1</td><td><a href="report-7c3d71.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-7c3d71.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>crypto/sha4.c</td><td class="DESC">sha512_transform</td><td class="Q">129</td><td class="Q">1</td><td><a href="report-4e560e.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-4e560e.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/net/cs8900.c</td><td class="DESC">cs8900_recv</td><td class="Q">294</td><td class="Q">1</td><td><a href="report-1b76e9.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-1b76e9.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/mci/mci-core.c</td><td class="DESC">mci_register_partition</td><td class="Q">1647</td><td class="Q">1</td><td><a href="report-c478e6.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-c478e6.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>crypto/sha2.c</td><td class="DESC">sha256_transform</td><td class="Q">216</td><td class="Q">1</td><td><a href="report-e9340e.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-e9340e.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/host/ehci-hcd.c</td><td class="DESC">ehci_submit_async</td><td class="Q">432</td><td class="Q">1</td><td><a href="report-2bd086.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-2bd086.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>net/dns.c</td><td class="DESC">dns_recv</td><td class="Q">190</td><td class="Q">1</td><td><a href="report-d0de1c.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-d0de1c.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/mci/mci-core.c</td><td class="DESC">mci_card_probe</td><td class="Q">1706</td><td class="Q">1</td><td><a href="report-8e0a55.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-8e0a55.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/musb/musb_core.c</td><td class="DESC">musb_generic_disable</td><td class="Q">349</td><td class="Q">1</td><td><a href="report-51d073.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-51d073.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/host/xhci-ring.c</td><td class="DESC">xhci_ctrl_tx</td><td class="Q">882</td><td class="Q">1</td><td><a href="report-ebe259.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-ebe259.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/base/regmap/regmap-mmio.c</td><td class="DESC">regmap_mmio_get_min_stride</td><td class="Q">48</td><td class="Q">1</td><td><a href="report-5f7c9d.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-5f7c9d.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/musb/musb_host.c</td><td class="DESC">musb_host_tx</td><td class="Q">1029</td><td class="Q">1</td><td><a href="report-1a08f1.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-1a08f1.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>fs/fs.c</td><td class="DESC">link_path_walk</td><td class="Q">1923</td><td class="Q">1</td><td><a href="report-6b9dfd.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-6b9dfd.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/mci/dw_mmc.c</td><td class="DESC">dwmci_prepare_data_dma</td><td class="Q">137</td><td class="Q">1</td><td><a href="report-78d1e8.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-78d1e8.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>commands/trigger.c</td><td class="DESC">do_trigger</td><td class="Q">39</td><td class="Q">1</td><td><a href="report-934f6b.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-934f6b.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/mtd/spi-nor/cadence-quadspi.c</td><td class="DESC">cqspi_delay</td><td class="Q">761</td><td class="Q">1</td><td><a href="report-065669.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-065669.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>lib/parameter.c</td><td class="DESC">param_int_set</td><td class="Q">343</td><td class="Q">1</td><td><a href="report-3a0e38.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-3a0e38.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/musb/musb_host.c</td><td class="DESC">musb_cleanup_urb</td><td class="Q">1633</td><td class="Q">1</td><td><a href="report-6a7879.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-6a7879.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/mtd/mtdconcat.c</td><td class="DESC">concat_read</td><td class="Q">78</td><td class="Q">1</td><td><a href="report-11b5a7.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-11b5a7.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>fs/ubifs/super.c</td><td class="DESC">mount_ubifs</td><td class="Q">906</td><td class="Q">1</td><td><a href="report-4f8520.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-4f8520.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/net/smc91111.c</td><td class="DESC">smc91c111_ensure_freemem</td><td class="Q">1082</td><td class="Q">1</td><td><a href="report-e4b839.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-e4b839.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/net/e1000/main.c</td><td class="DESC">e1000_copper_link_preconfig</td><td class="Q">1108</td><td class="Q">1</td><td><a href="report-060abb.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-060abb.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/host/ohci-hcd.c</td><td class="DESC">dl_transfer_length</td><td class="Q">961</td><td class="Q">1</td><td><a href="report-6678aa.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-6678aa.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/mtd/nand/nand_base.c</td><td class="DESC">nand_write_page</td><td class="Q">2305</td><td class="Q">1</td><td><a href="report-8ab8e3.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-8ab8e3.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/crypto/caam/jr.c</td><td class="DESC">caam_jr_probe</td><td class="Q">305</td><td class="Q">1</td><td><a href="report-c264bd.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-c264bd.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/host/xhci.c</td><td class="DESC">xhci_address_device</td><td class="Q">673</td><td class="Q">1</td><td><a href="report-b190fb.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-b190fb.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/core/hub.c</td><td class="DESC">usb_hub_configure</td><td class="Q">601</td><td class="Q">1</td><td><a href="report-0be665.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-0be665.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>fs/ratpfs.c</td><td class="DESC">ratpfs_rm</td><td class="Q">74</td><td class="Q">1</td><td><a href="report-283751.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-283751.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>fs/cramfs/cramfs.c</td><td class="DESC">cramfs_probe</td><td class="Q">456</td><td class="Q">1</td><td><a href="report-ddf4a5.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-ddf4a5.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/dwc3/gadget.c</td><td class="DESC">dwc3_gadget_ep_enable</td><td class="Q">783</td><td class="Q">1</td><td><a href="report-54108a.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-54108a.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/net/e1000/main.c</td><td class="DESC">e1000_copper_link_preconfig</td><td class="Q">1106</td><td class="Q">1</td><td><a href="report-e9bbf7.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-e9bbf7.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/musb/musb_host.c</td><td class="DESC">musb_host_tx</td><td class="Q">1108</td><td class="Q">1</td><td><a href="report-a9a183.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-a9a183.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>fs/ubifs/tnc.c</td><td class="DESC">ubifs_tnc_remove_range</td><td class="Q">2129</td><td class="Q">1</td><td><a href="report-3cbe39.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-3cbe39.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/mci/imx-esdhc.c</td><td class="DESC">set_sysctl</td><td class="Q">86</td><td class="Q">1</td><td><a href="report-07c76a.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-07c76a.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/host/xhci-ring.c</td><td class="DESC">xhci_ctrl_tx</td><td class="Q">921</td><td class="Q">1</td><td><a href="report-46efcc.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-46efcc.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>lib/base64.c</td><td class="DESC">decode_base64</td><td class="Q">150</td><td class="Q">1</td><td><a href="report-40798e.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-40798e.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/clocksource/mvebu.c</td><td class="DESC">mvebu_timer_probe</td><td class="Q">73</td><td class="Q">1</td><td><a href="report-8aa725.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-8aa725.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/dwc3/gadget.c</td><td class="DESC">dwc3_send_gadget_generic_command</td><td class="Q">258</td><td class="Q">1</td><td><a href="report-900f8a.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-900f8a.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/pci/pci.c</td><td class="DESC">pci_scan_bus</td><td class="Q">349</td><td class="Q">1</td><td><a href="report-4b2a2a.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-4b2a2a.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>fs/squashfs/inode.c</td><td class="DESC">squashfs_read_inode</td><td class="Q">336</td><td class="Q">1</td><td><a href="report-ea4939.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-ea4939.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/ata/ahci.c</td><td class="DESC">ahci_add_host</td><td class="Q">640</td><td class="Q">1</td><td><a href="report-dd6234.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-dd6234.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/musb/musb_gadget.c</td><td class="DESC">rxstate</td><td class="Q">319</td><td class="Q">1</td><td><a href="report-ee2add.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-ee2add.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/mci/mci_spi.c</td><td class="DESC">mmc_spi_request</td><td class="Q">277</td><td class="Q">1</td><td><a href="report-a08227.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-a08227.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/musb/musb_gadget.c</td><td class="DESC">musb_g_giveback</td><td class="Q">65</td><td class="Q">1</td><td><a href="report-c35747.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-c35747.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>fs/ext4/ext_barebox.c</td><td class="DESC">ext_get_inode</td><td class="Q">220</td><td class="Q">1</td><td><a href="report-ff4de0.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-ff4de0.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/host/xhci-mem.c</td><td class="DESC">xhci_mem_init</td><td class="Q">573</td><td class="Q">1</td><td><a href="report-713837.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-713837.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/mtd/nand/nand_base.c</td><td class="DESC">nand_lock</td><td class="Q">933</td><td class="Q">1</td><td><a href="report-3a0090.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-3a0090.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/misc/sram.c</td><td class="DESC">sram_probe</td><td class="Q">45</td><td class="Q">1</td><td><a href="report-8df592.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-8df592.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/dwc3/gadget.c</td><td class="DESC">dwc3_stop_active_transfer</td><td class="Q">2471</td><td class="Q">1</td><td><a href="report-687670.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-687670.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/phy/phy-core.c</td><td class="DESC">phy_power_on</td><td class="Q">177</td><td class="Q">1</td><td><a href="report-8e28f7.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-8e28f7.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/musb/musb_core.c</td><td class="DESC">musb_interrupt</td><td class="Q">913</td><td class="Q">1</td><td><a href="report-e55902.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-e55902.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/nvmem/core.c</td><td class="DESC">nvmem_cell_prepare_write_buffer</td><td class="Q">580</td><td class="Q">1</td><td><a href="report-3dae3b.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-3dae3b.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/mtd/peb.c</td><td class="DESC">mtd_peb_create_bitflips</td><td class="Q">716</td><td class="Q">1</td><td><a href="report-e98cbb.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-e98cbb.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/musb/musb_host.c</td><td class="DESC">musb_cleanup_urb</td><td class="Q">1652</td><td class="Q">1</td><td><a href="report-260f6c.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-260f6c.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>common/ddr_spd.c</td><td class="DESC">ddr_spd_print</td><td class="Q">264</td><td class="Q">1</td><td><a href="report-1999fc.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-1999fc.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/host/xhci.c</td><td class="DESC">xhci_clear_port_change_bit</td><td class="Q">829</td><td class="Q">1</td><td><a href="report-5d83b3.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-5d83b3.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>fs/fat/fat.c</td><td class="DESC">fat_open</td><td class="Q">229</td><td class="Q">1</td><td><a href="report-9b9e25.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-9b9e25.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>common/hush.c</td><td class="DESC">do_glob_in_argv</td><td class="Q">723</td><td class="Q">1</td><td><a href="report-495406.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-495406.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>fs/ubifs/recovery.c</td><td class="DESC">inode_fix_size</td><td class="Q">1060</td><td class="Q">1</td><td><a href="report-2ede58.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-2ede58.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>fs/ubifs/replay.c</td><td class="DESC">replay_bud</td><td class="Q">596</td><td class="Q">1</td><td><a href="report-28e656.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-28e656.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>commands/loadb.c</td><td class="DESC">k_recv</td><td class="Q">430</td><td class="Q">1</td><td><a href="report-426e9e.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-426e9e.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/mtd/nand/nand_bbt.c</td><td class="DESC">search_bbt</td><td class="Q">550</td><td class="Q">1</td><td><a href="report-541b22.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-541b22.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/musb/musb_host.c</td><td class="DESC">musb_ep_program</td><td class="Q">743</td><td class="Q">1</td><td><a href="report-f7dfb9.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-f7dfb9.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/dwc3/gadget.c</td><td class="DESC">dwc3_gadget_ep_disable</td><td class="Q">811</td><td class="Q">1</td><td><a href="report-7989e0.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-7989e0.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/crypto/caam/ctrl.c</td><td class="DESC">kick_trng</td><td class="Q">278</td><td class="Q">1</td><td><a href="report-57dbf4.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-57dbf4.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/dwc3/core.c</td><td class="DESC">dwc3_frame_length_adjustment</td><td class="Q">350</td><td class="Q">1</td><td><a href="report-8873f7.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-8873f7.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>fs/squashfs/inode.c</td><td class="DESC">squashfs_read_inode</td><td class="Q">268</td><td class="Q">1</td><td><a href="report-c40e54.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-c40e54.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/pinctrl/pinctrl-bcm2835.c</td><td class="DESC">bcm2835_set_function</td><td class="Q">67</td><td class="Q">1</td><td><a href="report-ec4b4a.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-ec4b4a.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/musb/musb_core.c</td><td class="DESC">musb_generic_disable</td><td class="Q">350</td><td class="Q">1</td><td><a href="report-02c50e.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-02c50e.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>fs/squashfs/inode.c</td><td class="DESC">squashfs_read_inode</td><td class="Q">394</td><td class="Q">1</td><td><a href="report-2f42d9.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-2f42d9.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>lib/math.c</td><td class="DESC">evaluate_string</td><td class="Q">750</td><td class="Q">1</td><td><a href="report-3dab2f.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-3dab2f.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/core/usb.c</td><td class="DESC">usb_parse_config</td><td class="Q">264</td><td class="Q">1</td><td><a href="report-7b386a.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-7b386a.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/gadget/functions.c</td><td class="DESC">usb_put_function_instance</td><td class="Q">63</td><td class="Q">1</td><td><a href="report-8a0de8.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-8a0de8.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/net/enc28j60.c</td><td class="DESC">enc28j60_check_link_status</td><td class="Q">838</td><td class="Q">1</td><td><a href="report-2cd1cc.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-2cd1cc.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>commands/mm.c</td><td class="DESC">do_mem_mm</td><td class="Q">70</td><td class="Q">1</td><td><a href="report-0eea2c.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-0eea2c.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>fs/squashfs/inode.c</td><td class="DESC">squashfs_read_inode</td><td class="Q">216</td><td class="Q">1</td><td><a href="report-dd868d.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-dd868d.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/musb/musb_host.c</td><td class="DESC">musb_ep_program</td><td class="Q">655</td><td class="Q">1</td><td><a href="report-ba2d29.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-ba2d29.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>net/sntp.c</td><td class="DESC">sntp</td><td class="Q">144</td><td class="Q">1</td><td><a href="report-91f0a1.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-91f0a1.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/mtd/peb.c</td><td class="DESC">mtd_peb_erase</td><td class="Q">556</td><td class="Q">1</td><td><a href="report-273313.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-273313.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>fs/squashfs/inode.c</td><td class="DESC">squashfs_read_inode</td><td class="Q">357</td><td class="Q">1</td><td><a href="report-5f4bfb.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-5f4bfb.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/musb/musb_core.c</td><td class="DESC">musb_generic_disable</td><td class="Q">348</td><td class="Q">1</td><td><a href="report-181527.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-181527.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>fs/squashfs/squashfs.c</td><td class="DESC">squashfs_read</td><td class="Q">228</td><td class="Q">1</td><td><a href="report-2e5fd9.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-2e5fd9.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/eeprom/at24.c</td><td class="DESC">at24_eeprom_read</td><td class="Q">200</td><td class="Q">1</td><td><a href="report-d624e4.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-d624e4.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/mtd/peb.c</td><td class="DESC">mtd_peb_verify</td><td class="Q">353</td><td class="Q">1</td><td><a href="report-0aeccf.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-0aeccf.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/mtd/nand/nand_base.c</td><td class="DESC">nand_unlock</td><td class="Q">870</td><td class="Q">1</td><td><a href="report-a30480.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-a30480.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/clocksource/mvebu.c</td><td class="DESC">mvebu_timer_probe</td><td class="Q">78</td><td class="Q">1</td><td><a href="report-c5bc75.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-c5bc75.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/host/xhci.c</td><td class="DESC">xhci_clear_port_change_bit</td><td class="Q">815</td><td class="Q">1</td><td><a href="report-200347.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-200347.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>common/state/backend_storage.c</td><td class="DESC">state_storage_read</td><td class="Q">190</td><td class="Q">1</td><td><a href="report-c4b94e.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-c4b94e.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/of/partition.c</td><td class="DESC">of_parse_partition</td><td class="Q">70</td><td class="Q">1</td><td><a href="report-00163d.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-00163d.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/host/xhci.c</td><td class="DESC">xhci_clear_port_change_bit</td><td class="Q">811</td><td class="Q">1</td><td><a href="report-f1d94d.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-f1d94d.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/gadget/dfu.c</td><td class="DESC">dfu_setup</td><td class="Q">527</td><td class="Q">1</td><td><a href="report-68e37d.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-68e37d.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/gadget/dfu.c</td><td class="DESC">dfu_setup</td><td class="Q">650</td><td class="Q">1</td><td><a href="report-4ab3a6.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-4ab3a6.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/host/ehci-hcd.c</td><td class="DESC">ehci_init</td><td class="Q">953</td><td class="Q">1</td><td><a href="report-8763bf.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-8763bf.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>lib/base64.c</td><td class="DESC">decode_base64</td><td class="Q">105</td><td class="Q">1</td><td><a href="report-48b1ea.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-48b1ea.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/host/xhci.c</td><td class="DESC">xhci_set_configuration</td><td class="Q">535</td><td class="Q">1</td><td><a href="report-b3147d.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-b3147d.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/mtd/mtdconcat.c</td><td class="DESC">concat_write</td><td class="Q">131</td><td class="Q">1</td><td><a href="report-0e12b4.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-0e12b4.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/musb/musb_host.c</td><td class="DESC">musb_host_rx</td><td class="Q">1190</td><td class="Q">1</td><td><a href="report-167ffd.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-167ffd.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/mtd/peb.c</td><td class="DESC">mtd_peb_create_bitflips</td><td class="Q">718</td><td class="Q">1</td><td><a href="report-b0718e.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-b0718e.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/net/phy/micrel.c</td><td class="DESC">ksz8873mll_read_status</td><td class="Q">288</td><td class="Q">1</td><td><a href="report-79b2d4.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-79b2d4.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/of/resolver.c</td><td class="DESC">of_resolve_phandles</td><td class="Q">257</td><td class="Q">1</td><td><a href="report-4316d9.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-4316d9.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>fs/squashfs/inode.c</td><td class="DESC">squashfs_read_inode</td><td class="Q">313</td><td class="Q">1</td><td><a href="report-573d9a.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-573d9a.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/host/xhci.c</td><td class="DESC">xhci_clear_port_change_bit</td><td class="Q">807</td><td class="Q">1</td><td><a href="report-c4fafb.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-c4fafb.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>common/state/state_variables.c</td><td class="DESC">state_enum32_export</td><td class="Q">182</td><td class="Q">1</td><td><a href="report-1f023b.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-1f023b.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/host/xhci.c</td><td class="DESC">xhci_clear_port_change_bit</td><td class="Q">803</td><td class="Q">1</td><td><a href="report-dfedbb.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-dfedbb.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>lib/base64.c</td><td class="DESC">decode_base64</td><td class="Q">82</td><td class="Q">1</td><td><a href="report-ab2a20.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-ab2a20.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/w1/w1.c</td><td class="DESC">w1_search</td><td class="Q">508</td><td class="Q">1</td><td><a href="report-1679dc.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-1679dc.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/crypto/caam/ctrl.c</td><td class="DESC">caam_probe</td><td class="Q">671</td><td class="Q">1</td><td><a href="report-961ead.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-961ead.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/net/e1000/main.c</td><td class="DESC">e1000_configure_tx</td><td class="Q">3282</td><td class="Q">1</td><td><a href="report-fa427e.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-fa427e.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/mtd/spi-nor/cadence-quadspi.c</td><td class="DESC">cqspi_delay</td><td class="Q">764</td><td class="Q">1</td><td><a href="report-f02517.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-f02517.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/usb/musb/musb_gadget.c</td><td class="DESC">rxstate</td><td class="Q">317</td><td class="Q">1</td><td><a href="report-8f5a5c.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-8f5a5c.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/mtd/nand/nand_base.c</td><td class="DESC">nand_lock</td><td class="Q">955</td><td class="Q">1</td><td><a href="report-c7de0e.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-c7de0e.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>fs/jffs2/scan.c</td><td class="DESC">jffs2_scan_eraseblock</td><td class="Q">434</td><td class="Q">1</td><td><a href="report-82e8d4.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-82e8d4.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/mtd/mtdconcat.c</td><td class="DESC">concat_lock</td><td class="Q">406</td><td class="Q">1</td><td><a href="report-ebdc99.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-ebdc99.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/mtd/mtdconcat.c</td><td class="DESC">concat_unlock</td><td class="Q">440</td><td class="Q">1</td><td><a href="report-8a9d54.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-8a9d54.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>drivers/mtd/devices/mtd_dataflash.c</td><td class="DESC">dataflash_write</td><td class="Q">409</td><td class="Q">1</td><td><a href="report-45fc70.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-45fc70.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>lib/xymodem.c</td><td class="DESC">xymodem_handle</td><td class="Q">455</td><td class="Q">1</td><td><a href="report-68a7cd.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-68a7cd.html" -->
+</tr>
+<tr class="bt_dead_store_dead_increment"><td class="DESC">Dead store</td><td class="DESC">Dead increment</td><td>drivers/usb/dwc3/gadget.c</td><td class="DESC">dwc3_gadget_ep_reclaim_completed_trb</td><td class="Q">2207</td><td class="Q">1</td><td><a href="report-4c77f7.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-4c77f7.html" -->
+</tr>
+<tr class="bt_dead_store_dead_increment"><td class="DESC">Dead store</td><td class="DESC">Dead increment</td><td>lib/zstd/decompress.c</td><td class="DESC">ZSTD_findFrameCompressedSize</td><td class="Q">1557</td><td class="Q">1</td><td><a href="report-092c3e.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-092c3e.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/net/enc28j60.c</td><td class="DESC">enc28j60_dump_rsv</td><td class="Q">673</td><td class="Q">1</td><td><a href="report-6fd984.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-6fd984.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/net/dm9k.c</td><td class="DESC">dm9k_phy_read</td><td class="Q">352</td><td class="Q">1</td><td><a href="report-7b433a.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-7b433a.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/net/ks8851_mll.c</td><td class="DESC">ks8851_eth_halt</td><td class="Q">795</td><td class="Q">1</td><td><a href="report-44291d.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-44291d.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/mtd/devices/docg3.c</td><td class="DESC">doc_write</td><td class="Q">1032</td><td class="Q">1</td><td><a href="report-5678cb.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-5678cb.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/usb/musb/musb_host.c</td><td class="DESC">musb_start_urb</td><td class="Q">211</td><td class="Q">1</td><td><a href="report-f76512.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-f76512.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/usb/storage/transport.c</td><td class="DESC">usb_stor_Bulk_max_lun</td><td class="Q">63</td><td class="Q">1</td><td><a href="report-18d324.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-18d324.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>lib/ratp.c</td><td class="DESC">ratp_print_header</td><td class="Q">178</td><td class="Q">1</td><td><a href="report-399aa2.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-399aa2.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/usb/storage/usb.c</td><td class="DESC">usb_stor_transport</td><td class="Q">87</td><td class="Q">1</td><td><a href="report-fc5090.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-fc5090.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/usb/musb/musb_core.c</td><td class="DESC">musb_write_fifo</td><td class="Q">212</td><td class="Q">1</td><td><a href="report-727706.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-727706.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/mfd/da9053.c</td><td class="DESC">da9053_set_timeout</td><td class="Q">151</td><td class="Q">1</td><td><a href="report-3de490.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-3de490.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/usb/musb/musb_core.c</td><td class="DESC">musb_start</td><td class="Q">360</td><td class="Q">1</td><td><a href="report-1718e1.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-1718e1.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/mtd/nand/nand_base.c</td><td class="DESC">nand_read_subpage</td><td class="Q">1238</td><td class="Q">1</td><td><a href="report-012b08.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-012b08.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/usb/host/dwc2.c</td><td class="DESC">wait_for_chhltd</td><td class="Q">663</td><td class="Q">1</td><td><a href="report-1e73c3.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-1e73c3.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/usb/storage/usb.c</td><td class="DESC">get_transport</td><td class="Q">382</td><td class="Q">1</td><td><a href="report-d20ac0.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-d20ac0.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/usb/musb/musb_host.c</td><td class="DESC">musb_start_urb</td><td class="Q">215</td><td class="Q">1</td><td><a href="report-a97e9f.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-a97e9f.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/mtd/nand/nand_base.c</td><td class="DESC">nand_read_subpage</td><td class="Q">1234</td><td class="Q">1</td><td><a href="report-265dfd.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-265dfd.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/mfd/da9063.c</td><td class="DESC">da9063_watchdog_set_timeout</td><td class="Q">266</td><td class="Q">1</td><td><a href="report-e8c926.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-e8c926.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/net/dm9k.c</td><td class="DESC">dm9k_eth_send</td><td class="Q">533</td><td class="Q">1</td><td><a href="report-99ba08.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-99ba08.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>lib/fnmatch.c</td><td class="DESC">fnmatch</td><td class="Q">140</td><td class="Q">1</td><td><a href="report-dd082e.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-dd082e.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/usb/dwc3/gadget.c</td><td class="DESC">dwc3_gadget_giveback</td><td class="Q">209</td><td class="Q">1</td><td><a href="report-d723ff.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-d723ff.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/usb/storage/usb.c</td><td class="DESC">get_pipes</td><td class="Q">397</td><td class="Q">1</td><td><a href="report-3bd8b6.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-3bd8b6.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/usb/storage/usb.c</td><td class="DESC">usb_stor_probe</td><td class="Q">462</td><td class="Q">1</td><td><a href="report-bc4252.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-bc4252.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>fs/fs.c</td><td class="DESC">mount_all</td><td class="Q">935</td><td class="Q">1</td><td><a href="report-92f64b.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-92f64b.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/usb/storage/usb.c</td><td class="DESC">usb_stor_request_sense</td><td class="Q">44</td><td class="Q">1</td><td><a href="report-05d909.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-05d909.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/usb/storage/transport.c</td><td class="DESC">usb_stor_Bulk_transport</td><td class="Q">99</td><td class="Q">1</td><td><a href="report-cda80c.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-cda80c.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/usb/musb/musb_gadget.c</td><td class="DESC">musb_alloc_request</td><td class="Q">631</td><td class="Q">1</td><td><a href="report-fc8db1.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-fc8db1.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/usb/host/ehci-hcd.c</td><td class="DESC">submit_bulk_msg</td><td class="Q">969</td><td class="Q">1</td><td><a href="report-9ddfbe.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-9ddfbe.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/reset/core.c</td><td class="DESC">of_reset_control_get</td><td class="Q">153</td><td class="Q">1</td><td><a href="report-bb330d.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-bb330d.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/usb/gadget/f_acm.c</td><td class="DESC">acm_complete_set_line_coding</td><td class="Q">314</td><td class="Q">1</td><td><a href="report-e7127d.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-e7127d.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/mtd/spi-nor/cadence-quadspi.c</td><td class="DESC">cqspi_probe</td><td class="Q">1165</td><td class="Q">1</td><td><a href="report-762dd9.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-762dd9.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/usb/musb/musb_core.c</td><td class="DESC">musb_read_fifo</td><td class="Q">257</td><td class="Q">1</td><td><a href="report-74abcd.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-74abcd.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/i2c/busses/i2c-designware.c</td><td class="DESC">i2c_dw_xfer</td><td class="Q">494</td><td class="Q">1</td><td><a href="report-c35d8e.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-c35d8e.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>fs/ext4/ext4_common.c</td><td class="DESC">ext4fs_iterate_dir</td><td class="Q">274</td><td class="Q">1</td><td><a href="report-26a0b6.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-26a0b6.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/net/ks8851_mll.c</td><td class="DESC">ks8851_eth_open</td><td class="Q">772</td><td class="Q">1</td><td><a href="report-2d2bf9.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-2d2bf9.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/usb/musb/musb_gadget.c</td><td class="DESC">musb_gadget_dequeue</td><td class="Q">740</td><td class="Q">1</td><td><a href="report-5f7930.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-5f7930.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>common/env.c</td><td class="DESC">env_pop_context</td><td class="Q">92</td><td class="Q">1</td><td><a href="report-388d3c.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-388d3c.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/usb/storage/usb.c</td><td class="DESC">usb_stor_inquiry</td><td class="Q">114</td><td class="Q">1</td><td><a href="report-f7bcd8.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-f7bcd8.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/usb/storage/transport.c</td><td class="DESC">usb_stor_Bulk_reset</td><td class="Q">217</td><td class="Q">1</td><td><a href="report-72d3f1.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-72d3f1.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/usb/gadget/f_acm.c</td><td class="DESC">acm_disable</td><td class="Q">469</td><td class="Q">1</td><td><a href="report-b996e7.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-b996e7.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/usb/dwc3/ep0.c</td><td class="DESC">dwc3_ep0_interrupt</td><td class="Q">1161</td><td class="Q">1</td><td><a href="report-f91765.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-f91765.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/usb/storage/usb.c</td><td class="DESC">usb_stor_scan</td><td class="Q">438</td><td class="Q">1</td><td><a href="report-8be37b.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-8be37b.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/net/dm9k.c</td><td class="DESC">dm9k_wait_for_trans_end</td><td class="Q">507</td><td class="Q">1</td><td><a href="report-6df7d4.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-6df7d4.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/net/dm9k.c</td><td class="DESC">dm9k_validate_entry</td><td class="Q">571</td><td class="Q">1</td><td><a href="report-794bd7.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-794bd7.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/net/dm9k.c</td><td class="DESC">dm9k_phy_write</td><td class="Q">376</td><td class="Q">1</td><td><a href="report-007463.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-007463.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/net/ks8851_mll.c</td><td class="DESC">ks8851_eth_rx</td><td class="Q">715</td><td class="Q">1</td><td><a href="report-82d0a1.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-82d0a1.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/net/dm9k.c</td><td class="DESC">dm9k_check_for_rx_packet</td><td class="Q">559</td><td class="Q">1</td><td><a href="report-421529.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-421529.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/usb/storage/usb.c</td><td class="DESC">usb_stor_blk_io</td><td class="Q">216</td><td class="Q">1</td><td><a href="report-1f362b.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-1f362b.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/usb/gadget/f_serial.c</td><td class="DESC">gser_disable</td><td class="Q">176</td><td class="Q">1</td><td><a href="report-df1b68.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-df1b68.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/usb/storage/usb.c</td><td class="DESC">usb_stor_read_capacity</td><td class="Q">163</td><td class="Q">1</td><td><a href="report-5879ec.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-5879ec.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>common/blspec.c</td><td class="DESC">blspec_scan_devices</td><td class="Q">755</td><td class="Q">1</td><td><a href="report-85ef14.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-85ef14.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>drivers/usb/gadget/f_acm.c</td><td class="DESC">acm_notify_serial_state</td><td class="Q">534</td><td class="Q">1</td><td><a href="report-89a891.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-89a891.html" -->
+</tr>
+<tr class="bt_dead_store_dead_initialization"><td class="DESC">Dead store</td><td class="DESC">Dead initialization</td><td>fs/fs.c</td><td class="DESC">follow_managed</td><td class="Q">1482</td><td class="Q">1</td><td><a href="report-8211ff.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-8211ff.html" -->
+</tr>
+<tr class="bt_dead_store_dead_nested_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead nested assignment</td><td>drivers/w1/w1.c</td><td class="DESC">w1_search</td><td class="Q">509</td><td class="Q">1</td><td><a href="report-2fae10.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-2fae10.html" -->
+</tr>
+<tr class="bt_dead_store_dead_nested_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead nested assignment</td><td>crypto/sha4.c</td><td class="DESC">sha512_transform</td><td class="Q">129</td><td class="Q">1</td><td><a href="report-d08861.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-d08861.html" -->
+</tr>
+<tr class="bt_dead_store_dead_nested_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead nested assignment</td><td>crypto/sha2.c</td><td class="DESC">sha256_transform</td><td class="Q">216</td><td class="Q">1</td><td><a href="report-71a264.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-71a264.html" -->
+</tr>
+<tr class="bt_dead_store_dead_nested_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead nested assignment</td><td>crypto/sha2.c</td><td class="DESC">sha256_transform</td><td class="Q">216</td><td class="Q">1</td><td><a href="report-04dbb8.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-04dbb8.html" -->
+</tr>
+<tr class="bt_dead_store_dead_nested_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead nested assignment</td><td>crypto/sha2.c</td><td class="DESC">sha256_transform</td><td class="Q">216</td><td class="Q">1</td><td><a href="report-58223e.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-58223e.html" -->
+</tr>
+<tr class="bt_dead_store_dead_nested_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead nested assignment</td><td>crypto/sha4.c</td><td class="DESC">sha512_transform</td><td class="Q">129</td><td class="Q">1</td><td><a href="report-2da83a.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-2da83a.html" -->
+</tr>
+<tr class="bt_dead_store_dead_nested_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead nested assignment</td><td>crypto/sha4.c</td><td class="DESC">sha512_transform</td><td class="Q">129</td><td class="Q">1</td><td><a href="report-344864.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-344864.html" -->
+</tr>
+<tr class="bt_dead_store_dead_nested_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead nested assignment</td><td>crypto/sha4.c</td><td class="DESC">sha512_transform</td><td class="Q">129</td><td class="Q">1</td><td><a href="report-0337d8.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-0337d8.html" -->
+</tr>
+<tr class="bt_dead_store_dead_nested_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead nested assignment</td><td>crypto/sha2.c</td><td class="DESC">sha256_transform</td><td class="Q">216</td><td class="Q">1</td><td><a href="report-b8dd47.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-b8dd47.html" -->
+</tr>
+<tr class="bt_dead_store_dead_nested_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead nested assignment</td><td>crypto/sha2.c</td><td class="DESC">sha256_transform</td><td class="Q">216</td><td class="Q">1</td><td><a href="report-71b2b9.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-71b2b9.html" -->
+</tr>
+<tr class="bt_dead_store_dead_nested_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead nested assignment</td><td>lib/fnmatch.c</td><td class="DESC">fnmatch</td><td class="Q">145</td><td class="Q">1</td><td><a href="report-cf3958.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-cf3958.html" -->
+</tr>
+<tr class="bt_dead_store_dead_nested_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead nested assignment</td><td>drivers/serial/serial_ns16550_pci.c</td><td class="DESC">pci_quatech_init</td><td class="Q">1206</td><td class="Q">1</td><td><a href="report-2aa864.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-2aa864.html" -->
+</tr>
+<tr class="bt_dead_store_dead_nested_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead nested assignment</td><td>crypto/sha2.c</td><td class="DESC">sha256_transform</td><td class="Q">216</td><td class="Q">1</td><td><a href="report-34d78e.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-34d78e.html" -->
+</tr>
+<tr class="bt_dead_store_dead_nested_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead nested assignment</td><td>crypto/sha4.c</td><td class="DESC">sha512_transform</td><td class="Q">129</td><td class="Q">1</td><td><a href="report-295207.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-295207.html" -->
+</tr>
+<tr class="bt_dead_store_dead_nested_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead nested assignment</td><td>common/memsize.c</td><td class="DESC">get_ram_size</td><td class="Q">61</td><td class="Q">1</td><td><a href="report-263f82.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-263f82.html" -->
+</tr>
+<tr class="bt_dead_store_dead_nested_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead nested assignment</td><td>crypto/sha4.c</td><td class="DESC">sha512_transform</td><td class="Q">129</td><td class="Q">1</td><td><a href="report-60222b.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-60222b.html" -->
+</tr>
+<tr class="bt_dead_store_dead_nested_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead nested assignment</td><td>crypto/sha2.c</td><td class="DESC">sha256_transform</td><td class="Q">216</td><td class="Q">1</td><td><a href="report-5f2caa.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-5f2caa.html" -->
+</tr>
+<tr class="bt_dead_store_dead_nested_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead nested assignment</td><td>crypto/sha4.c</td><td class="DESC">sha512_transform</td><td class="Q">129</td><td class="Q">1</td><td><a href="report-3fa69b.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-3fa69b.html" -->
+</tr>
+<tr class="bt_dead_store_dead_nested_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead nested assignment</td><td>crypto/sha4.c</td><td class="DESC">sha512_transform</td><td class="Q">129</td><td class="Q">1</td><td><a href="report-ce7a56.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-ce7a56.html" -->
+</tr>
+<tr class="bt_dead_store_dead_nested_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead nested assignment</td><td>crypto/sha2.c</td><td class="DESC">sha256_transform</td><td class="Q">216</td><td class="Q">1</td><td><a href="report-7b82e4.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-7b82e4.html" -->
+</tr>
+<tr class="bt_dead_store_dead_nested_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead nested assignment</td><td>crypto/sha4.c</td><td class="DESC">sha512_transform</td><td class="Q">129</td><td class="Q">1</td><td><a href="report-d7c191.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-d7c191.html" -->
+</tr>
+<tr class="bt_dead_store_dead_nested_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead nested assignment</td><td>crypto/sha2.c</td><td class="DESC">sha256_transform</td><td class="Q">216</td><td class="Q">1</td><td><a href="report-c5568b.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-c5568b.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>lib/gui/lodepng.c</td><td class="DESC">unfilterScanline</td><td class="Q">3805</td><td class="Q">145</td><td><a href="report-0f9a67.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-0f9a67.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>include/asm-generic/io.h</td><td class="DESC">outb</td><td class="Q">129</td><td class="Q">2</td><td><a href="report-fe7be4.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-fe7be4.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>include/asm-generic/io.h</td><td class="DESC">inb</td><td class="Q">105</td><td class="Q">5</td><td><a href="report-9eae86.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-9eae86.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>lib/vsprintf.c</td><td class="DESC">vsnprintf</td><td class="Q">420</td><td class="Q">17</td><td><a href="report-4c503c.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-4c503c.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>lib/gui/lodepng.c</td><td class="DESC">unfilterScanline</td><td class="Q">3829</td><td class="Q">146</td><td><a href="report-1d085a.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-1d085a.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>include/asm-generic/io.h</td><td class="DESC">inw</td><td class="Q">113</td><td class="Q">2</td><td><a href="report-8f83fc.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-8f83fc.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>include/asm-generic/io.h</td><td class="DESC">outw</td><td class="Q">137</td><td class="Q">6</td><td><a href="report-8e4d17.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-8e4d17.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>include/asm-generic/io.h</td><td class="DESC">inl</td><td class="Q">121</td><td class="Q">6</td><td><a href="report-62c4e5.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-62c4e5.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>include/asm-generic/io.h</td><td class="DESC">outb</td><td class="Q">129</td><td class="Q">12</td><td><a href="report-b43a60.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-b43a60.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>fs/fs.c</td><td class="DESC">mount</td><td class="Q">2826</td><td class="Q">34</td><td><a href="report-076fda.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-076fda.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>include/asm-generic/io.h</td><td class="DESC">inl</td><td class="Q">121</td><td class="Q">16</td><td><a href="report-344826.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-344826.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>include/asm-generic/io.h</td><td class="DESC">outl</td><td class="Q">145</td><td class="Q">2</td><td><a href="report-87d623.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-87d623.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>drivers/of/fdt.c</td><td class="DESC">__of_unflatten_dtb</td><td class="Q">227</td><td class="Q">43</td><td><a href="report-76ccb2.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-76ccb2.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>include/asm-generic/io.h</td><td class="DESC">inb</td><td class="Q">105</td><td class="Q">12</td><td><a href="report-253a69.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-253a69.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>include/asm-generic/io.h</td><td class="DESC">outw</td><td class="Q">137</td><td class="Q">2</td><td><a href="report-f09167.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-f09167.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>lib/vsprintf.c</td><td class="DESC">vsnprintf</td><td class="Q">589</td><td class="Q">17</td><td><a href="report-b2548c.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-b2548c.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>include/asm-generic/io.h</td><td class="DESC">outw</td><td class="Q">137</td><td class="Q">16</td><td><a href="report-f6a660.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-f6a660.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>fs/ubifs/tnc.c</td><td class="DESC">tnc_insert</td><td class="Q">1667</td><td class="Q">32</td><td><a href="report-94ef13.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-94ef13.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>include/asm-generic/io.h</td><td class="DESC">inb</td><td class="Q">105</td><td class="Q">2</td><td><a href="report-16ea54.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-16ea54.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>include/asm-generic/io.h</td><td class="DESC">inl</td><td class="Q">121</td><td class="Q">2</td><td><a href="report-4c088b.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-4c088b.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>drivers/usb/host/ohci-hcd.c</td><td class="DESC">ep_unlink</td><td class="Q">720</td><td class="Q">40</td><td><a href="report-9da1a6.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-9da1a6.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>include/asm-generic/io.h</td><td class="DESC">outb</td><td class="Q">129</td><td class="Q">5</td><td><a href="report-951e20.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-951e20.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>include/asm-generic/io.h</td><td class="DESC">outl</td><td class="Q">145</td><td class="Q">16</td><td><a href="report-a85e2c.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-a85e2c.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>lib/gui/lodepng.c</td><td class="DESC">unfilterScanline</td><td class="Q">3818</td><td class="Q">147</td><td><a href="report-ecc93b.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-ecc93b.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>fs/squashfs/cache.c</td><td class="DESC">squashfs_cache_delete</td><td class="Q">156</td><td class="Q">14</td><td><a href="report-8ce232.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-8ce232.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>include/asm-generic/io.h</td><td class="DESC">outb</td><td class="Q">129</td><td class="Q">3</td><td><a href="report-9e0af6.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-9e0af6.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>fs/ubifs/tnc_misc.c</td><td class="DESC">ubifs_tnc_levelorder_next</td><td class="Q">63</td><td class="Q">9</td><td><a href="report-1871b0.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-1871b0.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>lib/misc.c</td><td class="DESC">mem_parse_options</td><td class="Q">162</td><td class="Q">6</td><td><a href="report-a13e72.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-a13e72.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>include/asm-generic/io.h</td><td class="DESC">inb</td><td class="Q">105</td><td class="Q">11</td><td><a href="report-add4d3.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-add4d3.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>include/asm-generic/io.h</td><td class="DESC">inw</td><td class="Q">113</td><td class="Q">18</td><td><a href="report-59f3bb.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-59f3bb.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>drivers/usb/host/ohci-hcd.c</td><td class="DESC">ep_unlink</td><td class="Q">739</td><td class="Q">40</td><td><a href="report-ded463.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-ded463.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>lib/list_sort.c</td><td class="DESC">merge_and_restore_back_links</td><td class="Q">79</td><td class="Q">8</td><td><a href="report-932a86.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-932a86.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>fs/jffs2/nodelist.c</td><td class="DESC">jffs2_link_node_ref</td><td class="Q">760</td><td class="Q">11</td><td><a href="report-81903b.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-81903b.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>include/asm-generic/io.h</td><td class="DESC">inl</td><td class="Q">121</td><td class="Q">6</td><td><a href="report-09bd77.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-09bd77.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>include/asm-generic/io.h</td><td class="DESC">outb</td><td class="Q">129</td><td class="Q">2</td><td><a href="report-bd8ab5.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-bd8ab5.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>fs/jffs2/nodelist.c</td><td class="DESC">__ref_totlen</td><td class="Q">866</td><td class="Q">22</td><td><a href="report-f7d2db.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-f7d2db.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>lib/gui/lodepng.c</td><td class="DESC">unfilterScanline</td><td class="Q">3849</td><td class="Q">146</td><td><a href="report-225a54.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-225a54.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>drivers/mci/arasan-sdhci.c</td><td class="DESC">arasan_sdhci_send_cmd</td><td class="Q">288</td><td class="Q">9</td><td><a href="report-427cf5.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-427cf5.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>include/asm-generic/io.h</td><td class="DESC">outb</td><td class="Q">129</td><td class="Q">4</td><td><a href="report-2c8a1c.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-2c8a1c.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>include/asm-generic/io.h</td><td class="DESC">inw</td><td class="Q">113</td><td class="Q">6</td><td><a href="report-0acaf9.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-0acaf9.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>lib/gui/lodepng.c</td><td class="DESC">unfilterScanline</td><td class="Q">3808</td><td class="Q">144</td><td><a href="report-060d00.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-060d00.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>include/asm-generic/io.h</td><td class="DESC">inw</td><td class="Q">113</td><td class="Q">16</td><td><a href="report-0b0ef0.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-0b0ef0.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_undefined_pointer_value"><td class="DESC">Logic error</td><td class="DESC">Dereference of undefined pointer value</td><td>fs/ubifs/tnc.c</td><td class="DESC">ubifs_tnc_remove_range</td><td class="Q">2146</td><td class="Q">36</td><td><a href="report-67c715.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-67c715.html" -->
+</tr>
+<tr class="bt_logic_error_division_by_zero"><td class="DESC">Logic error</td><td class="DESC">Division by zero</td><td>drivers/mtd/nand/nand_bch.c</td><td class="DESC">nand_bch_init</td><td class="Q">221</td><td class="Q">33</td><td><a href="report-4833e2.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-4833e2.html" -->
+</tr>
+<tr class="bt_logic_error_division_by_zero"><td class="DESC">Logic error</td><td class="DESC">Division by zero</td><td>drivers/watchdog/dw_wdt.c</td><td class="DESC">dw_wdt_top_in_seconds</td><td class="Q">58</td><td class="Q">8</td><td><a href="report-af499b.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-af499b.html" -->
+</tr>
+<tr class="bt_logic_error_division_by_zero"><td class="DESC">Logic error</td><td class="DESC">Division by zero</td><td>drivers/mtd/nand/nand_bch.c</td><td class="DESC">nand_bch_init</td><td class="Q">142</td><td class="Q">11</td><td><a href="report-12dcf4.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-12dcf4.html" -->
+</tr>
+<tr class="bt_logic_error_division_by_zero"><td class="DESC">Logic error</td><td class="DESC">Division by zero</td><td>drivers/watchdog/ar9344_wdt.c</td><td class="DESC">ar9344_wdt_probe</td><td class="Q">105</td><td class="Q">13</td><td><a href="report-8508d8.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-8508d8.html" -->
+</tr>
+<tr class="bt_logic_error_division_by_zero"><td class="DESC">Logic error</td><td class="DESC">Division by zero</td><td>drivers/mtd/mtdraw.c</td><td class="DESC">mtdraw_offset_to_page</td><td class="Q">86</td><td class="Q">18</td><td><a href="report-29cf4f.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-29cf4f.html" -->
+</tr>
+<tr class="bt_logic_error_division_by_zero"><td class="DESC">Logic error</td><td class="DESC">Division by zero</td><td>drivers/mtd/ubi/build.c</td><td class="DESC">io_init</td><td class="Q">332</td><td class="Q">27</td><td><a href="report-63717a.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-63717a.html" -->
+</tr>
+<tr class="bt_logic_error_division_by_zero"><td class="DESC">Logic error</td><td class="DESC">Division by zero</td><td>fs/squashfs/cache.c</td><td class="DESC">squashfs_cache_get</td><td class="Q">84</td><td class="Q">8</td><td><a href="report-b1510c.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-b1510c.html" -->
+</tr>
+<tr class="bt_logic_error_division_by_zero"><td class="DESC">Logic error</td><td class="DESC">Division by zero</td><td>drivers/watchdog/stm32_iwdg.c</td><td class="DESC">stm32_iwdg_probe</td><td class="Q">175</td><td class="Q">19</td><td><a href="report-de0706.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-de0706.html" -->
+</tr>
+<tr class="bt_logic_error_garbage_return_value"><td class="DESC">Logic error</td><td class="DESC">Garbage return value</td><td>drivers/mci/mci_spi.c</td><td class="DESC">mmc_spi_writedata</td><td class="Q">250</td><td class="Q">26</td><td><a href="report-eb3a06.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-eb3a06.html" -->
+</tr>
+<tr class="bt_logic_error_garbage_return_value"><td class="DESC">Logic error</td><td class="DESC">Garbage return value</td><td>drivers/mci/mci_spi.c</td><td class="DESC">mmc_spi_readdata</td><td class="Q">183</td><td class="Q">20</td><td><a href="report-8e4629.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-8e4629.html" -->
+</tr>
+<tr class="bt_logic_error_garbage_return_value"><td class="DESC">Logic error</td><td class="DESC">Garbage return value</td><td>drivers/mtd/nand/nand_base.c</td><td class="DESC">nand_do_write_ops</td><td class="Q">2481</td><td class="Q">34</td><td><a href="report-9ee6cf.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-9ee6cf.html" -->
+</tr>
+<tr class="bt_logic_error_garbage_return_value"><td class="DESC">Logic error</td><td class="DESC">Garbage return value</td><td>drivers/nvme/host/core.c</td><td class="DESC">nvme_submit_sync_rw</td><td class="Q">267</td><td class="Q">8</td><td><a href="report-7cfbab.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-7cfbab.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>drivers/gpio/gpio-pca953x.c</td><td class="DESC">pca953x_write_regs</td><td class="Q">141</td><td class="Q">20</td><td><a href="report-a344c3.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-a344c3.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>fs/squashfs/xz_wrapper.c</td><td class="DESC">squashfs_xz_comp_opts</td><td class="Q">68</td><td class="Q">8</td><td><a href="report-5263c2.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-5263c2.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>drivers/of/fdt.c</td><td class="DESC">memalign_realloc</td><td class="Q">327</td><td class="Q">33</td><td><a href="report-7e7180.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-7e7180.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>drivers/gpio/gpio-pca953x.c</td><td class="DESC">pca953x_write_single</td><td class="Q">122</td><td class="Q">8</td><td><a href="report-300703.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-300703.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>include/linux/log2.h</td><td class="DESC">__roundup_pow_of_two</td><td class="Q">61</td><td class="Q">23</td><td><a href="report-54028e.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-54028e.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>lib/bitmap.c</td><td class="DESC">__bitmap_shift_right</td><td class="Q">130</td><td class="Q">5</td><td><a href="report-bc4eb5.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-bc4eb5.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>drivers/net/enc28j60.c</td><td class="DESC">enc28j60_eth_send</td><td class="Q">726</td><td class="Q">20</td><td><a href="report-d447b9.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-d447b9.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>drivers/net/e1000/main.c</td><td class="DESC">e1000_phy_init_script</td><td class="Q">2944</td><td class="Q">16</td><td><a href="report-db1d7d.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-db1d7d.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>commands/edit.c</td><td class="DESC">do_edit</td><td class="Q">565</td><td class="Q">26</td><td><a href="report-6a80c8.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-6a80c8.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>drivers/gpio/gpio-pca953x.c</td><td class="DESC">pca953x_read_regs</td><td class="Q">180</td><td class="Q">16</td><td><a href="report-27c2f6.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-27c2f6.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>drivers/nvmem/core.c</td><td class="DESC">nvmem_cell_get_and_read</td><td class="Q">783</td><td class="Q">24</td><td><a href="report-67edf2.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-67edf2.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>drivers/spi/spi-fsl-qspi.c</td><td class="DESC">fsl_qspi_prepare_lut</td><td class="Q">368</td><td class="Q">4</td><td><a href="report-79568b.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-79568b.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>fs/fat/ff.c</td><td class="DESC">f_rename</td><td class="Q">2644</td><td class="Q">2</td><td><a href="report-7df9fc.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-7df9fc.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>drivers/gpio/gpio-pca953x.c</td><td class="DESC">pca953x_write_regs</td><td class="Q">141</td><td class="Q">36</td><td><a href="report-9a538e.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-9a538e.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>common/memory_display.c</td><td class="DESC">__pr_memory_display</td><td class="Q">103</td><td class="Q">17</td><td><a href="report-27de3a.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-27de3a.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>drivers/gpio/gpio-pca953x.c</td><td class="DESC">pca953x_write_single</td><td class="Q">122</td><td class="Q">22</td><td><a href="report-5df7af.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-5df7af.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>drivers/spi/spi-fsl-qspi.c</td><td class="DESC">fsl_qspi_prepare_lut</td><td class="Q">386</td><td class="Q">8</td><td><a href="report-65b1f4.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-65b1f4.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>lib/decompress_bunzip2.c</td><td class="DESC">get_bits</td><td class="Q">145</td><td class="Q">5</td><td><a href="report-8800aa.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-8800aa.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>lib/glob.c</td><td class="DESC">glob_in_dir</td><td class="Q">382</td><td class="Q">48</td><td><a href="report-81a0d2.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-81a0d2.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>fs/ubifs/tnc.c</td><td class="DESC">ubifs_tnc_remove_range</td><td class="Q">2146</td><td class="Q">31</td><td><a href="report-efeb17.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-efeb17.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>drivers/gpio/gpio-pca953x.c</td><td class="DESC">pca953x_read_regs</td><td class="Q">180</td><td class="Q">16</td><td><a href="report-ebef2f.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-ebef2f.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>lib/glob.c</td><td class="DESC">barebox_glob</td><td class="Q">219</td><td class="Q">39</td><td><a href="report-6290f7.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-6290f7.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>fs/fs.c</td><td class="DESC">filename_create</td><td class="Q">2059</td><td class="Q">14</td><td><a href="report-dc13d4.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-dc13d4.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>include/linux/log2.h</td><td class="DESC">__roundup_pow_of_two</td><td class="Q">61</td><td class="Q">23</td><td><a href="report-742956.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-742956.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>drivers/spi/spi-fsl-qspi.c</td><td class="DESC">fsl_qspi_prepare_lut</td><td class="Q">394</td><td class="Q">12</td><td><a href="report-35d52d.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-35d52d.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>drivers/gpio/gpio-pca953x.c</td><td class="DESC">pca953x_read_regs</td><td class="Q">180</td><td class="Q">16</td><td><a href="report-1decd2.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-1decd2.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>drivers/gpio/gpio-pca953x.c</td><td class="DESC">pca953x_read_regs</td><td class="Q">180</td><td class="Q">14</td><td><a href="report-05b583.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-05b583.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>drivers/gpio/gpio-pca953x.c</td><td class="DESC">pca953x_read_regs</td><td class="Q">180</td><td class="Q">30</td><td><a href="report-46f251.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-46f251.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>drivers/gpio/gpio-pca953x.c</td><td class="DESC">pca953x_write_single</td><td class="Q">122</td><td class="Q">8</td><td><a href="report-e1ae9b.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-e1ae9b.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>include/linux/log2.h</td><td class="DESC">__roundup_pow_of_two</td><td class="Q">61</td><td class="Q">28</td><td><a href="report-f874b2.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-f874b2.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>drivers/gpio/gpio-pca953x.c</td><td class="DESC">pca953x_read_regs</td><td class="Q">180</td><td class="Q">14</td><td><a href="report-875dc1.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-875dc1.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>fs/squashfs/xz_wrapper.c</td><td class="DESC">squashfs_xz_comp_opts</td><td class="Q">69</td><td class="Q">8</td><td><a href="report-48ccf7.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-48ccf7.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>drivers/ata/ahci.c</td><td class="DESC">ahci_io</td><td class="Q">177</td><td class="Q">30</td><td><a href="report-821aee.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-821aee.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>drivers/gpio/gpio-pca953x.c</td><td class="DESC">pca953x_read_single</td><td class="Q">103</td><td class="Q">20</td><td><a href="report-f8a9f4.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-f8a9f4.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>lib/bitmap.c</td><td class="DESC">__bitmap_shift_left</td><td class="Q">171</td><td class="Q">5</td><td><a href="report-fade34.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-fade34.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>drivers/mtd/nand/nand_bch.c</td><td class="DESC">nand_bch_init</td><td class="Q">192</td><td class="Q">30</td><td><a href="report-9227dd.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-9227dd.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>lib/bch.c</td><td class="DESC">build_gf_tables</td><td class="Q">1052</td><td class="Q">4</td><td><a href="report-df309f.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-df309f.html" -->
+</tr>
+<tr class="bt_logic_error_result_of_operation_is_garbage_or_undefined"><td class="DESC">Logic error</td><td class="DESC">Result of operation is garbage or undefined</td><td>drivers/spi/spi-fsl-qspi.c</td><td class="DESC">fsl_qspi_prepare_lut</td><td class="Q">379</td><td class="Q">6</td><td><a href="report-e334da.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-e334da.html" -->
+</tr>
+<tr class="bt_logic_error_uninitialized_argument_value"><td class="DESC">Logic error</td><td class="DESC">Uninitialized argument value</td><td>fs/ubifs/tnc.c</td><td class="DESC">resolve_collision</td><td class="Q">641</td><td class="Q">35</td><td><a href="report-b8b6e0.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-b8b6e0.html" -->
+</tr>
+<tr class="bt_logic_error_uninitialized_argument_value"><td class="DESC">Logic error</td><td class="DESC">Uninitialized argument value</td><td>fs/fs.c</td><td class="DESC">walk_component</td><td class="Q">1768</td><td class="Q">19</td><td><a href="report-d70cc7.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-d70cc7.html" -->
+</tr>
+<tr class="bt_logic_error_uninitialized_argument_value"><td class="DESC">Logic error</td><td class="DESC">Uninitialized argument value</td><td>drivers/usb/host/ehci-hcd.c</td><td class="DESC">ehci_submit_async</td><td class="Q">458</td><td class="Q">50</td><td><a href="report-241d5e.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-241d5e.html" -->
+</tr>
+<tr class="bt_logic_error_uninitialized_argument_value"><td class="DESC">Logic error</td><td class="DESC">Uninitialized argument value</td><td>drivers/mtd/ubi/fastmap.c</td><td class="DESC">ubi_attach_fastmap</td><td class="Q">676</td><td class="Q">80</td><td><a href="report-d884ad.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-d884ad.html" -->
+</tr>
+<tr class="bt_logic_error_uninitialized_argument_value"><td class="DESC">Logic error</td><td class="DESC">Uninitialized argument value</td><td>lib/libfile.c</td><td class="DESC">copy_file</td><td class="Q">367</td><td class="Q">10</td><td><a href="report-fcb672.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-fcb672.html" -->
+</tr>
+<tr class="bt_logic_error_uninitialized_argument_value"><td class="DESC">Logic error</td><td class="DESC">Uninitialized argument value</td><td>drivers/misc/jtag.c</td><td class="DESC">jtag_info</td><td class="Q">287</td><td class="Q">15</td><td><a href="report-299ad8.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-299ad8.html" -->
+</tr>
+<tr class="bt_logic_error_uninitialized_argument_value"><td class="DESC">Logic error</td><td class="DESC">Uninitialized argument value</td><td>drivers/gpio/gpio-pca953x.c</td><td class="DESC">pca953x_write_regs</td><td class="Q">137</td><td class="Q">15</td><td><a href="report-e8b04c.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-e8b04c.html" -->
+</tr>
+<tr class="bt_logic_error_unix_api"><td class="DESC">Logic error</td><td class="DESC">Unix API</td><td>common/hush.c</td><td class="DESC">make_string</td><td class="Q">1873</td><td class="Q">3</td><td><a href="report-1d0599.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-1d0599.html" -->
+</tr>
+<tr class="bt_logic_error_unix_api"><td class="DESC">Logic error</td><td class="DESC">Unix API</td><td>lib/glob.c</td><td class="DESC">barebox_glob</td><td class="Q">261</td><td class="Q">76</td><td><a href="report-9e0c49.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-9e0c49.html" -->
+</tr>
+<tr class="bt_logic_error_unix_api"><td class="DESC">Logic error</td><td class="DESC">Unix API</td><td>common/ubiformat.c</td><td class="DESC">flash_image</td><td class="Q">278</td><td class="Q">102</td><td><a href="report-85125d.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-85125d.html" -->
+</tr>
+</tbody>
+</table>
+
+</body></html>
