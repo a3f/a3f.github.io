@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="img/barebox.ico">
+    <link href="dist/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/emu-style.css" rel="stylesheet"/>
+    <title>JSBarebox</title>
+  </head>
+  <body>
+    <div id="shadow"></div>
+    <div id="wrapper">
+      <div id="inner">
+        <div id="term_wrap">
+          <div id="term_container">
+          </div>
+          <div>
+            <progress id="net_progress">
+            </progress>
+          </div>
+        </div>
+        <script type="text/javascript" src="term.js"></script>
+        <script type="text/javascript" src="jslinux.js"></script>
+          <p class="buttons">
+            <a href="/index.html" class="btn btn-default">Back</a>
+            <a href="http://git.pengutronix.de/?p=barebox.git" class="btn btn-default">Source</a>
+            <a href="/doc/latest/index.html" class="btn btn-default">Documentation</a>
+            <label class="switch" title="Graphic mode">
+              <input type="checkbox" onClick="toggleGraphic()" id="graphic">
+              <span class="slider round"></span>
+            </label>
+          </p>
+        <script>
+            var url = new URL(window.location);
+            var graphic = false;
+            if (url.searchParams.get("graphic") === "1") {
+              document.getElementById("graphic").checked = true;
+              graphic = true;
+            }
+            function toggleGraphic()
+            {
+              var value = graphic ? "0" : "1";
+              if (url.searchParams.has('graphic'))
+                url.searchParams.set('graphic', value)
+              else
+                url.searchParams.append('graphic', value)
+
+              window.location = url
+            }
+        </script>
+          <p class="text">
+          <b>What?</b> A RISC-V RV64I barebox image running on TinyEMU compiled to Web Assembly.<br>
+          The emulated Virt machine provides timer, Virt I/O console, block and input devices as well as a simple framebuffer.
+          </p>
+          <p class="text">
+           <b>Why?</b> Why not? :-)
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
