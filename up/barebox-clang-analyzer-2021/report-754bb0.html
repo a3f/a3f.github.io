@@ -1,0 +1,886 @@
+<!doctype html>
+<html>
+<head>
+<title>drivers/eeprom/at24.c</title>
+
+<style type="text/css">
+body { color:#000000; background-color:#ffffff }
+body { font-family:Helvetica, sans-serif; font-size:10pt }
+h1 { font-size:14pt }
+.FileName { margin-top: 5px; margin-bottom: 5px; display: inline; }
+.FileNav { margin-left: 5px; margin-right: 5px; display: inline; }
+.FileNav a { text-decoration:none; font-size: larger; }
+.divider { margin-top: 30px; margin-bottom: 30px; height: 15px; }
+.divider { background-color: gray; }
+.code { border-collapse:collapse; width:100%; }
+.code { font-family: "Monospace", monospace; font-size:10pt }
+.code { line-height: 1.2em }
+.comment { color: green; font-style: oblique }
+.keyword { color: blue }
+.string_literal { color: red }
+.directive { color: darkmagenta }
+
+/* Macros and variables could have pop-up notes hidden by default.
+  - Macro pop-up:    expansion of the macro
+  - Variable pop-up: value (table) of the variable */
+.macro_popup, .variable_popup { display: none; }
+
+/* Pop-up appears on mouse-hover event. */
+.macro:hover .macro_popup, .variable:hover .variable_popup {
+  display: block;
+  padding: 2px;
+  -webkit-border-radius:5px;
+  -webkit-box-shadow:1px 1px 7px #000;
+  border-radius:5px;
+  box-shadow:1px 1px 7px #000;
+  position: absolute;
+  top: -1em;
+  left:10em;
+  z-index: 1
+}
+
+.macro_popup {
+  border: 2px solid red;
+  background-color:#FFF0F0;
+  font-weight: normal;
+}
+
+.variable_popup {
+  border: 2px solid blue;
+  background-color:#F0F0FF;
+  font-weight: bold;
+  font-family: Helvetica, sans-serif;
+  font-size: 9pt;
+}
+
+/* Pop-up notes needs a relative position as a base where they pops up. */
+.macro, .variable {
+  background-color: PaleGoldenRod;
+  position: relative;
+}
+.macro { color: DarkMagenta; }
+
+#tooltiphint {
+  position: fixed;
+  width: 50em;
+  margin-left: -25em;
+  left: 50%;
+  padding: 10px;
+  border: 1px solid #b0b0b0;
+  border-radius: 2px;
+  box-shadow: 1px 1px 7px black;
+  background-color: #c0c0c0;
+  z-index: 2;
+}
+
+.num { width:2.5em; padding-right:2ex; background-color:#eeeeee }
+.num { text-align:right; font-size:8pt }
+.num { color:#444444 }
+.line { padding-left: 1ex; border-left: 3px solid #ccc }
+.line { white-space: pre }
+.msg { -webkit-box-shadow:1px 1px 7px #000 }
+.msg { box-shadow:1px 1px 7px #000 }
+.msg { -webkit-border-radius:5px }
+.msg { border-radius:5px }
+.msg { font-family:Helvetica, sans-serif; font-size:8pt }
+.msg { float:left }
+.msg { padding:0.25em 1ex 0.25em 1ex }
+.msg { margin-top:10px; margin-bottom:10px }
+.msg { font-weight:bold }
+.msg { max-width:60em; word-wrap: break-word; white-space: pre-wrap }
+.msgT { padding:0x; spacing:0x }
+.msgEvent { background-color:#fff8b4; color:#000000 }
+.msgControl { background-color:#bbbbbb; color:#000000 }
+.msgNote { background-color:#ddeeff; color:#000000 }
+.mrange { background-color:#dfddf3 }
+.mrange { border-bottom:1px solid #6F9DBE }
+.PathIndex { font-weight: bold; padding:0px 5px; margin-right:5px; }
+.PathIndex { -webkit-border-radius:8px }
+.PathIndex { border-radius:8px }
+.PathIndexEvent { background-color:#bfba87 }
+.PathIndexControl { background-color:#8c8c8c }
+.PathIndexPopUp { background-color: #879abc; }
+.PathNav a { text-decoration:none; font-size: larger }
+.CodeInsertionHint { font-weight: bold; background-color: #10dd10 }
+.CodeRemovalHint { background-color:#de1010 }
+.CodeRemovalHint { border-bottom:1px solid #6F9DBE }
+.selected{ background-color:orange !important; }
+
+table.simpletable {
+  padding: 5px;
+  font-size:12pt;
+  margin:20px;
+  border-collapse: collapse; border-spacing: 0px;
+}
+td.rowname {
+  text-align: right;
+  vertical-align: top;
+  font-weight: bold;
+  color:#444444;
+  padding-right:2ex;
+}
+
+/* Hidden text. */
+input.spoilerhider + label {
+  cursor: pointer;
+  text-decoration: underline;
+  display: block;
+}
+input.spoilerhider {
+ display: none;
+}
+input.spoilerhider ~ .spoiler {
+  overflow: hidden;
+  margin: 10px auto 0;
+  height: 0;
+  opacity: 0;
+}
+input.spoilerhider:checked + label + .spoiler{
+  height: auto;
+  opacity: 1;
+}
+</style>
+</head>
+<body>
+<!-- BUGDESC Value stored to 'read_time' is never read -->
+
+<!-- BUGTYPE Dead assignment -->
+
+<!-- BUGCATEGORY Dead store -->
+
+<!-- BUGFILE /home/a3f/dl/barebox-stm32mp/drivers/eeprom/at24.c -->
+
+<!-- FILENAME at24.c -->
+
+<!-- FUNCTIONNAME at24_eeprom_read -->
+
+<!-- ISSUEHASHCONTENTOFLINEINCONTEXT 9aa5477f05c31ac58d9ac859ccaf832e -->
+
+<!-- BUGLINE 201 -->
+
+<!-- BUGCOLUMN 3 -->
+
+<!-- BUGPATHLENGTH 1 -->
+
+<!-- BUGMETAEND -->
+<!-- REPORTHEADER -->
+<h3>Bug Summary</h3>
+<table class="simpletable">
+<tr><td class="rowname">File:</td><td>drivers/eeprom/at24.c</td></tr>
+<tr><td class="rowname">Warning:</td><td><a href="#EndPath">line 201, column 3</a><br />Value stored to 'read_time' is never read</td></tr>
+
+</table>
+<!-- REPORTSUMMARYEXTRA -->
+<h3>Annotated Source Code</h3>
+<p>Press <a href="#" onclick="toggleHelp(); return false;">'?'</a>
+   to see keyboard shortcuts</p>
+<input type="checkbox" class="spoilerhider" id="showinvocation" />
+<label for="showinvocation" >Show analyzer invocation</label>
+<div class="spoiler">clang -cc1 -cc1 -triple i386-pc-linux-gnu -analyze -disable-free -disable-llvm-verifier -discard-value-names -main-file-name at24.c -analyzer-store=region -analyzer-opt-analyze-nested-blocks -analyzer-checker=core -analyzer-checker=apiModeling -analyzer-checker=unix -analyzer-checker=deadcode -analyzer-checker=security.insecureAPI.UncheckedReturn -analyzer-checker=security.insecureAPI.getpw -analyzer-checker=security.insecureAPI.gets -analyzer-checker=security.insecureAPI.mktemp -analyzer-checker=security.insecureAPI.mkstemp -analyzer-checker=security.insecureAPI.vfork -analyzer-checker=nullability.NullPassedToNonnull -analyzer-checker=nullability.NullReturnedFromNonnull -analyzer-output plist -w -setup-static-analyzer -mrelocation-model static -fno-delete-null-pointer-checks -mframe-pointer=none -relaxed-aliasing -fmath-errno -fno-rounding-math -mconstructor-aliases -ffreestanding -target-cpu i686 -fno-split-dwarf-inlining -debugger-tuning=gdb -nostdsysteminc -nobuiltininc -resource-dir /usr/lib/llvm-11/lib/clang/11.0.1 -isystem /usr/lib/gcc/x86_64-linux-gnu/10/include -include /home/a3f/dl/barebox-stm32mp/include/linux/kconfig.h -D __KERNEL__ -D __BAREBOX__ -I include -I /home/a3f/dl/barebox-stm32mp/dts/include -I /home/a3f/dl/barebox-stm32mp/arch/sandbox/include -I /home/a3f/dl/barebox-stm32mp/arch/sandbox/include -I /home/a3f/dl/barebox-stm32mp/arch/sandbox/include/uapi -I /home/a3f/dl/barebox-stm32mp/arch/sandbox/include/generated/uapi -I /home/a3f/dl/barebox-stm32mp/include/uapi -I /home/a3f/dl/barebox-stm32mp/include/generated/uapi -D __SANDBOX__ -I /home/a3f/dl/barebox-stm32mp/arch/sandbox/mach-sandbox/include -D malloc=barebox_malloc -D calloc=barebox_calloc -D malloc_stats=barebox_malloc_stats -D memalign=barebox_memalign -D free=barebox_free -D realloc=barebox_realloc -D read=barebox_read -D write=barebox_write -D open=barebox_open -D close=barebox_close -D lseek=barebox_lseek -D perror=barebox_perror -D errno=barebox_errno -D getc=barebox_getc -D putc=barebox_putc -D fgetc=barebox_fgetc -D fputc=barebox_fputc -D fgets=barebox_fgets -D fputs=barebox_fputs -D setenv=barebox_setenv -D getenv=barebox_getenv -D printf=barebox_printf -D glob=barebox_glob -D globfree=barebox_globfree -D ioctl=barebox_ioctl -D fstat=barebox_fstat -D ftruncate=barebox_ftruncate -D asprintf=barebox_asprintf -D opendir=barebox_opendir -D readdir=barebox_readdir -D closedir=barebox_closedir -D readlink=barebox_readlink -D optarg=barebox_optarg -D optind=barebox_optind -D setjmp=barebox_setjmp -D longjmp=barebox_longjmp -D KBUILD_STR(s)=#s -D KBUILD_BASENAME=KBUILD_STR(at24) -D KBUILD_MODNAME=KBUILD_STR(at24) -fmacro-prefix-map=/home/a3f/dl/barebox-stm32mp/= -Os -Wno-trigraphs -Wno-unused-but-set-variable -Wno-trampolines -Wno-address-of-packed-member -Wno-pointer-sign -std=gnu89 -fdebug-compilation-dir /home/a3f/dl/barebox-stm32mp -ferror-limit 19 -fvisibility hidden -fsanitize=address -fsanitize-system-blacklist=/usr/lib/llvm-11/lib/clang/11.0.1/share/asan_blacklist.txt -fsanitize-address-use-after-scope -fno-assume-sane-operator-new -fwrapv -fcf-protection=none -fno-builtin -fgnuc-version=4.2.1 -vectorize-loops -vectorize-slp -analyzer-output=html -faddrsig -o /tmp/scan-build-2021-03-24-140113-148798-1 -x c drivers/eeprom/at24.c
+</div>
+<div id='tooltiphint' hidden="true">
+  <p>Keyboard shortcuts: </p>
+  <ul>
+    <li>Use 'j/k' keys for keyboard navigation</li>
+    <li>Use 'Shift+S' to show/hide relevant lines</li>
+    <li>Use '?' to toggle this window</li>
+  </ul>
+  <a href="#" onclick="toggleHelp(); return false;">Close</a>
+</div>
+<script type='text/javascript'>
+var relevant_lines = {"1": {"201": 1}};
+
+var filterCounterexample = function (hide) {
+  var tables = document.getElementsByClassName("code");
+  for (var t=0; t<tables.length; t++) {
+    var table = tables[t];
+    var file_id = table.getAttribute("data-fileid");
+    var lines_in_fid = relevant_lines[file_id];
+    if (!lines_in_fid) {
+      lines_in_fid = {};
+    }
+    var lines = table.getElementsByClassName("codeline");
+    for (var i=0; i<lines.length; i++) {
+        var el = lines[i];
+        var lineNo = el.getAttribute("data-linenumber");
+        if (!lines_in_fid[lineNo]) {
+          if (hide) {
+            el.setAttribute("hidden", "");
+          } else {
+            el.removeAttribute("hidden");
+          }
+        }
+    }
+  }
+}
+
+window.addEventListener("keydown", function (event) {
+  if (event.defaultPrevented) {
+    return;
+  }
+  if (event.key == "S") {
+    var checked = document.getElementsByName("showCounterexample")[0].checked;
+    filterCounterexample(!checked);
+    document.getElementsByName("showCounterexample")[0].checked = !checked;
+  } else {
+    return;
+  }
+  event.preventDefault();
+}, true);
+
+document.addEventListener("DOMContentLoaded", function() {
+    document.querySelector('input[name="showCounterexample"]').onchange=
+        function (event) {
+      filterCounterexample(this.checked);
+    };
+});
+</script>
+
+<form>
+    <input type="checkbox" name="showCounterexample" id="showCounterexample" />
+    <label for="showCounterexample">
+       Show only relevant lines
+    </label>
+</form>
+
+<script type='text/javascript'>
+var digitMatcher = new RegExp("[0-9]+");
+
+var querySelectorAllArray = function(selector) {
+  return Array.prototype.slice.call(
+    document.querySelectorAll(selector));
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    querySelectorAllArray(".PathNav > a").forEach(
+        function(currentValue, currentIndex) {
+            var hrefValue = currentValue.getAttribute("href");
+            currentValue.onclick = function() {
+                scrollTo(document.querySelector(hrefValue));
+                return false;
+            };
+        });
+});
+
+var findNum = function() {
+    var s = document.querySelector(".selected");
+    if (!s || s.id == "EndPath") {
+        return 0;
+    }
+    var out = parseInt(digitMatcher.exec(s.id)[0]);
+    return out;
+};
+
+var scrollTo = function(el) {
+    querySelectorAllArray(".selected").forEach(function(s) {
+        s.classList.remove("selected");
+    });
+    el.classList.add("selected");
+    window.scrollBy(0, el.getBoundingClientRect().top -
+        (window.innerHeight / 2));
+}
+
+var move = function(num, up, numItems) {
+  if (num == 1 && up || num == numItems - 1 && !up) {
+    return 0;
+  } else if (num == 0 && up) {
+    return numItems - 1;
+  } else if (num == 0 && !up) {
+    return 1 % numItems;
+  }
+  return up ? num - 1 : num + 1;
+}
+
+var numToId = function(num) {
+  if (num == 0) {
+    return document.getElementById("EndPath")
+  }
+  return document.getElementById("Path" + num);
+};
+
+var navigateTo = function(up) {
+  var numItems = document.querySelectorAll(
+      ".line > .msgEvent, .line > .msgControl").length;
+  var currentSelected = findNum();
+  var newSelected = move(currentSelected, up, numItems);
+  var newEl = numToId(newSelected, numItems);
+
+  // Scroll element into center.
+  scrollTo(newEl);
+};
+
+window.addEventListener("keydown", function (event) {
+  if (event.defaultPrevented) {
+    return;
+  }
+  if (event.key == "j") {
+    navigateTo(/*up=*/false);
+  } else if (event.key == "k") {
+    navigateTo(/*up=*/true);
+  } else {
+    return;
+  }
+  event.preventDefault();
+}, true);
+</script>
+  
+<script type='text/javascript'>
+
+var toggleHelp = function() {
+    var hint = document.querySelector("#tooltiphint");
+    var attributeName = "hidden";
+    if (hint.hasAttribute(attributeName)) {
+      hint.removeAttribute(attributeName);
+    } else {
+      hint.setAttribute("hidden", "true");
+    }
+};
+window.addEventListener("keydown", function (event) {
+  if (event.defaultPrevented) {
+    return;
+  }
+  if (event.key == "?") {
+    toggleHelp();
+  } else {
+    return;
+  }
+  event.preventDefault();
+});
+</script>
+<table class="code" data-fileid="1">
+<tr class="codeline" data-linenumber="1"><td class="num" id="LN1">1</td><td class="line"><span class='comment'>/*</span></td></tr>
+<tr class="codeline" data-linenumber="2"><td class="num" id="LN2">2</td><td class="line"> <span class='comment'>* at24.c - handle most I2C EEPROMs</span></td></tr>
+<tr class="codeline" data-linenumber="3"><td class="num" id="LN3">3</td><td class="line"> <span class='comment'>*</span></td></tr>
+<tr class="codeline" data-linenumber="4"><td class="num" id="LN4">4</td><td class="line"> <span class='comment'>* Copyright (C) 2005-2007 David Brownell</span></td></tr>
+<tr class="codeline" data-linenumber="5"><td class="num" id="LN5">5</td><td class="line"> <span class='comment'>* Copyright (C) 2008 Wolfram Sang, Pengutronix</span></td></tr>
+<tr class="codeline" data-linenumber="6"><td class="num" id="LN6">6</td><td class="line"> <span class='comment'>*</span></td></tr>
+<tr class="codeline" data-linenumber="7"><td class="num" id="LN7">7</td><td class="line"> <span class='comment'>* This program is free software; you can redistribute it and/or modify</span></td></tr>
+<tr class="codeline" data-linenumber="8"><td class="num" id="LN8">8</td><td class="line"> <span class='comment'>* it under the terms of the GNU General Public License as published by</span></td></tr>
+<tr class="codeline" data-linenumber="9"><td class="num" id="LN9">9</td><td class="line"> <span class='comment'>* the Free Software Foundation; either version 2 of the License, or</span></td></tr>
+<tr class="codeline" data-linenumber="10"><td class="num" id="LN10">10</td><td class="line"> <span class='comment'>* (at your option) any later version.</span></td></tr>
+<tr class="codeline" data-linenumber="11"><td class="num" id="LN11">11</td><td class="line"> <span class='comment'>*/</span></td></tr>
+<tr class="codeline" data-linenumber="12"><td class="num" id="LN12">12</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="13"><td class="num" id="LN13">13</td><td class="line"><span class='directive'>#include &lt;common.h&gt;</span></td></tr>
+<tr class="codeline" data-linenumber="14"><td class="num" id="LN14">14</td><td class="line"><span class='directive'>#include &lt;<span class='macro'>malloc<span class='macro_popup'>barebox_malloc</span></span>.h&gt;</span></td></tr>
+<tr class="codeline" data-linenumber="15"><td class="num" id="LN15">15</td><td class="line"><span class='directive'>#include &lt;clock.h&gt;</span></td></tr>
+<tr class="codeline" data-linenumber="16"><td class="num" id="LN16">16</td><td class="line"><span class='directive'>#include &lt;driver.h&gt;</span></td></tr>
+<tr class="codeline" data-linenumber="17"><td class="num" id="LN17">17</td><td class="line"><span class='directive'>#include &lt;xfuncs.h&gt;</span></td></tr>
+<tr class="codeline" data-linenumber="18"><td class="num" id="LN18">18</td><td class="line"><span class='directive'>#include &lt;<span class='macro'>errno<span class='macro_popup'>barebox_errno</span></span>.h&gt;</span></td></tr>
+<tr class="codeline" data-linenumber="19"><td class="num" id="LN19">19</td><td class="line"><span class='directive'>#include &lt;<span class='macro'>linux<span class='macro_popup'>1</span></span>/math64.h&gt;</span></td></tr>
+<tr class="codeline" data-linenumber="20"><td class="num" id="LN20">20</td><td class="line"><span class='directive'>#include &lt;<span class='macro'>linux<span class='macro_popup'>1</span></span>/log2.h&gt;</span></td></tr>
+<tr class="codeline" data-linenumber="21"><td class="num" id="LN21">21</td><td class="line"><span class='directive'>#include &lt;i2c/i2c.h&gt;</span></td></tr>
+<tr class="codeline" data-linenumber="22"><td class="num" id="LN22">22</td><td class="line"><span class='directive'>#include &lt;i2c/at24.h&gt;</span></td></tr>
+<tr class="codeline" data-linenumber="23"><td class="num" id="LN23">23</td><td class="line"><span class='directive'>#include &lt;gpio.h&gt;</span></td></tr>
+<tr class="codeline" data-linenumber="24"><td class="num" id="LN24">24</td><td class="line"><span class='directive'>#include &lt;of_gpio.h&gt;</span></td></tr>
+<tr class="codeline" data-linenumber="25"><td class="num" id="LN25">25</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="26"><td class="num" id="LN26">26</td><td class="line"><span class='directive'>#include &lt;<span class='macro'>linux<span class='macro_popup'>1</span></span>/nvmem-provider.h&gt;</span></td></tr>
+<tr class="codeline" data-linenumber="27"><td class="num" id="LN27">27</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="28"><td class="num" id="LN28">28</td><td class="line"><span class='comment'>/*</span></td></tr>
+<tr class="codeline" data-linenumber="29"><td class="num" id="LN29">29</td><td class="line"> <span class='comment'>* I2C EEPROMs from most vendors are inexpensive and mostly interchangeable.</span></td></tr>
+<tr class="codeline" data-linenumber="30"><td class="num" id="LN30">30</td><td class="line"> <span class='comment'>* Differences between different vendor product lines (like Atmel AT24C or</span></td></tr>
+<tr class="codeline" data-linenumber="31"><td class="num" id="LN31">31</td><td class="line"> <span class='comment'>* MicroChip 24LC, etc) won't much matter for typical read/write access.</span></td></tr>
+<tr class="codeline" data-linenumber="32"><td class="num" id="LN32">32</td><td class="line"> <span class='comment'>* There are also I2C RAM chips, likewise interchangeable. One example</span></td></tr>
+<tr class="codeline" data-linenumber="33"><td class="num" id="LN33">33</td><td class="line"> <span class='comment'>* would be the PCF8570, which acts like a 24c02 EEPROM (256 bytes).</span></td></tr>
+<tr class="codeline" data-linenumber="34"><td class="num" id="LN34">34</td><td class="line"> <span class='comment'>*</span></td></tr>
+<tr class="codeline" data-linenumber="35"><td class="num" id="LN35">35</td><td class="line"> <span class='comment'>* However, misconfiguration can lose data. "Set 16-bit memory address"</span></td></tr>
+<tr class="codeline" data-linenumber="36"><td class="num" id="LN36">36</td><td class="line"> <span class='comment'>* to a part with 8-bit addressing will overwrite data. Writing with too</span></td></tr>
+<tr class="codeline" data-linenumber="37"><td class="num" id="LN37">37</td><td class="line"> <span class='comment'>* big a page size also loses data. And it's not safe to assume that the</span></td></tr>
+<tr class="codeline" data-linenumber="38"><td class="num" id="LN38">38</td><td class="line"> <span class='comment'>* conventional addresses 0x50..0x57 only hold eeproms; a PCF8563 RTC</span></td></tr>
+<tr class="codeline" data-linenumber="39"><td class="num" id="LN39">39</td><td class="line"> <span class='comment'>* uses 0x51, for just one example.</span></td></tr>
+<tr class="codeline" data-linenumber="40"><td class="num" id="LN40">40</td><td class="line"> <span class='comment'>*</span></td></tr>
+<tr class="codeline" data-linenumber="41"><td class="num" id="LN41">41</td><td class="line"> <span class='comment'>* So this driver uses "new style" I2C driver binding, expecting to be</span></td></tr>
+<tr class="codeline" data-linenumber="42"><td class="num" id="LN42">42</td><td class="line"> <span class='comment'>* told what devices exist. That may be in arch/X/mach-Y/board-Z.c or</span></td></tr>
+<tr class="codeline" data-linenumber="43"><td class="num" id="LN43">43</td><td class="line"> <span class='comment'>* similar kernel-resident tables; or, configuration data coming from</span></td></tr>
+<tr class="codeline" data-linenumber="44"><td class="num" id="LN44">44</td><td class="line"> <span class='comment'>* a bootloader.</span></td></tr>
+<tr class="codeline" data-linenumber="45"><td class="num" id="LN45">45</td><td class="line"> <span class='comment'>*</span></td></tr>
+<tr class="codeline" data-linenumber="46"><td class="num" id="LN46">46</td><td class="line"> <span class='comment'>* Other than binding model, current differences from "eeprom" driver are</span></td></tr>
+<tr class="codeline" data-linenumber="47"><td class="num" id="LN47">47</td><td class="line"> <span class='comment'>* that this one handles write access and isn't restricted to 24c02 devices.</span></td></tr>
+<tr class="codeline" data-linenumber="48"><td class="num" id="LN48">48</td><td class="line"> <span class='comment'>* It also handles larger devices (32 kbit and up) with two-byte addresses,</span></td></tr>
+<tr class="codeline" data-linenumber="49"><td class="num" id="LN49">49</td><td class="line"> <span class='comment'>* which won't work on pure SMBus systems.</span></td></tr>
+<tr class="codeline" data-linenumber="50"><td class="num" id="LN50">50</td><td class="line"> <span class='comment'>*/</span></td></tr>
+<tr class="codeline" data-linenumber="51"><td class="num" id="LN51">51</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="52"><td class="num" id="LN52">52</td><td class="line"><span class='keyword'>struct</span> at24_data {</td></tr>
+<tr class="codeline" data-linenumber="53"><td class="num" id="LN53">53</td><td class="line">	<span class='keyword'>struct</span> at24_platform_data chip;</td></tr>
+<tr class="codeline" data-linenumber="54"><td class="num" id="LN54">54</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="55"><td class="num" id="LN55">55</td><td class="line">	<span class='keyword'>struct</span> nvmem_config nvmem_config;</td></tr>
+<tr class="codeline" data-linenumber="56"><td class="num" id="LN56">56</td><td class="line">	<span class='keyword'>struct</span> nvmem_device *nvmem;</td></tr>
+<tr class="codeline" data-linenumber="57"><td class="num" id="LN57">57</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="58"><td class="num" id="LN58">58</td><td class="line">	u8 *writebuf;</td></tr>
+<tr class="codeline" data-linenumber="59"><td class="num" id="LN59">59</td><td class="line">	<span class='keyword'>unsigned</span> write_max;</td></tr>
+<tr class="codeline" data-linenumber="60"><td class="num" id="LN60">60</td><td class="line">	<span class='keyword'>unsigned</span> num_addresses;</td></tr>
+<tr class="codeline" data-linenumber="61"><td class="num" id="LN61">61</td><td class="line">	<span class='keyword'>int</span> wp_gpio;</td></tr>
+<tr class="codeline" data-linenumber="62"><td class="num" id="LN62">62</td><td class="line">	<span class='keyword'>int</span> wp_active_low;</td></tr>
+<tr class="codeline" data-linenumber="63"><td class="num" id="LN63">63</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="64"><td class="num" id="LN64">64</td><td class="line">	<span class='comment'>/*</span></td></tr>
+<tr class="codeline" data-linenumber="65"><td class="num" id="LN65">65</td><td class="line">	 <span class='comment'>* Some chips tie up multiple I2C addresses; dummy devices reserve</span></td></tr>
+<tr class="codeline" data-linenumber="66"><td class="num" id="LN66">66</td><td class="line">	 <span class='comment'>* them for us.</span></td></tr>
+<tr class="codeline" data-linenumber="67"><td class="num" id="LN67">67</td><td class="line">	 <span class='comment'>*/</span></td></tr>
+<tr class="codeline" data-linenumber="68"><td class="num" id="LN68">68</td><td class="line">	<span class='keyword'>struct</span> i2c_client *client[];</td></tr>
+<tr class="codeline" data-linenumber="69"><td class="num" id="LN69">69</td><td class="line">};</td></tr>
+<tr class="codeline" data-linenumber="70"><td class="num" id="LN70">70</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="71"><td class="num" id="LN71">71</td><td class="line"><span class='comment'>/*</span></td></tr>
+<tr class="codeline" data-linenumber="72"><td class="num" id="LN72">72</td><td class="line"> <span class='comment'>* This parameter is to help this driver avoid blocking other drivers out</span></td></tr>
+<tr class="codeline" data-linenumber="73"><td class="num" id="LN73">73</td><td class="line"> <span class='comment'>* of I2C for potentially troublesome amounts of time. With a 100 kHz I2C</span></td></tr>
+<tr class="codeline" data-linenumber="74"><td class="num" id="LN74">74</td><td class="line"> <span class='comment'>* clock, one 256 byte read takes about 1/43 second which is excessive;</span></td></tr>
+<tr class="codeline" data-linenumber="75"><td class="num" id="LN75">75</td><td class="line"> <span class='comment'>* but the 1/170 second it takes at 400 kHz may be quite reasonable; and</span></td></tr>
+<tr class="codeline" data-linenumber="76"><td class="num" id="LN76">76</td><td class="line"> <span class='comment'>* at 1 MHz (Fm+) a 1/430 second delay could easily be invisible.</span></td></tr>
+<tr class="codeline" data-linenumber="77"><td class="num" id="LN77">77</td><td class="line"> <span class='comment'>*</span></td></tr>
+<tr class="codeline" data-linenumber="78"><td class="num" id="LN78">78</td><td class="line"> <span class='comment'>* This value is forced to be a power of two so that writes align on pages.</span></td></tr>
+<tr class="codeline" data-linenumber="79"><td class="num" id="LN79">79</td><td class="line"> <span class='comment'>*/</span></td></tr>
+<tr class="codeline" data-linenumber="80"><td class="num" id="LN80">80</td><td class="line"><span class='keyword'>static</span> <span class='keyword'>unsigned</span> io_limit = 128;</td></tr>
+<tr class="codeline" data-linenumber="81"><td class="num" id="LN81">81</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="82"><td class="num" id="LN82">82</td><td class="line"><span class='comment'>/*</span></td></tr>
+<tr class="codeline" data-linenumber="83"><td class="num" id="LN83">83</td><td class="line"> <span class='comment'>* Specs often allow 5 msec for a page write, sometimes 20 msec;</span></td></tr>
+<tr class="codeline" data-linenumber="84"><td class="num" id="LN84">84</td><td class="line"> <span class='comment'>* it's important to recover from write timeouts.</span></td></tr>
+<tr class="codeline" data-linenumber="85"><td class="num" id="LN85">85</td><td class="line"> <span class='comment'>*/</span></td></tr>
+<tr class="codeline" data-linenumber="86"><td class="num" id="LN86">86</td><td class="line"><span class='keyword'>static</span> <span class='keyword'>unsigned</span> write_timeout = 25;</td></tr>
+<tr class="codeline" data-linenumber="87"><td class="num" id="LN87">87</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="88"><td class="num" id="LN88">88</td><td class="line"><span class='comment'>/* number of bits in driver_data reserved for eeprom byte length */</span></td></tr>
+<tr class="codeline" data-linenumber="89"><td class="num" id="LN89">89</td><td class="line"><span class='directive'>#define <span class='macro'>AT24_SIZE_BYTELEN<span class='macro_popup'>5</span></span> 5</span></td></tr>
+<tr class="codeline" data-linenumber="90"><td class="num" id="LN90">90</td><td class="line"><span class='comment'>/* number of bits in driver_data reserved for flags */</span></td></tr>
+<tr class="codeline" data-linenumber="91"><td class="num" id="LN91">91</td><td class="line"><span class='directive'>#define <span class='macro'>AT24_SIZE_FLAGS<span class='macro_popup'>8</span></span> 8</span></td></tr>
+<tr class="codeline" data-linenumber="92"><td class="num" id="LN92">92</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="93"><td class="num" id="LN93">93</td><td class="line"><span class='directive'>#define <span class='macro'>AT24_BITMASK(x)<span class='macro_popup'>((1UL &lt;&lt; (x)) - 1)</span></span> (<span class='macro'>BIT(x)<span class='macro_popup'>(1UL &lt;&lt; (x))</span></span> - 1)</span></td></tr>
+<tr class="codeline" data-linenumber="94"><td class="num" id="LN94">94</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="95"><td class="num" id="LN95">95</td><td class="line"><span class='comment'>/* create non-zero magic value for given eeprom parameters */</span></td></tr>
+<tr class="codeline" data-linenumber="96"><td class="num" id="LN96">96</td><td class="line"><span class='directive'>#define <span class='macro'>AT24_DEVICE_MAGIC(_len, _flags)<span class='macro_popup'>((1 &lt;&lt; 8 | (_flags)) &lt;&lt; 5 | ( __builtin_constant_p<br>(_len) ? ( __builtin_constant_p(_len) ? ( (_len) &lt; 2 ? 0 :<br> (_len) &amp; (1ULL &lt;&lt; 63) ? 63 : (_len) &amp; (1ULL &lt;&lt;<br> 62) ? 62 : (_len) &amp; (1ULL &lt;&lt; 61) ? 61 : (_len) &amp;<br> (1ULL &lt;&lt; 60) ? 60 : (_len) &amp; (1ULL &lt;&lt; 59) ? 59<br> : (_len) &amp; (1ULL &lt;&lt; 58) ? 58 : (_len) &amp; (1ULL &lt;&lt;<br> 57) ? 57 : (_len) &amp; (1ULL &lt;&lt; 56) ? 56 : (_len) &amp;<br> (1ULL &lt;&lt; 55) ? 55 : (_len) &amp; (1ULL &lt;&lt; 54) ? 54<br> : (_len) &amp; (1ULL &lt;&lt; 53) ? 53 : (_len) &amp; (1ULL &lt;&lt;<br> 52) ? 52 : (_len) &amp; (1ULL &lt;&lt; 51) ? 51 : (_len) &amp;<br> (1ULL &lt;&lt; 50) ? 50 : (_len) &amp; (1ULL &lt;&lt; 49) ? 49<br> : (_len) &amp; (1ULL &lt;&lt; 48) ? 48 : (_len) &amp; (1ULL &lt;&lt;<br> 47) ? 47 : (_len) &amp; (1ULL &lt;&lt; 46) ? 46 : (_len) &amp;<br> (1ULL &lt;&lt; 45) ? 45 : (_len) &amp; (1ULL &lt;&lt; 44) ? 44<br> : (_len) &amp; (1ULL &lt;&lt; 43) ? 43 : (_len) &amp; (1ULL &lt;&lt;<br> 42) ? 42 : (_len) &amp; (1ULL &lt;&lt; 41) ? 41 : (_len) &amp;<br> (1ULL &lt;&lt; 40) ? 40 : (_len) &amp; (1ULL &lt;&lt; 39) ? 39<br> : (_len) &amp; (1ULL &lt;&lt; 38) ? 38 : (_len) &amp; (1ULL &lt;&lt;<br> 37) ? 37 : (_len) &amp; (1ULL &lt;&lt; 36) ? 36 : (_len) &amp;<br> (1ULL &lt;&lt; 35) ? 35 : (_len) &amp; (1ULL &lt;&lt; 34) ? 34<br> : (_len) &amp; (1ULL &lt;&lt; 33) ? 33 : (_len) &amp; (1ULL &lt;&lt;<br> 32) ? 32 : (_len) &amp; (1ULL &lt;&lt; 31) ? 31 : (_len) &amp;<br> (1ULL &lt;&lt; 30) ? 30 : (_len) &amp; (1ULL &lt;&lt; 29) ? 29<br> : (_len) &amp; (1ULL &lt;&lt; 28) ? 28 : (_len) &amp; (1ULL &lt;&lt;<br> 27) ? 27 : (_len) &amp; (1ULL &lt;&lt; 26) ? 26 : (_len) &amp;<br> (1ULL &lt;&lt; 25) ? 25 : (_len) &amp; (1ULL &lt;&lt; 24) ? 24<br> : (_len) &amp; (1ULL &lt;&lt; 23) ? 23 : (_len) &amp; (1ULL &lt;&lt;<br> 22) ? 22 : (_len) &amp; (1ULL &lt;&lt; 21) ? 21 : (_len) &amp;<br> (1ULL &lt;&lt; 20) ? 20 : (_len) &amp; (1ULL &lt;&lt; 19) ? 19<br> : (_len) &amp; (1ULL &lt;&lt; 18) ? 18 : (_len) &amp; (1ULL &lt;&lt;<br> 17) ? 17 : (_len) &amp; (1ULL &lt;&lt; 16) ? 16 : (_len) &amp;<br> (1ULL &lt;&lt; 15) ? 15 : (_len) &amp; (1ULL &lt;&lt; 14) ? 14<br> : (_len) &amp; (1ULL &lt;&lt; 13) ? 13 : (_len) &amp; (1ULL &lt;&lt;<br> 12) ? 12 : (_len) &amp; (1ULL &lt;&lt; 11) ? 11 : (_len) &amp;<br> (1ULL &lt;&lt; 10) ? 10 : (_len) &amp; (1ULL &lt;&lt; 9) ? 9<br> : (_len) &amp; (1ULL &lt;&lt; 8) ? 8 : (_len) &amp; (1ULL &lt;&lt;<br> 7) ? 7 : (_len) &amp; (1ULL &lt;&lt; 6) ? 6 : (_len) &amp; (<br>1ULL &lt;&lt; 5) ? 5 : (_len) &amp; (1ULL &lt;&lt; 4) ? 4 : (<br>_len) &amp; (1ULL &lt;&lt; 3) ? 3 : (_len) &amp; (1ULL &lt;&lt;<br> 2) ? 2 : 1) : -1) : (sizeof(_len) &lt;= 4) ? __ilog2_u32(_len<br>) : __ilog2_u64(_len) ))</span></span> 		\</span></td></tr>
+<tr class="codeline" data-linenumber="97"><td class="num" id="LN97">97</td><td class="line">	<span class='directive'>((1 &lt;&lt; <span class='macro'>AT24_SIZE_FLAGS<span class='macro_popup'>8</span></span> | (_flags)) 		\</span></td></tr>
+<tr class="codeline" data-linenumber="98"><td class="num" id="LN98">98</td><td class="line">	    <span class='directive'>&lt;&lt; <span class='macro'>AT24_SIZE_BYTELEN<span class='macro_popup'>5</span></span> | <span class='macro'>ilog2(_len)<span class='macro_popup'>( __builtin_constant_p(_len) ? ( __builtin_constant_p(_len) ?<br> ( (_len) &lt; 2 ? 0 : (_len) &amp; (1ULL &lt;&lt; 63) ? 63 :<br> (_len) &amp; (1ULL &lt;&lt; 62) ? 62 : (_len) &amp; (1ULL &lt;&lt;<br> 61) ? 61 : (_len) &amp; (1ULL &lt;&lt; 60) ? 60 : (_len) &amp;<br> (1ULL &lt;&lt; 59) ? 59 : (_len) &amp; (1ULL &lt;&lt; 58) ? 58<br> : (_len) &amp; (1ULL &lt;&lt; 57) ? 57 : (_len) &amp; (1ULL &lt;&lt;<br> 56) ? 56 : (_len) &amp; (1ULL &lt;&lt; 55) ? 55 : (_len) &amp;<br> (1ULL &lt;&lt; 54) ? 54 : (_len) &amp; (1ULL &lt;&lt; 53) ? 53<br> : (_len) &amp; (1ULL &lt;&lt; 52) ? 52 : (_len) &amp; (1ULL &lt;&lt;<br> 51) ? 51 : (_len) &amp; (1ULL &lt;&lt; 50) ? 50 : (_len) &amp;<br> (1ULL &lt;&lt; 49) ? 49 : (_len) &amp; (1ULL &lt;&lt; 48) ? 48<br> : (_len) &amp; (1ULL &lt;&lt; 47) ? 47 : (_len) &amp; (1ULL &lt;&lt;<br> 46) ? 46 : (_len) &amp; (1ULL &lt;&lt; 45) ? 45 : (_len) &amp;<br> (1ULL &lt;&lt; 44) ? 44 : (_len) &amp; (1ULL &lt;&lt; 43) ? 43<br> : (_len) &amp; (1ULL &lt;&lt; 42) ? 42 : (_len) &amp; (1ULL &lt;&lt;<br> 41) ? 41 : (_len) &amp; (1ULL &lt;&lt; 40) ? 40 : (_len) &amp;<br> (1ULL &lt;&lt; 39) ? 39 : (_len) &amp; (1ULL &lt;&lt; 38) ? 38<br> : (_len) &amp; (1ULL &lt;&lt; 37) ? 37 : (_len) &amp; (1ULL &lt;&lt;<br> 36) ? 36 : (_len) &amp; (1ULL &lt;&lt; 35) ? 35 : (_len) &amp;<br> (1ULL &lt;&lt; 34) ? 34 : (_len) &amp; (1ULL &lt;&lt; 33) ? 33<br> : (_len) &amp; (1ULL &lt;&lt; 32) ? 32 : (_len) &amp; (1ULL &lt;&lt;<br> 31) ? 31 : (_len) &amp; (1ULL &lt;&lt; 30) ? 30 : (_len) &amp;<br> (1ULL &lt;&lt; 29) ? 29 : (_len) &amp; (1ULL &lt;&lt; 28) ? 28<br> : (_len) &amp; (1ULL &lt;&lt; 27) ? 27 : (_len) &amp; (1ULL &lt;&lt;<br> 26) ? 26 : (_len) &amp; (1ULL &lt;&lt; 25) ? 25 : (_len) &amp;<br> (1ULL &lt;&lt; 24) ? 24 : (_len) &amp; (1ULL &lt;&lt; 23) ? 23<br> : (_len) &amp; (1ULL &lt;&lt; 22) ? 22 : (_len) &amp; (1ULL &lt;&lt;<br> 21) ? 21 : (_len) &amp; (1ULL &lt;&lt; 20) ? 20 : (_len) &amp;<br> (1ULL &lt;&lt; 19) ? 19 : (_len) &amp; (1ULL &lt;&lt; 18) ? 18<br> : (_len) &amp; (1ULL &lt;&lt; 17) ? 17 : (_len) &amp; (1ULL &lt;&lt;<br> 16) ? 16 : (_len) &amp; (1ULL &lt;&lt; 15) ? 15 : (_len) &amp;<br> (1ULL &lt;&lt; 14) ? 14 : (_len) &amp; (1ULL &lt;&lt; 13) ? 13<br> : (_len) &amp; (1ULL &lt;&lt; 12) ? 12 : (_len) &amp; (1ULL &lt;&lt;<br> 11) ? 11 : (_len) &amp; (1ULL &lt;&lt; 10) ? 10 : (_len) &amp;<br> (1ULL &lt;&lt; 9) ? 9 : (_len) &amp; (1ULL &lt;&lt; 8) ? 8 :<br> (_len) &amp; (1ULL &lt;&lt; 7) ? 7 : (_len) &amp; (1ULL &lt;&lt;<br> 6) ? 6 : (_len) &amp; (1ULL &lt;&lt; 5) ? 5 : (_len) &amp; (<br>1ULL &lt;&lt; 4) ? 4 : (_len) &amp; (1ULL &lt;&lt; 3) ? 3 : (<br>_len) &amp; (1ULL &lt;&lt; 2) ? 2 : 1) : -1) : (sizeof(_len) &lt;=<br> 4) ? __ilog2_u32(_len) : __ilog2_u64(_len) )</span></span>)</span></td></tr>
+<tr class="codeline" data-linenumber="99"><td class="num" id="LN99">99</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="100"><td class="num" id="LN100">100</td><td class="line"><span class='keyword'>static</span> <span class='keyword'>struct</span> platform_device_id at24_ids[] = {</td></tr>
+<tr class="codeline" data-linenumber="101"><td class="num" id="LN101">101</td><td class="line">	<span class='comment'>/* needs 8 addresses as A0-A2 are ignored */</span></td></tr>
+<tr class="codeline" data-linenumber="102"><td class="num" id="LN102">102</td><td class="line">	{ <span class='string_literal'>"24c00"</span>, <span class='macro'>AT24_DEVICE_MAGIC(128 / 8, AT24_FLAG_TAKE8ADDR)<span class='macro_popup'>((1 &lt;&lt; 8 | (0x10)) &lt;&lt; 5 | ( __builtin_constant_p(<br>128 / 8) ? ( __builtin_constant_p(128 / 8) ? ( (128 / 8) &lt;<br> 2 ? 0 : (128 / 8) &amp; (1ULL &lt;&lt; 63) ? 63 : (128 / 8) &amp;<br> (1ULL &lt;&lt; 62) ? 62 : (128 / 8) &amp; (1ULL &lt;&lt; 61)<br> ? 61 : (128 / 8) &amp; (1ULL &lt;&lt; 60) ? 60 : (128 / 8) &amp;<br> (1ULL &lt;&lt; 59) ? 59 : (128 / 8) &amp; (1ULL &lt;&lt; 58)<br> ? 58 : (128 / 8) &amp; (1ULL &lt;&lt; 57) ? 57 : (128 / 8) &amp;<br> (1ULL &lt;&lt; 56) ? 56 : (128 / 8) &amp; (1ULL &lt;&lt; 55)<br> ? 55 : (128 / 8) &amp; (1ULL &lt;&lt; 54) ? 54 : (128 / 8) &amp;<br> (1ULL &lt;&lt; 53) ? 53 : (128 / 8) &amp; (1ULL &lt;&lt; 52)<br> ? 52 : (128 / 8) &amp; (1ULL &lt;&lt; 51) ? 51 : (128 / 8) &amp;<br> (1ULL &lt;&lt; 50) ? 50 : (128 / 8) &amp; (1ULL &lt;&lt; 49)<br> ? 49 : (128 / 8) &amp; (1ULL &lt;&lt; 48) ? 48 : (128 / 8) &amp;<br> (1ULL &lt;&lt; 47) ? 47 : (128 / 8) &amp; (1ULL &lt;&lt; 46)<br> ? 46 : (128 / 8) &amp; (1ULL &lt;&lt; 45) ? 45 : (128 / 8) &amp;<br> (1ULL &lt;&lt; 44) ? 44 : (128 / 8) &amp; (1ULL &lt;&lt; 43)<br> ? 43 : (128 / 8) &amp; (1ULL &lt;&lt; 42) ? 42 : (128 / 8) &amp;<br> (1ULL &lt;&lt; 41) ? 41 : (128 / 8) &amp; (1ULL &lt;&lt; 40)<br> ? 40 : (128 / 8) &amp; (1ULL &lt;&lt; 39) ? 39 : (128 / 8) &amp;<br> (1ULL &lt;&lt; 38) ? 38 : (128 / 8) &amp; (1ULL &lt;&lt; 37)<br> ? 37 : (128 / 8) &amp; (1ULL &lt;&lt; 36) ? 36 : (128 / 8) &amp;<br> (1ULL &lt;&lt; 35) ? 35 : (128 / 8) &amp; (1ULL &lt;&lt; 34)<br> ? 34 : (128 / 8) &amp; (1ULL &lt;&lt; 33) ? 33 : (128 / 8) &amp;<br> (1ULL &lt;&lt; 32) ? 32 : (128 / 8) &amp; (1ULL &lt;&lt; 31)<br> ? 31 : (128 / 8) &amp; (1ULL &lt;&lt; 30) ? 30 : (128 / 8) &amp;<br> (1ULL &lt;&lt; 29) ? 29 : (128 / 8) &amp; (1ULL &lt;&lt; 28)<br> ? 28 : (128 / 8) &amp; (1ULL &lt;&lt; 27) ? 27 : (128 / 8) &amp;<br> (1ULL &lt;&lt; 26) ? 26 : (128 / 8) &amp; (1ULL &lt;&lt; 25)<br> ? 25 : (128 / 8) &amp; (1ULL &lt;&lt; 24) ? 24 : (128 / 8) &amp;<br> (1ULL &lt;&lt; 23) ? 23 : (128 / 8) &amp; (1ULL &lt;&lt; 22)<br> ? 22 : (128 / 8) &amp; (1ULL &lt;&lt; 21) ? 21 : (128 / 8) &amp;<br> (1ULL &lt;&lt; 20) ? 20 : (128 / 8) &amp; (1ULL &lt;&lt; 19)<br> ? 19 : (128 / 8) &amp; (1ULL &lt;&lt; 18) ? 18 : (128 / 8) &amp;<br> (1ULL &lt;&lt; 17) ? 17 : (128 / 8) &amp; (1ULL &lt;&lt; 16)<br> ? 16 : (128 / 8) &amp; (1ULL &lt;&lt; 15) ? 15 : (128 / 8) &amp;<br> (1ULL &lt;&lt; 14) ? 14 : (128 / 8) &amp; (1ULL &lt;&lt; 13)<br> ? 13 : (128 / 8) &amp; (1ULL &lt;&lt; 12) ? 12 : (128 / 8) &amp;<br> (1ULL &lt;&lt; 11) ? 11 : (128 / 8) &amp; (1ULL &lt;&lt; 10)<br> ? 10 : (128 / 8) &amp; (1ULL &lt;&lt; 9) ? 9 : (128 / 8) &amp;<br> (1ULL &lt;&lt; 8) ? 8 : (128 / 8) &amp; (1ULL &lt;&lt; 7) ? 7<br> : (128 / 8) &amp; (1ULL &lt;&lt; 6) ? 6 : (128 / 8) &amp; (1ULL<br> &lt;&lt; 5) ? 5 : (128 / 8) &amp; (1ULL &lt;&lt; 4) ? 4 : (128<br> / 8) &amp; (1ULL &lt;&lt; 3) ? 3 : (128 / 8) &amp; (1ULL &lt;&lt;<br> 2) ? 2 : 1) : -1) : (sizeof(128 / 8) &lt;= 4) ? __ilog2_u32(<br>128 / 8) : __ilog2_u64(128 / 8) ))</span></span> },</td></tr>
+<tr class="codeline" data-linenumber="103"><td class="num" id="LN103">103</td><td class="line">	<span class='comment'>/* old variants can't be handled with this generic entry! */</span></td></tr>
+<tr class="codeline" data-linenumber="104"><td class="num" id="LN104">104</td><td class="line">	{ <span class='string_literal'>"24c01"</span>, <span class='macro'>AT24_DEVICE_MAGIC(1024 / 8, 0)<span class='macro_popup'>((1 &lt;&lt; 8 | (0)) &lt;&lt; 5 | ( __builtin_constant_p(1024<br> / 8) ? ( __builtin_constant_p(1024 / 8) ? ( (1024 / 8) &lt; 2<br> ? 0 : (1024 / 8) &amp; (1ULL &lt;&lt; 63) ? 63 : (1024 / 8) &amp;<br> (1ULL &lt;&lt; 62) ? 62 : (1024 / 8) &amp; (1ULL &lt;&lt; 61<br>) ? 61 : (1024 / 8) &amp; (1ULL &lt;&lt; 60) ? 60 : (1024 / 8<br>) &amp; (1ULL &lt;&lt; 59) ? 59 : (1024 / 8) &amp; (1ULL &lt;&lt;<br> 58) ? 58 : (1024 / 8) &amp; (1ULL &lt;&lt; 57) ? 57 : (1024 /<br> 8) &amp; (1ULL &lt;&lt; 56) ? 56 : (1024 / 8) &amp; (1ULL &lt;&lt;<br> 55) ? 55 : (1024 / 8) &amp; (1ULL &lt;&lt; 54) ? 54 : (1024 /<br> 8) &amp; (1ULL &lt;&lt; 53) ? 53 : (1024 / 8) &amp; (1ULL &lt;&lt;<br> 52) ? 52 : (1024 / 8) &amp; (1ULL &lt;&lt; 51) ? 51 : (1024 /<br> 8) &amp; (1ULL &lt;&lt; 50) ? 50 : (1024 / 8) &amp; (1ULL &lt;&lt;<br> 49) ? 49 : (1024 / 8) &amp; (1ULL &lt;&lt; 48) ? 48 : (1024 /<br> 8) &amp; (1ULL &lt;&lt; 47) ? 47 : (1024 / 8) &amp; (1ULL &lt;&lt;<br> 46) ? 46 : (1024 / 8) &amp; (1ULL &lt;&lt; 45) ? 45 : (1024 /<br> 8) &amp; (1ULL &lt;&lt; 44) ? 44 : (1024 / 8) &amp; (1ULL &lt;&lt;<br> 43) ? 43 : (1024 / 8) &amp; (1ULL &lt;&lt; 42) ? 42 : (1024 /<br> 8) &amp; (1ULL &lt;&lt; 41) ? 41 : (1024 / 8) &amp; (1ULL &lt;&lt;<br> 40) ? 40 : (1024 / 8) &amp; (1ULL &lt;&lt; 39) ? 39 : (1024 /<br> 8) &amp; (1ULL &lt;&lt; 38) ? 38 : (1024 / 8) &amp; (1ULL &lt;&lt;<br> 37) ? 37 : (1024 / 8) &amp; (1ULL &lt;&lt; 36) ? 36 : (1024 /<br> 8) &amp; (1ULL &lt;&lt; 35) ? 35 : (1024 / 8) &amp; (1ULL &lt;&lt;<br> 34) ? 34 : (1024 / 8) &amp; (1ULL &lt;&lt; 33) ? 33 : (1024 /<br> 8) &amp; (1ULL &lt;&lt; 32) ? 32 : (1024 / 8) &amp; (1ULL &lt;&lt;<br> 31) ? 31 : (1024 / 8) &amp; (1ULL &lt;&lt; 30) ? 30 : (1024 /<br> 8) &amp; (1ULL &lt;&lt; 29) ? 29 : (1024 / 8) &amp; (1ULL &lt;&lt;<br> 28) ? 28 : (1024 / 8) &amp; (1ULL &lt;&lt; 27) ? 27 : (1024 /<br> 8) &amp; (1ULL &lt;&lt; 26) ? 26 : (1024 / 8) &amp; (1ULL &lt;&lt;<br> 25) ? 25 : (1024 / 8) &amp; (1ULL &lt;&lt; 24) ? 24 : (1024 /<br> 8) &amp; (1ULL &lt;&lt; 23) ? 23 : (1024 / 8) &amp; (1ULL &lt;&lt;<br> 22) ? 22 : (1024 / 8) &amp; (1ULL &lt;&lt; 21) ? 21 : (1024 /<br> 8) &amp; (1ULL &lt;&lt; 20) ? 20 : (1024 / 8) &amp; (1ULL &lt;&lt;<br> 19) ? 19 : (1024 / 8) &amp; (1ULL &lt;&lt; 18) ? 18 : (1024 /<br> 8) &amp; (1ULL &lt;&lt; 17) ? 17 : (1024 / 8) &amp; (1ULL &lt;&lt;<br> 16) ? 16 : (1024 / 8) &amp; (1ULL &lt;&lt; 15) ? 15 : (1024 /<br> 8) &amp; (1ULL &lt;&lt; 14) ? 14 : (1024 / 8) &amp; (1ULL &lt;&lt;<br> 13) ? 13 : (1024 / 8) &amp; (1ULL &lt;&lt; 12) ? 12 : (1024 /<br> 8) &amp; (1ULL &lt;&lt; 11) ? 11 : (1024 / 8) &amp; (1ULL &lt;&lt;<br> 10) ? 10 : (1024 / 8) &amp; (1ULL &lt;&lt; 9) ? 9 : (1024 / 8<br>) &amp; (1ULL &lt;&lt; 8) ? 8 : (1024 / 8) &amp; (1ULL &lt;&lt;<br> 7) ? 7 : (1024 / 8) &amp; (1ULL &lt;&lt; 6) ? 6 : (1024 / 8)<br> &amp; (1ULL &lt;&lt; 5) ? 5 : (1024 / 8) &amp; (1ULL &lt;&lt;<br> 4) ? 4 : (1024 / 8) &amp; (1ULL &lt;&lt; 3) ? 3 : (1024 / 8)<br> &amp; (1ULL &lt;&lt; 2) ? 2 : 1) : -1) : (sizeof(1024 / 8) &lt;=<br> 4) ? __ilog2_u32(1024 / 8) : __ilog2_u64(1024 / 8) ))</span></span> },</td></tr>
+<tr class="codeline" data-linenumber="105"><td class="num" id="LN105">105</td><td class="line">	{ <span class='string_literal'>"24c02"</span>, <span class='macro'>AT24_DEVICE_MAGIC(2048 / 8, 0)<span class='macro_popup'>((1 &lt;&lt; 8 | (0)) &lt;&lt; 5 | ( __builtin_constant_p(2048<br> / 8) ? ( __builtin_constant_p(2048 / 8) ? ( (2048 / 8) &lt; 2<br> ? 0 : (2048 / 8) &amp; (1ULL &lt;&lt; 63) ? 63 : (2048 / 8) &amp;<br> (1ULL &lt;&lt; 62) ? 62 : (2048 / 8) &amp; (1ULL &lt;&lt; 61<br>) ? 61 : (2048 / 8) &amp; (1ULL &lt;&lt; 60) ? 60 : (2048 / 8<br>) &amp; (1ULL &lt;&lt; 59) ? 59 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 58) ? 58 : (2048 / 8) &amp; (1ULL &lt;&lt; 57) ? 57 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 56) ? 56 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 55) ? 55 : (2048 / 8) &amp; (1ULL &lt;&lt; 54) ? 54 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 53) ? 53 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 52) ? 52 : (2048 / 8) &amp; (1ULL &lt;&lt; 51) ? 51 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 50) ? 50 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 49) ? 49 : (2048 / 8) &amp; (1ULL &lt;&lt; 48) ? 48 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 47) ? 47 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 46) ? 46 : (2048 / 8) &amp; (1ULL &lt;&lt; 45) ? 45 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 44) ? 44 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 43) ? 43 : (2048 / 8) &amp; (1ULL &lt;&lt; 42) ? 42 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 41) ? 41 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 40) ? 40 : (2048 / 8) &amp; (1ULL &lt;&lt; 39) ? 39 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 38) ? 38 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 37) ? 37 : (2048 / 8) &amp; (1ULL &lt;&lt; 36) ? 36 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 35) ? 35 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 34) ? 34 : (2048 / 8) &amp; (1ULL &lt;&lt; 33) ? 33 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 32) ? 32 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 31) ? 31 : (2048 / 8) &amp; (1ULL &lt;&lt; 30) ? 30 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 29) ? 29 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 28) ? 28 : (2048 / 8) &amp; (1ULL &lt;&lt; 27) ? 27 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 26) ? 26 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 25) ? 25 : (2048 / 8) &amp; (1ULL &lt;&lt; 24) ? 24 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 23) ? 23 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 22) ? 22 : (2048 / 8) &amp; (1ULL &lt;&lt; 21) ? 21 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 20) ? 20 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 19) ? 19 : (2048 / 8) &amp; (1ULL &lt;&lt; 18) ? 18 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 17) ? 17 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 16) ? 16 : (2048 / 8) &amp; (1ULL &lt;&lt; 15) ? 15 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 14) ? 14 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 13) ? 13 : (2048 / 8) &amp; (1ULL &lt;&lt; 12) ? 12 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 11) ? 11 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 10) ? 10 : (2048 / 8) &amp; (1ULL &lt;&lt; 9) ? 9 : (2048 / 8<br>) &amp; (1ULL &lt;&lt; 8) ? 8 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 7) ? 7 : (2048 / 8) &amp; (1ULL &lt;&lt; 6) ? 6 : (2048 / 8)<br> &amp; (1ULL &lt;&lt; 5) ? 5 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 4) ? 4 : (2048 / 8) &amp; (1ULL &lt;&lt; 3) ? 3 : (2048 / 8)<br> &amp; (1ULL &lt;&lt; 2) ? 2 : 1) : -1) : (sizeof(2048 / 8) &lt;=<br> 4) ? __ilog2_u32(2048 / 8) : __ilog2_u64(2048 / 8) ))</span></span> },</td></tr>
+<tr class="codeline" data-linenumber="106"><td class="num" id="LN106">106</td><td class="line">	<span class='comment'>/* spd is a 24c02 in memory DIMMs */</span></td></tr>
+<tr class="codeline" data-linenumber="107"><td class="num" id="LN107">107</td><td class="line">	{ <span class='string_literal'>"spd"</span>, <span class='macro'>AT24_DEVICE_MAGIC(2048 / 8,<span class='macro_popup'>((1 &lt;&lt; 8 | (0x40 | 0x20)) &lt;&lt; 5 | ( __builtin_constant_p<br>(2048 / 8) ? ( __builtin_constant_p(2048 / 8) ? ( (2048 / 8) &lt;<br> 2 ? 0 : (2048 / 8) &amp; (1ULL &lt;&lt; 63) ? 63 : (2048 / 8<br>) &amp; (1ULL &lt;&lt; 62) ? 62 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 61) ? 61 : (2048 / 8) &amp; (1ULL &lt;&lt; 60) ? 60 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 59) ? 59 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 58) ? 58 : (2048 / 8) &amp; (1ULL &lt;&lt; 57) ? 57 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 56) ? 56 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 55) ? 55 : (2048 / 8) &amp; (1ULL &lt;&lt; 54) ? 54 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 53) ? 53 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 52) ? 52 : (2048 / 8) &amp; (1ULL &lt;&lt; 51) ? 51 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 50) ? 50 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 49) ? 49 : (2048 / 8) &amp; (1ULL &lt;&lt; 48) ? 48 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 47) ? 47 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 46) ? 46 : (2048 / 8) &amp; (1ULL &lt;&lt; 45) ? 45 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 44) ? 44 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 43) ? 43 : (2048 / 8) &amp; (1ULL &lt;&lt; 42) ? 42 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 41) ? 41 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 40) ? 40 : (2048 / 8) &amp; (1ULL &lt;&lt; 39) ? 39 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 38) ? 38 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 37) ? 37 : (2048 / 8) &amp; (1ULL &lt;&lt; 36) ? 36 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 35) ? 35 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 34) ? 34 : (2048 / 8) &amp; (1ULL &lt;&lt; 33) ? 33 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 32) ? 32 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 31) ? 31 : (2048 / 8) &amp; (1ULL &lt;&lt; 30) ? 30 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 29) ? 29 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 28) ? 28 : (2048 / 8) &amp; (1ULL &lt;&lt; 27) ? 27 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 26) ? 26 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 25) ? 25 : (2048 / 8) &amp; (1ULL &lt;&lt; 24) ? 24 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 23) ? 23 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 22) ? 22 : (2048 / 8) &amp; (1ULL &lt;&lt; 21) ? 21 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 20) ? 20 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 19) ? 19 : (2048 / 8) &amp; (1ULL &lt;&lt; 18) ? 18 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 17) ? 17 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 16) ? 16 : (2048 / 8) &amp; (1ULL &lt;&lt; 15) ? 15 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 14) ? 14 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 13) ? 13 : (2048 / 8) &amp; (1ULL &lt;&lt; 12) ? 12 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 11) ? 11 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 10) ? 10 : (2048 / 8) &amp; (1ULL &lt;&lt; 9) ? 9 : (2048 / 8<br>) &amp; (1ULL &lt;&lt; 8) ? 8 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 7) ? 7 : (2048 / 8) &amp; (1ULL &lt;&lt; 6) ? 6 : (2048 / 8)<br> &amp; (1ULL &lt;&lt; 5) ? 5 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 4) ? 4 : (2048 / 8) &amp; (1ULL &lt;&lt; 3) ? 3 : (2048 / 8)<br> &amp; (1ULL &lt;&lt; 2) ? 2 : 1) : -1) : (sizeof(2048 / 8) &lt;=<br> 4) ? __ilog2_u32(2048 / 8) : __ilog2_u64(2048 / 8) ))</span></span></td></tr>
+<tr class="codeline" data-linenumber="108"><td class="num" id="LN108">108</td><td class="line">		<span class='macro'>AT24_FLAG_READONLY | AT24_FLAG_IRUGO)<span class='macro_popup'>((1 &lt;&lt; 8 | (0x40 | 0x20)) &lt;&lt; 5 | ( __builtin_constant_p<br>(2048 / 8) ? ( __builtin_constant_p(2048 / 8) ? ( (2048 / 8) &lt;<br> 2 ? 0 : (2048 / 8) &amp; (1ULL &lt;&lt; 63) ? 63 : (2048 / 8<br>) &amp; (1ULL &lt;&lt; 62) ? 62 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 61) ? 61 : (2048 / 8) &amp; (1ULL &lt;&lt; 60) ? 60 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 59) ? 59 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 58) ? 58 : (2048 / 8) &amp; (1ULL &lt;&lt; 57) ? 57 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 56) ? 56 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 55) ? 55 : (2048 / 8) &amp; (1ULL &lt;&lt; 54) ? 54 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 53) ? 53 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 52) ? 52 : (2048 / 8) &amp; (1ULL &lt;&lt; 51) ? 51 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 50) ? 50 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 49) ? 49 : (2048 / 8) &amp; (1ULL &lt;&lt; 48) ? 48 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 47) ? 47 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 46) ? 46 : (2048 / 8) &amp; (1ULL &lt;&lt; 45) ? 45 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 44) ? 44 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 43) ? 43 : (2048 / 8) &amp; (1ULL &lt;&lt; 42) ? 42 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 41) ? 41 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 40) ? 40 : (2048 / 8) &amp; (1ULL &lt;&lt; 39) ? 39 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 38) ? 38 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 37) ? 37 : (2048 / 8) &amp; (1ULL &lt;&lt; 36) ? 36 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 35) ? 35 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 34) ? 34 : (2048 / 8) &amp; (1ULL &lt;&lt; 33) ? 33 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 32) ? 32 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 31) ? 31 : (2048 / 8) &amp; (1ULL &lt;&lt; 30) ? 30 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 29) ? 29 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 28) ? 28 : (2048 / 8) &amp; (1ULL &lt;&lt; 27) ? 27 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 26) ? 26 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 25) ? 25 : (2048 / 8) &amp; (1ULL &lt;&lt; 24) ? 24 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 23) ? 23 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 22) ? 22 : (2048 / 8) &amp; (1ULL &lt;&lt; 21) ? 21 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 20) ? 20 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 19) ? 19 : (2048 / 8) &amp; (1ULL &lt;&lt; 18) ? 18 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 17) ? 17 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 16) ? 16 : (2048 / 8) &amp; (1ULL &lt;&lt; 15) ? 15 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 14) ? 14 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 13) ? 13 : (2048 / 8) &amp; (1ULL &lt;&lt; 12) ? 12 : (2048 /<br> 8) &amp; (1ULL &lt;&lt; 11) ? 11 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 10) ? 10 : (2048 / 8) &amp; (1ULL &lt;&lt; 9) ? 9 : (2048 / 8<br>) &amp; (1ULL &lt;&lt; 8) ? 8 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 7) ? 7 : (2048 / 8) &amp; (1ULL &lt;&lt; 6) ? 6 : (2048 / 8)<br> &amp; (1ULL &lt;&lt; 5) ? 5 : (2048 / 8) &amp; (1ULL &lt;&lt;<br> 4) ? 4 : (2048 / 8) &amp; (1ULL &lt;&lt; 3) ? 3 : (2048 / 8)<br> &amp; (1ULL &lt;&lt; 2) ? 2 : 1) : -1) : (sizeof(2048 / 8) &lt;=<br> 4) ? __ilog2_u32(2048 / 8) : __ilog2_u64(2048 / 8) ))</span></span> },</td></tr>
+<tr class="codeline" data-linenumber="109"><td class="num" id="LN109">109</td><td class="line">	{ <span class='string_literal'>"24c04"</span>, <span class='macro'>AT24_DEVICE_MAGIC(4096 / 8, 0)<span class='macro_popup'>((1 &lt;&lt; 8 | (0)) &lt;&lt; 5 | ( __builtin_constant_p(4096<br> / 8) ? ( __builtin_constant_p(4096 / 8) ? ( (4096 / 8) &lt; 2<br> ? 0 : (4096 / 8) &amp; (1ULL &lt;&lt; 63) ? 63 : (4096 / 8) &amp;<br> (1ULL &lt;&lt; 62) ? 62 : (4096 / 8) &amp; (1ULL &lt;&lt; 61<br>) ? 61 : (4096 / 8) &amp; (1ULL &lt;&lt; 60) ? 60 : (4096 / 8<br>) &amp; (1ULL &lt;&lt; 59) ? 59 : (4096 / 8) &amp; (1ULL &lt;&lt;<br> 58) ? 58 : (4096 / 8) &amp; (1ULL &lt;&lt; 57) ? 57 : (4096 /<br> 8) &amp; (1ULL &lt;&lt; 56) ? 56 : (4096 / 8) &amp; (1ULL &lt;&lt;<br> 55) ? 55 : (4096 / 8) &amp; (1ULL &lt;&lt; 54) ? 54 : (4096 /<br> 8) &amp; (1ULL &lt;&lt; 53) ? 53 : (4096 / 8) &amp; (1ULL &lt;&lt;<br> 52) ? 52 : (4096 / 8) &amp; (1ULL &lt;&lt; 51) ? 51 : (4096 /<br> 8) &amp; (1ULL &lt;&lt; 50) ? 50 : (4096 / 8) &amp; (1ULL &lt;&lt;<br> 49) ? 49 : (4096 / 8) &amp; (1ULL &lt;&lt; 48) ? 48 : (4096 /<br> 8) &amp; (1ULL &lt;&lt; 47) ? 47 : (4096 / 8) &amp; (1ULL &lt;&lt;<br> 46) ? 46 : (4096 / 8) &amp; (1ULL &lt;&lt; 45) ? 45 : (4096 /<br> 8) &amp; (1ULL &lt;&lt; 44) ? 44 : (4096 / 8) &amp; (1ULL &lt;&lt;<br> 43) ? 43 : (4096 / 8) &amp; (1ULL &lt;&lt; 42) ? 42 : (4096 /<br> 8) &amp; (1ULL &lt;&lt; 41) ? 41 : (4096 / 8) &amp; (1ULL &lt;&lt;<br> 40) ? 40 : (4096 / 8) &amp; (1ULL &lt;&lt; 39) ? 39 : (4096 /<br> 8) &amp; (1ULL &lt;&lt; 38) ? 38 : (4096 / 8) &amp; (1ULL &lt;&lt;<br> 37) ? 37 : (4096 / 8) &amp; (1ULL &lt;&lt; 36) ? 36 : (4096 /<br> 8) &amp; (1ULL &lt;&lt; 35) ? 35 : (4096 / 8) &amp; (1ULL &lt;&lt;<br> 34) ? 34 : (4096 / 8) &amp; (1ULL &lt;&lt; 33) ? 33 : (4096 /<br> 8) &amp; (1ULL &lt;&lt; 32) ? 32 : (4096 / 8) &amp; (1ULL &lt;&lt;<br> 31) ? 31 : (4096 / 8) &amp; (1ULL &lt;&lt; 30) ? 30 : (4096 /<br> 8) &amp; (1ULL &lt;&lt; 29) ? 29 : (4096 / 8) &amp; (1ULL &lt;&lt;<br> 28) ? 28 : (4096 / 8) &amp; (1ULL &lt;&lt; 27) ? 27 : (4096 /<br> 8) &amp; (1ULL &lt;&lt; 26) ? 26 : (4096 / 8) &amp; (1ULL &lt;&lt;<br> 25) ? 25 : (4096 / 8) &amp; (1ULL &lt;&lt; 24) ? 24 : (4096 /<br> 8) &amp; (1ULL &lt;&lt; 23) ? 23 : (4096 / 8) &amp; (1ULL &lt;&lt;<br> 22) ? 22 : (4096 / 8) &amp; (1ULL &lt;&lt; 21) ? 21 : (4096 /<br> 8) &amp; (1ULL &lt;&lt; 20) ? 20 : (4096 / 8) &amp; (1ULL &lt;&lt;<br> 19) ? 19 : (4096 / 8) &amp; (1ULL &lt;&lt; 18) ? 18 : (4096 /<br> 8) &amp; (1ULL &lt;&lt; 17) ? 17 : (4096 / 8) &amp; (1ULL &lt;&lt;<br> 16) ? 16 : (4096 / 8) &amp; (1ULL &lt;&lt; 15) ? 15 : (4096 /<br> 8) &amp; (1ULL &lt;&lt; 14) ? 14 : (4096 / 8) &amp; (1ULL &lt;&lt;<br> 13) ? 13 : (4096 / 8) &amp; (1ULL &lt;&lt; 12) ? 12 : (4096 /<br> 8) &amp; (1ULL &lt;&lt; 11) ? 11 : (4096 / 8) &amp; (1ULL &lt;&lt;<br> 10) ? 10 : (4096 / 8) &amp; (1ULL &lt;&lt; 9) ? 9 : (4096 / 8<br>) &amp; (1ULL &lt;&lt; 8) ? 8 : (4096 / 8) &amp; (1ULL &lt;&lt;<br> 7) ? 7 : (4096 / 8) &amp; (1ULL &lt;&lt; 6) ? 6 : (4096 / 8)<br> &amp; (1ULL &lt;&lt; 5) ? 5 : (4096 / 8) &amp; (1ULL &lt;&lt;<br> 4) ? 4 : (4096 / 8) &amp; (1ULL &lt;&lt; 3) ? 3 : (4096 / 8)<br> &amp; (1ULL &lt;&lt; 2) ? 2 : 1) : -1) : (sizeof(4096 / 8) &lt;=<br> 4) ? __ilog2_u32(4096 / 8) : __ilog2_u64(4096 / 8) ))</span></span> },</td></tr>
+<tr class="codeline" data-linenumber="110"><td class="num" id="LN110">110</td><td class="line">	<span class='comment'>/* 24rf08 quirk is handled at i2c-core */</span></td></tr>
+<tr class="codeline" data-linenumber="111"><td class="num" id="LN111">111</td><td class="line">	{ <span class='string_literal'>"24c08"</span>, <span class='macro'>AT24_DEVICE_MAGIC(8192 / 8, 0)<span class='macro_popup'>((1 &lt;&lt; 8 | (0)) &lt;&lt; 5 | ( __builtin_constant_p(8192<br> / 8) ? ( __builtin_constant_p(8192 / 8) ? ( (8192 / 8) &lt; 2<br> ? 0 : (8192 / 8) &amp; (1ULL &lt;&lt; 63) ? 63 : (8192 / 8) &amp;<br> (1ULL &lt;&lt; 62) ? 62 : (8192 / 8) &amp; (1ULL &lt;&lt; 61<br>) ? 61 : (8192 / 8) &amp; (1ULL &lt;&lt; 60) ? 60 : (8192 / 8<br>) &amp; (1ULL &lt;&lt; 59) ? 59 : (8192 / 8) &amp; (1ULL &lt;&lt;<br> 58) ? 58 : (8192 / 8) &amp; (1ULL &lt;&lt; 57) ? 57 : (8192 /<br> 8) &amp; (1ULL &lt;&lt; 56) ? 56 : (8192 / 8) &amp; (1ULL &lt;&lt;<br> 55) ? 55 : (8192 / 8) &amp; (1ULL &lt;&lt; 54) ? 54 : (8192 /<br> 8) &amp; (1ULL &lt;&lt; 53) ? 53 : (8192 / 8) &amp; (1ULL &lt;&lt;<br> 52) ? 52 : (8192 / 8) &amp; (1ULL &lt;&lt; 51) ? 51 : (8192 /<br> 8) &amp; (1ULL &lt;&lt; 50) ? 50 : (8192 / 8) &amp; (1ULL &lt;&lt;<br> 49) ? 49 : (8192 / 8) &amp; (1ULL &lt;&lt; 48) ? 48 : (8192 /<br> 8) &amp; (1ULL &lt;&lt; 47) ? 47 : (8192 / 8) &amp; (1ULL &lt;&lt;<br> 46) ? 46 : (8192 / 8) &amp; (1ULL &lt;&lt; 45) ? 45 : (8192 /<br> 8) &amp; (1ULL &lt;&lt; 44) ? 44 : (8192 / 8) &amp; (1ULL &lt;&lt;<br> 43) ? 43 : (8192 / 8) &amp; (1ULL &lt;&lt; 42) ? 42 : (8192 /<br> 8) &amp; (1ULL &lt;&lt; 41) ? 41 : (8192 / 8) &amp; (1ULL &lt;&lt;<br> 40) ? 40 : (8192 / 8) &amp; (1ULL &lt;&lt; 39) ? 39 : (8192 /<br> 8) &amp; (1ULL &lt;&lt; 38) ? 38 : (8192 / 8) &amp; (1ULL &lt;&lt;<br> 37) ? 37 : (8192 / 8) &amp; (1ULL &lt;&lt; 36) ? 36 : (8192 /<br> 8) &amp; (1ULL &lt;&lt; 35) ? 35 : (8192 / 8) &amp; (1ULL &lt;&lt;<br> 34) ? 34 : (8192 / 8) &amp; (1ULL &lt;&lt; 33) ? 33 : (8192 /<br> 8) &amp; (1ULL &lt;&lt; 32) ? 32 : (8192 / 8) &amp; (1ULL &lt;&lt;<br> 31) ? 31 : (8192 / 8) &amp; (1ULL &lt;&lt; 30) ? 30 : (8192 /<br> 8) &amp; (1ULL &lt;&lt; 29) ? 29 : (8192 / 8) &amp; (1ULL &lt;&lt;<br> 28) ? 28 : (8192 / 8) &amp; (1ULL &lt;&lt; 27) ? 27 : (8192 /<br> 8) &amp; (1ULL &lt;&lt; 26) ? 26 : (8192 / 8) &amp; (1ULL &lt;&lt;<br> 25) ? 25 : (8192 / 8) &amp; (1ULL &lt;&lt; 24) ? 24 : (8192 /<br> 8) &amp; (1ULL &lt;&lt; 23) ? 23 : (8192 / 8) &amp; (1ULL &lt;&lt;<br> 22) ? 22 : (8192 / 8) &amp; (1ULL &lt;&lt; 21) ? 21 : (8192 /<br> 8) &amp; (1ULL &lt;&lt; 20) ? 20 : (8192 / 8) &amp; (1ULL &lt;&lt;<br> 19) ? 19 : (8192 / 8) &amp; (1ULL &lt;&lt; 18) ? 18 : (8192 /<br> 8) &amp; (1ULL &lt;&lt; 17) ? 17 : (8192 / 8) &amp; (1ULL &lt;&lt;<br> 16) ? 16 : (8192 / 8) &amp; (1ULL &lt;&lt; 15) ? 15 : (8192 /<br> 8) &amp; (1ULL &lt;&lt; 14) ? 14 : (8192 / 8) &amp; (1ULL &lt;&lt;<br> 13) ? 13 : (8192 / 8) &amp; (1ULL &lt;&lt; 12) ? 12 : (8192 /<br> 8) &amp; (1ULL &lt;&lt; 11) ? 11 : (8192 / 8) &amp; (1ULL &lt;&lt;<br> 10) ? 10 : (8192 / 8) &amp; (1ULL &lt;&lt; 9) ? 9 : (8192 / 8<br>) &amp; (1ULL &lt;&lt; 8) ? 8 : (8192 / 8) &amp; (1ULL &lt;&lt;<br> 7) ? 7 : (8192 / 8) &amp; (1ULL &lt;&lt; 6) ? 6 : (8192 / 8)<br> &amp; (1ULL &lt;&lt; 5) ? 5 : (8192 / 8) &amp; (1ULL &lt;&lt;<br> 4) ? 4 : (8192 / 8) &amp; (1ULL &lt;&lt; 3) ? 3 : (8192 / 8)<br> &amp; (1ULL &lt;&lt; 2) ? 2 : 1) : -1) : (sizeof(8192 / 8) &lt;=<br> 4) ? __ilog2_u32(8192 / 8) : __ilog2_u64(8192 / 8) ))</span></span> },</td></tr>
+<tr class="codeline" data-linenumber="112"><td class="num" id="LN112">112</td><td class="line">	{ <span class='string_literal'>"24c16"</span>, <span class='macro'>AT24_DEVICE_MAGIC(16384 / 8, 0)<span class='macro_popup'>((1 &lt;&lt; 8 | (0)) &lt;&lt; 5 | ( __builtin_constant_p(16384<br> / 8) ? ( __builtin_constant_p(16384 / 8) ? ( (16384 / 8) &lt;<br> 2 ? 0 : (16384 / 8) &amp; (1ULL &lt;&lt; 63) ? 63 : (16384 /<br> 8) &amp; (1ULL &lt;&lt; 62) ? 62 : (16384 / 8) &amp; (1ULL &lt;&lt;<br> 61) ? 61 : (16384 / 8) &amp; (1ULL &lt;&lt; 60) ? 60 : (16384<br> / 8) &amp; (1ULL &lt;&lt; 59) ? 59 : (16384 / 8) &amp; (1ULL<br> &lt;&lt; 58) ? 58 : (16384 / 8) &amp; (1ULL &lt;&lt; 57) ? 57<br> : (16384 / 8) &amp; (1ULL &lt;&lt; 56) ? 56 : (16384 / 8) &amp;<br> (1ULL &lt;&lt; 55) ? 55 : (16384 / 8) &amp; (1ULL &lt;&lt; 54<br>) ? 54 : (16384 / 8) &amp; (1ULL &lt;&lt; 53) ? 53 : (16384 /<br> 8) &amp; (1ULL &lt;&lt; 52) ? 52 : (16384 / 8) &amp; (1ULL &lt;&lt;<br> 51) ? 51 : (16384 / 8) &amp; (1ULL &lt;&lt; 50) ? 50 : (16384<br> / 8) &amp; (1ULL &lt;&lt; 49) ? 49 : (16384 / 8) &amp; (1ULL<br> &lt;&lt; 48) ? 48 : (16384 / 8) &amp; (1ULL &lt;&lt; 47) ? 47<br> : (16384 / 8) &amp; (1ULL &lt;&lt; 46) ? 46 : (16384 / 8) &amp;<br> (1ULL &lt;&lt; 45) ? 45 : (16384 / 8) &amp; (1ULL &lt;&lt; 44<br>) ? 44 : (16384 / 8) &amp; (1ULL &lt;&lt; 43) ? 43 : (16384 /<br> 8) &amp; (1ULL &lt;&lt; 42) ? 42 : (16384 / 8) &amp; (1ULL &lt;&lt;<br> 41) ? 41 : (16384 / 8) &amp; (1ULL &lt;&lt; 40) ? 40 : (16384<br> / 8) &amp; (1ULL &lt;&lt; 39) ? 39 : (16384 / 8) &amp; (1ULL<br> &lt;&lt; 38) ? 38 : (16384 / 8) &amp; (1ULL &lt;&lt; 37) ? 37<br> : (16384 / 8) &amp; (1ULL &lt;&lt; 36) ? 36 : (16384 / 8) &amp;<br> (1ULL &lt;&lt; 35) ? 35 : (16384 / 8) &amp; (1ULL &lt;&lt; 34<br>) ? 34 : (16384 / 8) &amp; (1ULL &lt;&lt; 33) ? 33 : (16384 /<br> 8) &amp; (1ULL &lt;&lt; 32) ? 32 : (16384 / 8) &amp; (1ULL &lt;&lt;<br> 31) ? 31 : (16384 / 8) &amp; (1ULL &lt;&lt; 30) ? 30 : (16384<br> / 8) &amp; (1ULL &lt;&lt; 29) ? 29 : (16384 / 8) &amp; (1ULL<br> &lt;&lt; 28) ? 28 : (16384 / 8) &amp; (1ULL &lt;&lt; 27) ? 27<br> : (16384 / 8) &amp; (1ULL &lt;&lt; 26) ? 26 : (16384 / 8) &amp;<br> (1ULL &lt;&lt; 25) ? 25 : (16384 / 8) &amp; (1ULL &lt;&lt; 24<br>) ? 24 : (16384 / 8) &amp; (1ULL &lt;&lt; 23) ? 23 : (16384 /<br> 8) &amp; (1ULL &lt;&lt; 22) ? 22 : (16384 / 8) &amp; (1ULL &lt;&lt;<br> 21) ? 21 : (16384 / 8) &amp; (1ULL &lt;&lt; 20) ? 20 : (16384<br> / 8) &amp; (1ULL &lt;&lt; 19) ? 19 : (16384 / 8) &amp; (1ULL<br> &lt;&lt; 18) ? 18 : (16384 / 8) &amp; (1ULL &lt;&lt; 17) ? 17<br> : (16384 / 8) &amp; (1ULL &lt;&lt; 16) ? 16 : (16384 / 8) &amp;<br> (1ULL &lt;&lt; 15) ? 15 : (16384 / 8) &amp; (1ULL &lt;&lt; 14<br>) ? 14 : (16384 / 8) &amp; (1ULL &lt;&lt; 13) ? 13 : (16384 /<br> 8) &amp; (1ULL &lt;&lt; 12) ? 12 : (16384 / 8) &amp; (1ULL &lt;&lt;<br> 11) ? 11 : (16384 / 8) &amp; (1ULL &lt;&lt; 10) ? 10 : (16384<br> / 8) &amp; (1ULL &lt;&lt; 9) ? 9 : (16384 / 8) &amp; (1ULL &lt;&lt;<br> 8) ? 8 : (16384 / 8) &amp; (1ULL &lt;&lt; 7) ? 7 : (16384 / 8<br>) &amp; (1ULL &lt;&lt; 6) ? 6 : (16384 / 8) &amp; (1ULL &lt;&lt;<br> 5) ? 5 : (16384 / 8) &amp; (1ULL &lt;&lt; 4) ? 4 : (16384 / 8<br>) &amp; (1ULL &lt;&lt; 3) ? 3 : (16384 / 8) &amp; (1ULL &lt;&lt;<br> 2) ? 2 : 1) : -1) : (sizeof(16384 / 8) &lt;= 4) ? __ilog2_u32<br>(16384 / 8) : __ilog2_u64(16384 / 8) ))</span></span> },</td></tr>
+<tr class="codeline" data-linenumber="113"><td class="num" id="LN113">113</td><td class="line">	{ <span class='string_literal'>"24c32"</span>, <span class='macro'>AT24_DEVICE_MAGIC(32768 / 8, AT24_FLAG_ADDR16)<span class='macro_popup'>((1 &lt;&lt; 8 | (0x80)) &lt;&lt; 5 | ( __builtin_constant_p(<br>32768 / 8) ? ( __builtin_constant_p(32768 / 8) ? ( (32768 / 8<br>) &lt; 2 ? 0 : (32768 / 8) &amp; (1ULL &lt;&lt; 63) ? 63 : (32768<br> / 8) &amp; (1ULL &lt;&lt; 62) ? 62 : (32768 / 8) &amp; (1ULL<br> &lt;&lt; 61) ? 61 : (32768 / 8) &amp; (1ULL &lt;&lt; 60) ? 60<br> : (32768 / 8) &amp; (1ULL &lt;&lt; 59) ? 59 : (32768 / 8) &amp;<br> (1ULL &lt;&lt; 58) ? 58 : (32768 / 8) &amp; (1ULL &lt;&lt; 57<br>) ? 57 : (32768 / 8) &amp; (1ULL &lt;&lt; 56) ? 56 : (32768 /<br> 8) &amp; (1ULL &lt;&lt; 55) ? 55 : (32768 / 8) &amp; (1ULL &lt;&lt;<br> 54) ? 54 : (32768 / 8) &amp; (1ULL &lt;&lt; 53) ? 53 : (32768<br> / 8) &amp; (1ULL &lt;&lt; 52) ? 52 : (32768 / 8) &amp; (1ULL<br> &lt;&lt; 51) ? 51 : (32768 / 8) &amp; (1ULL &lt;&lt; 50) ? 50<br> : (32768 / 8) &amp; (1ULL &lt;&lt; 49) ? 49 : (32768 / 8) &amp;<br> (1ULL &lt;&lt; 48) ? 48 : (32768 / 8) &amp; (1ULL &lt;&lt; 47<br>) ? 47 : (32768 / 8) &amp; (1ULL &lt;&lt; 46) ? 46 : (32768 /<br> 8) &amp; (1ULL &lt;&lt; 45) ? 45 : (32768 / 8) &amp; (1ULL &lt;&lt;<br> 44) ? 44 : (32768 / 8) &amp; (1ULL &lt;&lt; 43) ? 43 : (32768<br> / 8) &amp; (1ULL &lt;&lt; 42) ? 42 : (32768 / 8) &amp; (1ULL<br> &lt;&lt; 41) ? 41 : (32768 / 8) &amp; (1ULL &lt;&lt; 40) ? 40<br> : (32768 / 8) &amp; (1ULL &lt;&lt; 39) ? 39 : (32768 / 8) &amp;<br> (1ULL &lt;&lt; 38) ? 38 : (32768 / 8) &amp; (1ULL &lt;&lt; 37<br>) ? 37 : (32768 / 8) &amp; (1ULL &lt;&lt; 36) ? 36 : (32768 /<br> 8) &amp; (1ULL &lt;&lt; 35) ? 35 : (32768 / 8) &amp; (1ULL &lt;&lt;<br> 34) ? 34 : (32768 / 8) &amp; (1ULL &lt;&lt; 33) ? 33 : (32768<br> / 8) &amp; (1ULL &lt;&lt; 32) ? 32 : (32768 / 8) &amp; (1ULL<br> &lt;&lt; 31) ? 31 : (32768 / 8) &amp; (1ULL &lt;&lt; 30) ? 30<br> : (32768 / 8) &amp; (1ULL &lt;&lt; 29) ? 29 : (32768 / 8) &amp;<br> (1ULL &lt;&lt; 28) ? 28 : (32768 / 8) &amp; (1ULL &lt;&lt; 27<br>) ? 27 : (32768 / 8) &amp; (1ULL &lt;&lt; 26) ? 26 : (32768 /<br> 8) &amp; (1ULL &lt;&lt; 25) ? 25 : (32768 / 8) &amp; (1ULL &lt;&lt;<br> 24) ? 24 : (32768 / 8) &amp; (1ULL &lt;&lt; 23) ? 23 : (32768<br> / 8) &amp; (1ULL &lt;&lt; 22) ? 22 : (32768 / 8) &amp; (1ULL<br> &lt;&lt; 21) ? 21 : (32768 / 8) &amp; (1ULL &lt;&lt; 20) ? 20<br> : (32768 / 8) &amp; (1ULL &lt;&lt; 19) ? 19 : (32768 / 8) &amp;<br> (1ULL &lt;&lt; 18) ? 18 : (32768 / 8) &amp; (1ULL &lt;&lt; 17<br>) ? 17 : (32768 / 8) &amp; (1ULL &lt;&lt; 16) ? 16 : (32768 /<br> 8) &amp; (1ULL &lt;&lt; 15) ? 15 : (32768 / 8) &amp; (1ULL &lt;&lt;<br> 14) ? 14 : (32768 / 8) &amp; (1ULL &lt;&lt; 13) ? 13 : (32768<br> / 8) &amp; (1ULL &lt;&lt; 12) ? 12 : (32768 / 8) &amp; (1ULL<br> &lt;&lt; 11) ? 11 : (32768 / 8) &amp; (1ULL &lt;&lt; 10) ? 10<br> : (32768 / 8) &amp; (1ULL &lt;&lt; 9) ? 9 : (32768 / 8) &amp;<br> (1ULL &lt;&lt; 8) ? 8 : (32768 / 8) &amp; (1ULL &lt;&lt; 7) ?<br> 7 : (32768 / 8) &amp; (1ULL &lt;&lt; 6) ? 6 : (32768 / 8) &amp;<br> (1ULL &lt;&lt; 5) ? 5 : (32768 / 8) &amp; (1ULL &lt;&lt; 4) ?<br> 4 : (32768 / 8) &amp; (1ULL &lt;&lt; 3) ? 3 : (32768 / 8) &amp;<br> (1ULL &lt;&lt; 2) ? 2 : 1) : -1) : (sizeof(32768 / 8) &lt;= 4<br>) ? __ilog2_u32(32768 / 8) : __ilog2_u64(32768 / 8) ))</span></span> },</td></tr>
+<tr class="codeline" data-linenumber="114"><td class="num" id="LN114">114</td><td class="line">	{ <span class='string_literal'>"24c64"</span>, <span class='macro'>AT24_DEVICE_MAGIC(65536 / 8, AT24_FLAG_ADDR16)<span class='macro_popup'>((1 &lt;&lt; 8 | (0x80)) &lt;&lt; 5 | ( __builtin_constant_p(<br>65536 / 8) ? ( __builtin_constant_p(65536 / 8) ? ( (65536 / 8<br>) &lt; 2 ? 0 : (65536 / 8) &amp; (1ULL &lt;&lt; 63) ? 63 : (65536<br> / 8) &amp; (1ULL &lt;&lt; 62) ? 62 : (65536 / 8) &amp; (1ULL<br> &lt;&lt; 61) ? 61 : (65536 / 8) &amp; (1ULL &lt;&lt; 60) ? 60<br> : (65536 / 8) &amp; (1ULL &lt;&lt; 59) ? 59 : (65536 / 8) &amp;<br> (1ULL &lt;&lt; 58) ? 58 : (65536 / 8) &amp; (1ULL &lt;&lt; 57<br>) ? 57 : (65536 / 8) &amp; (1ULL &lt;&lt; 56) ? 56 : (65536 /<br> 8) &amp; (1ULL &lt;&lt; 55) ? 55 : (65536 / 8) &amp; (1ULL &lt;&lt;<br> 54) ? 54 : (65536 / 8) &amp; (1ULL &lt;&lt; 53) ? 53 : (65536<br> / 8) &amp; (1ULL &lt;&lt; 52) ? 52 : (65536 / 8) &amp; (1ULL<br> &lt;&lt; 51) ? 51 : (65536 / 8) &amp; (1ULL &lt;&lt; 50) ? 50<br> : (65536 / 8) &amp; (1ULL &lt;&lt; 49) ? 49 : (65536 / 8) &amp;<br> (1ULL &lt;&lt; 48) ? 48 : (65536 / 8) &amp; (1ULL &lt;&lt; 47<br>) ? 47 : (65536 / 8) &amp; (1ULL &lt;&lt; 46) ? 46 : (65536 /<br> 8) &amp; (1ULL &lt;&lt; 45) ? 45 : (65536 / 8) &amp; (1ULL &lt;&lt;<br> 44) ? 44 : (65536 / 8) &amp; (1ULL &lt;&lt; 43) ? 43 : (65536<br> / 8) &amp; (1ULL &lt;&lt; 42) ? 42 : (65536 / 8) &amp; (1ULL<br> &lt;&lt; 41) ? 41 : (65536 / 8) &amp; (1ULL &lt;&lt; 40) ? 40<br> : (65536 / 8) &amp; (1ULL &lt;&lt; 39) ? 39 : (65536 / 8) &amp;<br> (1ULL &lt;&lt; 38) ? 38 : (65536 / 8) &amp; (1ULL &lt;&lt; 37<br>) ? 37 : (65536 / 8) &amp; (1ULL &lt;&lt; 36) ? 36 : (65536 /<br> 8) &amp; (1ULL &lt;&lt; 35) ? 35 : (65536 / 8) &amp; (1ULL &lt;&lt;<br> 34) ? 34 : (65536 / 8) &amp; (1ULL &lt;&lt; 33) ? 33 : (65536<br> / 8) &amp; (1ULL &lt;&lt; 32) ? 32 : (65536 / 8) &amp; (1ULL<br> &lt;&lt; 31) ? 31 : (65536 / 8) &amp; (1ULL &lt;&lt; 30) ? 30<br> : (65536 / 8) &amp; (1ULL &lt;&lt; 29) ? 29 : (65536 / 8) &amp;<br> (1ULL &lt;&lt; 28) ? 28 : (65536 / 8) &amp; (1ULL &lt;&lt; 27<br>) ? 27 : (65536 / 8) &amp; (1ULL &lt;&lt; 26) ? 26 : (65536 /<br> 8) &amp; (1ULL &lt;&lt; 25) ? 25 : (65536 / 8) &amp; (1ULL &lt;&lt;<br> 24) ? 24 : (65536 / 8) &amp; (1ULL &lt;&lt; 23) ? 23 : (65536<br> / 8) &amp; (1ULL &lt;&lt; 22) ? 22 : (65536 / 8) &amp; (1ULL<br> &lt;&lt; 21) ? 21 : (65536 / 8) &amp; (1ULL &lt;&lt; 20) ? 20<br> : (65536 / 8) &amp; (1ULL &lt;&lt; 19) ? 19 : (65536 / 8) &amp;<br> (1ULL &lt;&lt; 18) ? 18 : (65536 / 8) &amp; (1ULL &lt;&lt; 17<br>) ? 17 : (65536 / 8) &amp; (1ULL &lt;&lt; 16) ? 16 : (65536 /<br> 8) &amp; (1ULL &lt;&lt; 15) ? 15 : (65536 / 8) &amp; (1ULL &lt;&lt;<br> 14) ? 14 : (65536 / 8) &amp; (1ULL &lt;&lt; 13) ? 13 : (65536<br> / 8) &amp; (1ULL &lt;&lt; 12) ? 12 : (65536 / 8) &amp; (1ULL<br> &lt;&lt; 11) ? 11 : (65536 / 8) &amp; (1ULL &lt;&lt; 10) ? 10<br> : (65536 / 8) &amp; (1ULL &lt;&lt; 9) ? 9 : (65536 / 8) &amp;<br> (1ULL &lt;&lt; 8) ? 8 : (65536 / 8) &amp; (1ULL &lt;&lt; 7) ?<br> 7 : (65536 / 8) &amp; (1ULL &lt;&lt; 6) ? 6 : (65536 / 8) &amp;<br> (1ULL &lt;&lt; 5) ? 5 : (65536 / 8) &amp; (1ULL &lt;&lt; 4) ?<br> 4 : (65536 / 8) &amp; (1ULL &lt;&lt; 3) ? 3 : (65536 / 8) &amp;<br> (1ULL &lt;&lt; 2) ? 2 : 1) : -1) : (sizeof(65536 / 8) &lt;= 4<br>) ? __ilog2_u32(65536 / 8) : __ilog2_u64(65536 / 8) ))</span></span> },</td></tr>
+<tr class="codeline" data-linenumber="115"><td class="num" id="LN115">115</td><td class="line">	{ <span class='string_literal'>"24cs64"</span>, <span class='macro'>AT24_DEVICE_MAGIC(16, AT24_FLAG_ADDR16)<span class='macro_popup'>((1 &lt;&lt; 8 | (0x80)) &lt;&lt; 5 | ( __builtin_constant_p(<br>16) ? ( __builtin_constant_p(16) ? ( (16) &lt; 2 ? 0 : (16) &amp;<br> (1ULL &lt;&lt; 63) ? 63 : (16) &amp; (1ULL &lt;&lt; 62) ? 62<br> : (16) &amp; (1ULL &lt;&lt; 61) ? 61 : (16) &amp; (1ULL &lt;&lt;<br> 60) ? 60 : (16) &amp; (1ULL &lt;&lt; 59) ? 59 : (16) &amp; (<br>1ULL &lt;&lt; 58) ? 58 : (16) &amp; (1ULL &lt;&lt; 57) ? 57 :<br> (16) &amp; (1ULL &lt;&lt; 56) ? 56 : (16) &amp; (1ULL &lt;&lt;<br> 55) ? 55 : (16) &amp; (1ULL &lt;&lt; 54) ? 54 : (16) &amp; (<br>1ULL &lt;&lt; 53) ? 53 : (16) &amp; (1ULL &lt;&lt; 52) ? 52 :<br> (16) &amp; (1ULL &lt;&lt; 51) ? 51 : (16) &amp; (1ULL &lt;&lt;<br> 50) ? 50 : (16) &amp; (1ULL &lt;&lt; 49) ? 49 : (16) &amp; (<br>1ULL &lt;&lt; 48) ? 48 : (16) &amp; (1ULL &lt;&lt; 47) ? 47 :<br> (16) &amp; (1ULL &lt;&lt; 46) ? 46 : (16) &amp; (1ULL &lt;&lt;<br> 45) ? 45 : (16) &amp; (1ULL &lt;&lt; 44) ? 44 : (16) &amp; (<br>1ULL &lt;&lt; 43) ? 43 : (16) &amp; (1ULL &lt;&lt; 42) ? 42 :<br> (16) &amp; (1ULL &lt;&lt; 41) ? 41 : (16) &amp; (1ULL &lt;&lt;<br> 40) ? 40 : (16) &amp; (1ULL &lt;&lt; 39) ? 39 : (16) &amp; (<br>1ULL &lt;&lt; 38) ? 38 : (16) &amp; (1ULL &lt;&lt; 37) ? 37 :<br> (16) &amp; (1ULL &lt;&lt; 36) ? 36 : (16) &amp; (1ULL &lt;&lt;<br> 35) ? 35 : (16) &amp; (1ULL &lt;&lt; 34) ? 34 : (16) &amp; (<br>1ULL &lt;&lt; 33) ? 33 : (16) &amp; (1ULL &lt;&lt; 32) ? 32 :<br> (16) &amp; (1ULL &lt;&lt; 31) ? 31 : (16) &amp; (1ULL &lt;&lt;<br> 30) ? 30 : (16) &amp; (1ULL &lt;&lt; 29) ? 29 : (16) &amp; (<br>1ULL &lt;&lt; 28) ? 28 : (16) &amp; (1ULL &lt;&lt; 27) ? 27 :<br> (16) &amp; (1ULL &lt;&lt; 26) ? 26 : (16) &amp; (1ULL &lt;&lt;<br> 25) ? 25 : (16) &amp; (1ULL &lt;&lt; 24) ? 24 : (16) &amp; (<br>1ULL &lt;&lt; 23) ? 23 : (16) &amp; (1ULL &lt;&lt; 22) ? 22 :<br> (16) &amp; (1ULL &lt;&lt; 21) ? 21 : (16) &amp; (1ULL &lt;&lt;<br> 20) ? 20 : (16) &amp; (1ULL &lt;&lt; 19) ? 19 : (16) &amp; (<br>1ULL &lt;&lt; 18) ? 18 : (16) &amp; (1ULL &lt;&lt; 17) ? 17 :<br> (16) &amp; (1ULL &lt;&lt; 16) ? 16 : (16) &amp; (1ULL &lt;&lt;<br> 15) ? 15 : (16) &amp; (1ULL &lt;&lt; 14) ? 14 : (16) &amp; (<br>1ULL &lt;&lt; 13) ? 13 : (16) &amp; (1ULL &lt;&lt; 12) ? 12 :<br> (16) &amp; (1ULL &lt;&lt; 11) ? 11 : (16) &amp; (1ULL &lt;&lt;<br> 10) ? 10 : (16) &amp; (1ULL &lt;&lt; 9) ? 9 : (16) &amp; (1ULL<br> &lt;&lt; 8) ? 8 : (16) &amp; (1ULL &lt;&lt; 7) ? 7 : (16) &amp;<br> (1ULL &lt;&lt; 6) ? 6 : (16) &amp; (1ULL &lt;&lt; 5) ? 5 : (<br>16) &amp; (1ULL &lt;&lt; 4) ? 4 : (16) &amp; (1ULL &lt;&lt; 3<br>) ? 3 : (16) &amp; (1ULL &lt;&lt; 2) ? 2 : 1) : -1) : (sizeof<br>(16) &lt;= 4) ? __ilog2_u32(16) : __ilog2_u64(16) ))</span></span> },</td></tr>
+<tr class="codeline" data-linenumber="116"><td class="num" id="LN116">116</td><td class="line">	{ <span class='string_literal'>"24c128"</span>, <span class='macro'>AT24_DEVICE_MAGIC(131072 / 8, AT24_FLAG_ADDR16)<span class='macro_popup'>((1 &lt;&lt; 8 | (0x80)) &lt;&lt; 5 | ( __builtin_constant_p(<br>131072 / 8) ? ( __builtin_constant_p(131072 / 8) ? ( (131072 /<br> 8) &lt; 2 ? 0 : (131072 / 8) &amp; (1ULL &lt;&lt; 63) ? 63 :<br> (131072 / 8) &amp; (1ULL &lt;&lt; 62) ? 62 : (131072 / 8) &amp;<br> (1ULL &lt;&lt; 61) ? 61 : (131072 / 8) &amp; (1ULL &lt;&lt; 60<br>) ? 60 : (131072 / 8) &amp; (1ULL &lt;&lt; 59) ? 59 : (131072<br> / 8) &amp; (1ULL &lt;&lt; 58) ? 58 : (131072 / 8) &amp; (1ULL<br> &lt;&lt; 57) ? 57 : (131072 / 8) &amp; (1ULL &lt;&lt; 56) ? 56<br> : (131072 / 8) &amp; (1ULL &lt;&lt; 55) ? 55 : (131072 / 8) &amp;<br> (1ULL &lt;&lt; 54) ? 54 : (131072 / 8) &amp; (1ULL &lt;&lt; 53<br>) ? 53 : (131072 / 8) &amp; (1ULL &lt;&lt; 52) ? 52 : (131072<br> / 8) &amp; (1ULL &lt;&lt; 51) ? 51 : (131072 / 8) &amp; (1ULL<br> &lt;&lt; 50) ? 50 : (131072 / 8) &amp; (1ULL &lt;&lt; 49) ? 49<br> : (131072 / 8) &amp; (1ULL &lt;&lt; 48) ? 48 : (131072 / 8) &amp;<br> (1ULL &lt;&lt; 47) ? 47 : (131072 / 8) &amp; (1ULL &lt;&lt; 46<br>) ? 46 : (131072 / 8) &amp; (1ULL &lt;&lt; 45) ? 45 : (131072<br> / 8) &amp; (1ULL &lt;&lt; 44) ? 44 : (131072 / 8) &amp; (1ULL<br> &lt;&lt; 43) ? 43 : (131072 / 8) &amp; (1ULL &lt;&lt; 42) ? 42<br> : (131072 / 8) &amp; (1ULL &lt;&lt; 41) ? 41 : (131072 / 8) &amp;<br> (1ULL &lt;&lt; 40) ? 40 : (131072 / 8) &amp; (1ULL &lt;&lt; 39<br>) ? 39 : (131072 / 8) &amp; (1ULL &lt;&lt; 38) ? 38 : (131072<br> / 8) &amp; (1ULL &lt;&lt; 37) ? 37 : (131072 / 8) &amp; (1ULL<br> &lt;&lt; 36) ? 36 : (131072 / 8) &amp; (1ULL &lt;&lt; 35) ? 35<br> : (131072 / 8) &amp; (1ULL &lt;&lt; 34) ? 34 : (131072 / 8) &amp;<br> (1ULL &lt;&lt; 33) ? 33 : (131072 / 8) &amp; (1ULL &lt;&lt; 32<br>) ? 32 : (131072 / 8) &amp; (1ULL &lt;&lt; 31) ? 31 : (131072<br> / 8) &amp; (1ULL &lt;&lt; 30) ? 30 : (131072 / 8) &amp; (1ULL<br> &lt;&lt; 29) ? 29 : (131072 / 8) &amp; (1ULL &lt;&lt; 28) ? 28<br> : (131072 / 8) &amp; (1ULL &lt;&lt; 27) ? 27 : (131072 / 8) &amp;<br> (1ULL &lt;&lt; 26) ? 26 : (131072 / 8) &amp; (1ULL &lt;&lt; 25<br>) ? 25 : (131072 / 8) &amp; (1ULL &lt;&lt; 24) ? 24 : (131072<br> / 8) &amp; (1ULL &lt;&lt; 23) ? 23 : (131072 / 8) &amp; (1ULL<br> &lt;&lt; 22) ? 22 : (131072 / 8) &amp; (1ULL &lt;&lt; 21) ? 21<br> : (131072 / 8) &amp; (1ULL &lt;&lt; 20) ? 20 : (131072 / 8) &amp;<br> (1ULL &lt;&lt; 19) ? 19 : (131072 / 8) &amp; (1ULL &lt;&lt; 18<br>) ? 18 : (131072 / 8) &amp; (1ULL &lt;&lt; 17) ? 17 : (131072<br> / 8) &amp; (1ULL &lt;&lt; 16) ? 16 : (131072 / 8) &amp; (1ULL<br> &lt;&lt; 15) ? 15 : (131072 / 8) &amp; (1ULL &lt;&lt; 14) ? 14<br> : (131072 / 8) &amp; (1ULL &lt;&lt; 13) ? 13 : (131072 / 8) &amp;<br> (1ULL &lt;&lt; 12) ? 12 : (131072 / 8) &amp; (1ULL &lt;&lt; 11<br>) ? 11 : (131072 / 8) &amp; (1ULL &lt;&lt; 10) ? 10 : (131072<br> / 8) &amp; (1ULL &lt;&lt; 9) ? 9 : (131072 / 8) &amp; (1ULL &lt;&lt;<br> 8) ? 8 : (131072 / 8) &amp; (1ULL &lt;&lt; 7) ? 7 : (131072 /<br> 8) &amp; (1ULL &lt;&lt; 6) ? 6 : (131072 / 8) &amp; (1ULL &lt;&lt;<br> 5) ? 5 : (131072 / 8) &amp; (1ULL &lt;&lt; 4) ? 4 : (131072 /<br> 8) &amp; (1ULL &lt;&lt; 3) ? 3 : (131072 / 8) &amp; (1ULL &lt;&lt;<br> 2) ? 2 : 1) : -1) : (sizeof(131072 / 8) &lt;= 4) ? __ilog2_u32<br>(131072 / 8) : __ilog2_u64(131072 / 8) ))</span></span> },</td></tr>
+<tr class="codeline" data-linenumber="117"><td class="num" id="LN117">117</td><td class="line">	{ <span class='string_literal'>"24c256"</span>, <span class='macro'>AT24_DEVICE_MAGIC(262144 / 8, AT24_FLAG_ADDR16)<span class='macro_popup'>((1 &lt;&lt; 8 | (0x80)) &lt;&lt; 5 | ( __builtin_constant_p(<br>262144 / 8) ? ( __builtin_constant_p(262144 / 8) ? ( (262144 /<br> 8) &lt; 2 ? 0 : (262144 / 8) &amp; (1ULL &lt;&lt; 63) ? 63 :<br> (262144 / 8) &amp; (1ULL &lt;&lt; 62) ? 62 : (262144 / 8) &amp;<br> (1ULL &lt;&lt; 61) ? 61 : (262144 / 8) &amp; (1ULL &lt;&lt; 60<br>) ? 60 : (262144 / 8) &amp; (1ULL &lt;&lt; 59) ? 59 : (262144<br> / 8) &amp; (1ULL &lt;&lt; 58) ? 58 : (262144 / 8) &amp; (1ULL<br> &lt;&lt; 57) ? 57 : (262144 / 8) &amp; (1ULL &lt;&lt; 56) ? 56<br> : (262144 / 8) &amp; (1ULL &lt;&lt; 55) ? 55 : (262144 / 8) &amp;<br> (1ULL &lt;&lt; 54) ? 54 : (262144 / 8) &amp; (1ULL &lt;&lt; 53<br>) ? 53 : (262144 / 8) &amp; (1ULL &lt;&lt; 52) ? 52 : (262144<br> / 8) &amp; (1ULL &lt;&lt; 51) ? 51 : (262144 / 8) &amp; (1ULL<br> &lt;&lt; 50) ? 50 : (262144 / 8) &amp; (1ULL &lt;&lt; 49) ? 49<br> : (262144 / 8) &amp; (1ULL &lt;&lt; 48) ? 48 : (262144 / 8) &amp;<br> (1ULL &lt;&lt; 47) ? 47 : (262144 / 8) &amp; (1ULL &lt;&lt; 46<br>) ? 46 : (262144 / 8) &amp; (1ULL &lt;&lt; 45) ? 45 : (262144<br> / 8) &amp; (1ULL &lt;&lt; 44) ? 44 : (262144 / 8) &amp; (1ULL<br> &lt;&lt; 43) ? 43 : (262144 / 8) &amp; (1ULL &lt;&lt; 42) ? 42<br> : (262144 / 8) &amp; (1ULL &lt;&lt; 41) ? 41 : (262144 / 8) &amp;<br> (1ULL &lt;&lt; 40) ? 40 : (262144 / 8) &amp; (1ULL &lt;&lt; 39<br>) ? 39 : (262144 / 8) &amp; (1ULL &lt;&lt; 38) ? 38 : (262144<br> / 8) &amp; (1ULL &lt;&lt; 37) ? 37 : (262144 / 8) &amp; (1ULL<br> &lt;&lt; 36) ? 36 : (262144 / 8) &amp; (1ULL &lt;&lt; 35) ? 35<br> : (262144 / 8) &amp; (1ULL &lt;&lt; 34) ? 34 : (262144 / 8) &amp;<br> (1ULL &lt;&lt; 33) ? 33 : (262144 / 8) &amp; (1ULL &lt;&lt; 32<br>) ? 32 : (262144 / 8) &amp; (1ULL &lt;&lt; 31) ? 31 : (262144<br> / 8) &amp; (1ULL &lt;&lt; 30) ? 30 : (262144 / 8) &amp; (1ULL<br> &lt;&lt; 29) ? 29 : (262144 / 8) &amp; (1ULL &lt;&lt; 28) ? 28<br> : (262144 / 8) &amp; (1ULL &lt;&lt; 27) ? 27 : (262144 / 8) &amp;<br> (1ULL &lt;&lt; 26) ? 26 : (262144 / 8) &amp; (1ULL &lt;&lt; 25<br>) ? 25 : (262144 / 8) &amp; (1ULL &lt;&lt; 24) ? 24 : (262144<br> / 8) &amp; (1ULL &lt;&lt; 23) ? 23 : (262144 / 8) &amp; (1ULL<br> &lt;&lt; 22) ? 22 : (262144 / 8) &amp; (1ULL &lt;&lt; 21) ? 21<br> : (262144 / 8) &amp; (1ULL &lt;&lt; 20) ? 20 : (262144 / 8) &amp;<br> (1ULL &lt;&lt; 19) ? 19 : (262144 / 8) &amp; (1ULL &lt;&lt; 18<br>) ? 18 : (262144 / 8) &amp; (1ULL &lt;&lt; 17) ? 17 : (262144<br> / 8) &amp; (1ULL &lt;&lt; 16) ? 16 : (262144 / 8) &amp; (1ULL<br> &lt;&lt; 15) ? 15 : (262144 / 8) &amp; (1ULL &lt;&lt; 14) ? 14<br> : (262144 / 8) &amp; (1ULL &lt;&lt; 13) ? 13 : (262144 / 8) &amp;<br> (1ULL &lt;&lt; 12) ? 12 : (262144 / 8) &amp; (1ULL &lt;&lt; 11<br>) ? 11 : (262144 / 8) &amp; (1ULL &lt;&lt; 10) ? 10 : (262144<br> / 8) &amp; (1ULL &lt;&lt; 9) ? 9 : (262144 / 8) &amp; (1ULL &lt;&lt;<br> 8) ? 8 : (262144 / 8) &amp; (1ULL &lt;&lt; 7) ? 7 : (262144 /<br> 8) &amp; (1ULL &lt;&lt; 6) ? 6 : (262144 / 8) &amp; (1ULL &lt;&lt;<br> 5) ? 5 : (262144 / 8) &amp; (1ULL &lt;&lt; 4) ? 4 : (262144 /<br> 8) &amp; (1ULL &lt;&lt; 3) ? 3 : (262144 / 8) &amp; (1ULL &lt;&lt;<br> 2) ? 2 : 1) : -1) : (sizeof(262144 / 8) &lt;= 4) ? __ilog2_u32<br>(262144 / 8) : __ilog2_u64(262144 / 8) ))</span></span> },</td></tr>
+<tr class="codeline" data-linenumber="118"><td class="num" id="LN118">118</td><td class="line">	{ <span class='string_literal'>"24c512"</span>, <span class='macro'>AT24_DEVICE_MAGIC(524288 / 8, AT24_FLAG_ADDR16)<span class='macro_popup'>((1 &lt;&lt; 8 | (0x80)) &lt;&lt; 5 | ( __builtin_constant_p(<br>524288 / 8) ? ( __builtin_constant_p(524288 / 8) ? ( (524288 /<br> 8) &lt; 2 ? 0 : (524288 / 8) &amp; (1ULL &lt;&lt; 63) ? 63 :<br> (524288 / 8) &amp; (1ULL &lt;&lt; 62) ? 62 : (524288 / 8) &amp;<br> (1ULL &lt;&lt; 61) ? 61 : (524288 / 8) &amp; (1ULL &lt;&lt; 60<br>) ? 60 : (524288 / 8) &amp; (1ULL &lt;&lt; 59) ? 59 : (524288<br> / 8) &amp; (1ULL &lt;&lt; 58) ? 58 : (524288 / 8) &amp; (1ULL<br> &lt;&lt; 57) ? 57 : (524288 / 8) &amp; (1ULL &lt;&lt; 56) ? 56<br> : (524288 / 8) &amp; (1ULL &lt;&lt; 55) ? 55 : (524288 / 8) &amp;<br> (1ULL &lt;&lt; 54) ? 54 : (524288 / 8) &amp; (1ULL &lt;&lt; 53<br>) ? 53 : (524288 / 8) &amp; (1ULL &lt;&lt; 52) ? 52 : (524288<br> / 8) &amp; (1ULL &lt;&lt; 51) ? 51 : (524288 / 8) &amp; (1ULL<br> &lt;&lt; 50) ? 50 : (524288 / 8) &amp; (1ULL &lt;&lt; 49) ? 49<br> : (524288 / 8) &amp; (1ULL &lt;&lt; 48) ? 48 : (524288 / 8) &amp;<br> (1ULL &lt;&lt; 47) ? 47 : (524288 / 8) &amp; (1ULL &lt;&lt; 46<br>) ? 46 : (524288 / 8) &amp; (1ULL &lt;&lt; 45) ? 45 : (524288<br> / 8) &amp; (1ULL &lt;&lt; 44) ? 44 : (524288 / 8) &amp; (1ULL<br> &lt;&lt; 43) ? 43 : (524288 / 8) &amp; (1ULL &lt;&lt; 42) ? 42<br> : (524288 / 8) &amp; (1ULL &lt;&lt; 41) ? 41 : (524288 / 8) &amp;<br> (1ULL &lt;&lt; 40) ? 40 : (524288 / 8) &amp; (1ULL &lt;&lt; 39<br>) ? 39 : (524288 / 8) &amp; (1ULL &lt;&lt; 38) ? 38 : (524288<br> / 8) &amp; (1ULL &lt;&lt; 37) ? 37 : (524288 / 8) &amp; (1ULL<br> &lt;&lt; 36) ? 36 : (524288 / 8) &amp; (1ULL &lt;&lt; 35) ? 35<br> : (524288 / 8) &amp; (1ULL &lt;&lt; 34) ? 34 : (524288 / 8) &amp;<br> (1ULL &lt;&lt; 33) ? 33 : (524288 / 8) &amp; (1ULL &lt;&lt; 32<br>) ? 32 : (524288 / 8) &amp; (1ULL &lt;&lt; 31) ? 31 : (524288<br> / 8) &amp; (1ULL &lt;&lt; 30) ? 30 : (524288 / 8) &amp; (1ULL<br> &lt;&lt; 29) ? 29 : (524288 / 8) &amp; (1ULL &lt;&lt; 28) ? 28<br> : (524288 / 8) &amp; (1ULL &lt;&lt; 27) ? 27 : (524288 / 8) &amp;<br> (1ULL &lt;&lt; 26) ? 26 : (524288 / 8) &amp; (1ULL &lt;&lt; 25<br>) ? 25 : (524288 / 8) &amp; (1ULL &lt;&lt; 24) ? 24 : (524288<br> / 8) &amp; (1ULL &lt;&lt; 23) ? 23 : (524288 / 8) &amp; (1ULL<br> &lt;&lt; 22) ? 22 : (524288 / 8) &amp; (1ULL &lt;&lt; 21) ? 21<br> : (524288 / 8) &amp; (1ULL &lt;&lt; 20) ? 20 : (524288 / 8) &amp;<br> (1ULL &lt;&lt; 19) ? 19 : (524288 / 8) &amp; (1ULL &lt;&lt; 18<br>) ? 18 : (524288 / 8) &amp; (1ULL &lt;&lt; 17) ? 17 : (524288<br> / 8) &amp; (1ULL &lt;&lt; 16) ? 16 : (524288 / 8) &amp; (1ULL<br> &lt;&lt; 15) ? 15 : (524288 / 8) &amp; (1ULL &lt;&lt; 14) ? 14<br> : (524288 / 8) &amp; (1ULL &lt;&lt; 13) ? 13 : (524288 / 8) &amp;<br> (1ULL &lt;&lt; 12) ? 12 : (524288 / 8) &amp; (1ULL &lt;&lt; 11<br>) ? 11 : (524288 / 8) &amp; (1ULL &lt;&lt; 10) ? 10 : (524288<br> / 8) &amp; (1ULL &lt;&lt; 9) ? 9 : (524288 / 8) &amp; (1ULL &lt;&lt;<br> 8) ? 8 : (524288 / 8) &amp; (1ULL &lt;&lt; 7) ? 7 : (524288 /<br> 8) &amp; (1ULL &lt;&lt; 6) ? 6 : (524288 / 8) &amp; (1ULL &lt;&lt;<br> 5) ? 5 : (524288 / 8) &amp; (1ULL &lt;&lt; 4) ? 4 : (524288 /<br> 8) &amp; (1ULL &lt;&lt; 3) ? 3 : (524288 / 8) &amp; (1ULL &lt;&lt;<br> 2) ? 2 : 1) : -1) : (sizeof(524288 / 8) &lt;= 4) ? __ilog2_u32<br>(524288 / 8) : __ilog2_u64(524288 / 8) ))</span></span> },</td></tr>
+<tr class="codeline" data-linenumber="119"><td class="num" id="LN119">119</td><td class="line">	{ <span class='string_literal'>"24c1024"</span>, <span class='macro'>AT24_DEVICE_MAGIC(1048576 / 8, AT24_FLAG_ADDR16)<span class='macro_popup'>((1 &lt;&lt; 8 | (0x80)) &lt;&lt; 5 | ( __builtin_constant_p(<br>1048576 / 8) ? ( __builtin_constant_p(1048576 / 8) ? ( (1048576<br> / 8) &lt; 2 ? 0 : (1048576 / 8) &amp; (1ULL &lt;&lt; 63) ? 63<br> : (1048576 / 8) &amp; (1ULL &lt;&lt; 62) ? 62 : (1048576 / 8<br>) &amp; (1ULL &lt;&lt; 61) ? 61 : (1048576 / 8) &amp; (1ULL &lt;&lt;<br> 60) ? 60 : (1048576 / 8) &amp; (1ULL &lt;&lt; 59) ? 59 : (1048576<br> / 8) &amp; (1ULL &lt;&lt; 58) ? 58 : (1048576 / 8) &amp; (1ULL<br> &lt;&lt; 57) ? 57 : (1048576 / 8) &amp; (1ULL &lt;&lt; 56) ?<br> 56 : (1048576 / 8) &amp; (1ULL &lt;&lt; 55) ? 55 : (1048576 /<br> 8) &amp; (1ULL &lt;&lt; 54) ? 54 : (1048576 / 8) &amp; (1ULL<br> &lt;&lt; 53) ? 53 : (1048576 / 8) &amp; (1ULL &lt;&lt; 52) ?<br> 52 : (1048576 / 8) &amp; (1ULL &lt;&lt; 51) ? 51 : (1048576 /<br> 8) &amp; (1ULL &lt;&lt; 50) ? 50 : (1048576 / 8) &amp; (1ULL<br> &lt;&lt; 49) ? 49 : (1048576 / 8) &amp; (1ULL &lt;&lt; 48) ?<br> 48 : (1048576 / 8) &amp; (1ULL &lt;&lt; 47) ? 47 : (1048576 /<br> 8) &amp; (1ULL &lt;&lt; 46) ? 46 : (1048576 / 8) &amp; (1ULL<br> &lt;&lt; 45) ? 45 : (1048576 / 8) &amp; (1ULL &lt;&lt; 44) ?<br> 44 : (1048576 / 8) &amp; (1ULL &lt;&lt; 43) ? 43 : (1048576 /<br> 8) &amp; (1ULL &lt;&lt; 42) ? 42 : (1048576 / 8) &amp; (1ULL<br> &lt;&lt; 41) ? 41 : (1048576 / 8) &amp; (1ULL &lt;&lt; 40) ?<br> 40 : (1048576 / 8) &amp; (1ULL &lt;&lt; 39) ? 39 : (1048576 /<br> 8) &amp; (1ULL &lt;&lt; 38) ? 38 : (1048576 / 8) &amp; (1ULL<br> &lt;&lt; 37) ? 37 : (1048576 / 8) &amp; (1ULL &lt;&lt; 36) ?<br> 36 : (1048576 / 8) &amp; (1ULL &lt;&lt; 35) ? 35 : (1048576 /<br> 8) &amp; (1ULL &lt;&lt; 34) ? 34 : (1048576 / 8) &amp; (1ULL<br> &lt;&lt; 33) ? 33 : (1048576 / 8) &amp; (1ULL &lt;&lt; 32) ?<br> 32 : (1048576 / 8) &amp; (1ULL &lt;&lt; 31) ? 31 : (1048576 /<br> 8) &amp; (1ULL &lt;&lt; 30) ? 30 : (1048576 / 8) &amp; (1ULL<br> &lt;&lt; 29) ? 29 : (1048576 / 8) &amp; (1ULL &lt;&lt; 28) ?<br> 28 : (1048576 / 8) &amp; (1ULL &lt;&lt; 27) ? 27 : (1048576 /<br> 8) &amp; (1ULL &lt;&lt; 26) ? 26 : (1048576 / 8) &amp; (1ULL<br> &lt;&lt; 25) ? 25 : (1048576 / 8) &amp; (1ULL &lt;&lt; 24) ?<br> 24 : (1048576 / 8) &amp; (1ULL &lt;&lt; 23) ? 23 : (1048576 /<br> 8) &amp; (1ULL &lt;&lt; 22) ? 22 : (1048576 / 8) &amp; (1ULL<br> &lt;&lt; 21) ? 21 : (1048576 / 8) &amp; (1ULL &lt;&lt; 20) ?<br> 20 : (1048576 / 8) &amp; (1ULL &lt;&lt; 19) ? 19 : (1048576 /<br> 8) &amp; (1ULL &lt;&lt; 18) ? 18 : (1048576 / 8) &amp; (1ULL<br> &lt;&lt; 17) ? 17 : (1048576 / 8) &amp; (1ULL &lt;&lt; 16) ?<br> 16 : (1048576 / 8) &amp; (1ULL &lt;&lt; 15) ? 15 : (1048576 /<br> 8) &amp; (1ULL &lt;&lt; 14) ? 14 : (1048576 / 8) &amp; (1ULL<br> &lt;&lt; 13) ? 13 : (1048576 / 8) &amp; (1ULL &lt;&lt; 12) ?<br> 12 : (1048576 / 8) &amp; (1ULL &lt;&lt; 11) ? 11 : (1048576 /<br> 8) &amp; (1ULL &lt;&lt; 10) ? 10 : (1048576 / 8) &amp; (1ULL<br> &lt;&lt; 9) ? 9 : (1048576 / 8) &amp; (1ULL &lt;&lt; 8) ? 8 :<br> (1048576 / 8) &amp; (1ULL &lt;&lt; 7) ? 7 : (1048576 / 8) &amp;<br> (1ULL &lt;&lt; 6) ? 6 : (1048576 / 8) &amp; (1ULL &lt;&lt; 5<br>) ? 5 : (1048576 / 8) &amp; (1ULL &lt;&lt; 4) ? 4 : (1048576 /<br> 8) &amp; (1ULL &lt;&lt; 3) ? 3 : (1048576 / 8) &amp; (1ULL &lt;&lt;<br> 2) ? 2 : 1) : -1) : (sizeof(1048576 / 8) &lt;= 4) ? __ilog2_u32<br>(1048576 / 8) : __ilog2_u64(1048576 / 8) ))</span></span> },</td></tr>
+<tr class="codeline" data-linenumber="120"><td class="num" id="LN120">120</td><td class="line">	{ <span class='string_literal'>"24c1025"</span>, <span class='macro'>AT24_DEVICE_MAGIC(1048576 / 8, AT24_FLAG_ADDR16 | AT24_FLAG_BANK_BIT_2)<span class='macro_popup'>((1 &lt;&lt; 8 | (0x80 | 0x08)) &lt;&lt; 5 | ( __builtin_constant_p<br>(1048576 / 8) ? ( __builtin_constant_p(1048576 / 8) ? ( (1048576<br> / 8) &lt; 2 ? 0 : (1048576 / 8) &amp; (1ULL &lt;&lt; 63) ? 63<br> : (1048576 / 8) &amp; (1ULL &lt;&lt; 62) ? 62 : (1048576 / 8<br>) &amp; (1ULL &lt;&lt; 61) ? 61 : (1048576 / 8) &amp; (1ULL &lt;&lt;<br> 60) ? 60 : (1048576 / 8) &amp; (1ULL &lt;&lt; 59) ? 59 : (1048576<br> / 8) &amp; (1ULL &lt;&lt; 58) ? 58 : (1048576 / 8) &amp; (1ULL<br> &lt;&lt; 57) ? 57 : (1048576 / 8) &amp; (1ULL &lt;&lt; 56) ?<br> 56 : (1048576 / 8) &amp; (1ULL &lt;&lt; 55) ? 55 : (1048576 /<br> 8) &amp; (1ULL &lt;&lt; 54) ? 54 : (1048576 / 8) &amp; (1ULL<br> &lt;&lt; 53) ? 53 : (1048576 / 8) &amp; (1ULL &lt;&lt; 52) ?<br> 52 : (1048576 / 8) &amp; (1ULL &lt;&lt; 51) ? 51 : (1048576 /<br> 8) &amp; (1ULL &lt;&lt; 50) ? 50 : (1048576 / 8) &amp; (1ULL<br> &lt;&lt; 49) ? 49 : (1048576 / 8) &amp; (1ULL &lt;&lt; 48) ?<br> 48 : (1048576 / 8) &amp; (1ULL &lt;&lt; 47) ? 47 : (1048576 /<br> 8) &amp; (1ULL &lt;&lt; 46) ? 46 : (1048576 / 8) &amp; (1ULL<br> &lt;&lt; 45) ? 45 : (1048576 / 8) &amp; (1ULL &lt;&lt; 44) ?<br> 44 : (1048576 / 8) &amp; (1ULL &lt;&lt; 43) ? 43 : (1048576 /<br> 8) &amp; (1ULL &lt;&lt; 42) ? 42 : (1048576 / 8) &amp; (1ULL<br> &lt;&lt; 41) ? 41 : (1048576 / 8) &amp; (1ULL &lt;&lt; 40) ?<br> 40 : (1048576 / 8) &amp; (1ULL &lt;&lt; 39) ? 39 : (1048576 /<br> 8) &amp; (1ULL &lt;&lt; 38) ? 38 : (1048576 / 8) &amp; (1ULL<br> &lt;&lt; 37) ? 37 : (1048576 / 8) &amp; (1ULL &lt;&lt; 36) ?<br> 36 : (1048576 / 8) &amp; (1ULL &lt;&lt; 35) ? 35 : (1048576 /<br> 8) &amp; (1ULL &lt;&lt; 34) ? 34 : (1048576 / 8) &amp; (1ULL<br> &lt;&lt; 33) ? 33 : (1048576 / 8) &amp; (1ULL &lt;&lt; 32) ?<br> 32 : (1048576 / 8) &amp; (1ULL &lt;&lt; 31) ? 31 : (1048576 /<br> 8) &amp; (1ULL &lt;&lt; 30) ? 30 : (1048576 / 8) &amp; (1ULL<br> &lt;&lt; 29) ? 29 : (1048576 / 8) &amp; (1ULL &lt;&lt; 28) ?<br> 28 : (1048576 / 8) &amp; (1ULL &lt;&lt; 27) ? 27 : (1048576 /<br> 8) &amp; (1ULL &lt;&lt; 26) ? 26 : (1048576 / 8) &amp; (1ULL<br> &lt;&lt; 25) ? 25 : (1048576 / 8) &amp; (1ULL &lt;&lt; 24) ?<br> 24 : (1048576 / 8) &amp; (1ULL &lt;&lt; 23) ? 23 : (1048576 /<br> 8) &amp; (1ULL &lt;&lt; 22) ? 22 : (1048576 / 8) &amp; (1ULL<br> &lt;&lt; 21) ? 21 : (1048576 / 8) &amp; (1ULL &lt;&lt; 20) ?<br> 20 : (1048576 / 8) &amp; (1ULL &lt;&lt; 19) ? 19 : (1048576 /<br> 8) &amp; (1ULL &lt;&lt; 18) ? 18 : (1048576 / 8) &amp; (1ULL<br> &lt;&lt; 17) ? 17 : (1048576 / 8) &amp; (1ULL &lt;&lt; 16) ?<br> 16 : (1048576 / 8) &amp; (1ULL &lt;&lt; 15) ? 15 : (1048576 /<br> 8) &amp; (1ULL &lt;&lt; 14) ? 14 : (1048576 / 8) &amp; (1ULL<br> &lt;&lt; 13) ? 13 : (1048576 / 8) &amp; (1ULL &lt;&lt; 12) ?<br> 12 : (1048576 / 8) &amp; (1ULL &lt;&lt; 11) ? 11 : (1048576 /<br> 8) &amp; (1ULL &lt;&lt; 10) ? 10 : (1048576 / 8) &amp; (1ULL<br> &lt;&lt; 9) ? 9 : (1048576 / 8) &amp; (1ULL &lt;&lt; 8) ? 8 :<br> (1048576 / 8) &amp; (1ULL &lt;&lt; 7) ? 7 : (1048576 / 8) &amp;<br> (1ULL &lt;&lt; 6) ? 6 : (1048576 / 8) &amp; (1ULL &lt;&lt; 5<br>) ? 5 : (1048576 / 8) &amp; (1ULL &lt;&lt; 4) ? 4 : (1048576 /<br> 8) &amp; (1ULL &lt;&lt; 3) ? 3 : (1048576 / 8) &amp; (1ULL &lt;&lt;<br> 2) ? 2 : 1) : -1) : (sizeof(1048576 / 8) &lt;= 4) ? __ilog2_u32<br>(1048576 / 8) : __ilog2_u64(1048576 / 8) ))</span></span> },</td></tr>
+<tr class="codeline" data-linenumber="121"><td class="num" id="LN121">121</td><td class="line">	{ <span class='string_literal'>"at24"</span>, 0 },</td></tr>
+<tr class="codeline" data-linenumber="122"><td class="num" id="LN122">122</td><td class="line">	{ <span class='comment'>/* END OF LIST */</span> }</td></tr>
+<tr class="codeline" data-linenumber="123"><td class="num" id="LN123">123</td><td class="line">};</td></tr>
+<tr class="codeline" data-linenumber="124"><td class="num" id="LN124">124</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="125"><td class="num" id="LN125">125</td><td class="line"><span class='comment'>/*-------------------------------------------------------------------------*/</span></td></tr>
+<tr class="codeline" data-linenumber="126"><td class="num" id="LN126">126</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="127"><td class="num" id="LN127">127</td><td class="line"><span class='comment'>/*</span></td></tr>
+<tr class="codeline" data-linenumber="128"><td class="num" id="LN128">128</td><td class="line"> <span class='comment'>* This routine supports chips which consume multiple I2C addresses. It</span></td></tr>
+<tr class="codeline" data-linenumber="129"><td class="num" id="LN129">129</td><td class="line"> <span class='comment'>* computes the addressing information to be used for a given r/w request.</span></td></tr>
+<tr class="codeline" data-linenumber="130"><td class="num" id="LN130">130</td><td class="line"> <span class='comment'>* Assumes that sanity checks for offset happened at sysfs-layer.</span></td></tr>
+<tr class="codeline" data-linenumber="131"><td class="num" id="LN131">131</td><td class="line"> <span class='comment'>*/</span></td></tr>
+<tr class="codeline" data-linenumber="132"><td class="num" id="LN132">132</td><td class="line"><span class='keyword'>static</span> <span class='keyword'>struct</span> i2c_client *at24_translate_offset(<span class='keyword'>struct</span> at24_data *at24,</td></tr>
+<tr class="codeline" data-linenumber="133"><td class="num" id="LN133">133</td><td class="line">		<span class='keyword'>unsigned</span> *offset)</td></tr>
+<tr class="codeline" data-linenumber="134"><td class="num" id="LN134">134</td><td class="line">{</td></tr>
+<tr class="codeline" data-linenumber="135"><td class="num" id="LN135">135</td><td class="line">	<span class='keyword'>unsigned</span> i;</td></tr>
+<tr class="codeline" data-linenumber="136"><td class="num" id="LN136">136</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="137"><td class="num" id="LN137">137</td><td class="line">	<span class='keyword'>if</span> (at24-&gt;chip.flags &amp; <span class='macro'>AT24_FLAG_ADDR16<span class='macro_popup'>0x80</span></span>) {</td></tr>
+<tr class="codeline" data-linenumber="138"><td class="num" id="LN138">138</td><td class="line">		i = *offset &gt;&gt; 16;</td></tr>
+<tr class="codeline" data-linenumber="139"><td class="num" id="LN139">139</td><td class="line">		*offset &amp;= 0xffff;</td></tr>
+<tr class="codeline" data-linenumber="140"><td class="num" id="LN140">140</td><td class="line">	} <span class='keyword'>else</span> {</td></tr>
+<tr class="codeline" data-linenumber="141"><td class="num" id="LN141">141</td><td class="line">		i = *offset &gt;&gt; 8;</td></tr>
+<tr class="codeline" data-linenumber="142"><td class="num" id="LN142">142</td><td class="line">		*offset &amp;= 0xff;</td></tr>
+<tr class="codeline" data-linenumber="143"><td class="num" id="LN143">143</td><td class="line">	}</td></tr>
+<tr class="codeline" data-linenumber="144"><td class="num" id="LN144">144</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="145"><td class="num" id="LN145">145</td><td class="line">	<span class='keyword'>return</span> at24-&gt;client[i];</td></tr>
+<tr class="codeline" data-linenumber="146"><td class="num" id="LN146">146</td><td class="line">}</td></tr>
+<tr class="codeline" data-linenumber="147"><td class="num" id="LN147">147</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="148"><td class="num" id="LN148">148</td><td class="line"><span class='keyword'>static</span> ssize_t at24_eeprom_read(<span class='keyword'>struct</span> at24_data *at24, <span class='keyword'>char</span> *buf,</td></tr>
+<tr class="codeline" data-linenumber="149"><td class="num" id="LN149">149</td><td class="line">		<span class='keyword'>unsigned</span> offset, size_t count)</td></tr>
+<tr class="codeline" data-linenumber="150"><td class="num" id="LN150">150</td><td class="line">{</td></tr>
+<tr class="codeline" data-linenumber="151"><td class="num" id="LN151">151</td><td class="line">	<span class='keyword'>struct</span> i2c_msg msg[2];</td></tr>
+<tr class="codeline" data-linenumber="152"><td class="num" id="LN152">152</td><td class="line">	u8 msgbuf[2];</td></tr>
+<tr class="codeline" data-linenumber="153"><td class="num" id="LN153">153</td><td class="line">	<span class='keyword'>struct</span> i2c_client *client;</td></tr>
+<tr class="codeline" data-linenumber="154"><td class="num" id="LN154">154</td><td class="line">	<span class='keyword'>int</span> status, i;</td></tr>
+<tr class="codeline" data-linenumber="155"><td class="num" id="LN155">155</td><td class="line">	uint64_t start, read_time;</td></tr>
+<tr class="codeline" data-linenumber="156"><td class="num" id="LN156">156</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="157"><td class="num" id="LN157">157</td><td class="line">	memset(msg, 0, <span class='keyword'>sizeof</span>(msg));</td></tr>
+<tr class="codeline" data-linenumber="158"><td class="num" id="LN158">158</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="159"><td class="num" id="LN159">159</td><td class="line">	<span class='comment'>/*</span></td></tr>
+<tr class="codeline" data-linenumber="160"><td class="num" id="LN160">160</td><td class="line">	 <span class='comment'>* REVISIT some multi-address chips don't rollover page reads to</span></td></tr>
+<tr class="codeline" data-linenumber="161"><td class="num" id="LN161">161</td><td class="line">	 <span class='comment'>* the next slave address, so we may need to truncate the count.</span></td></tr>
+<tr class="codeline" data-linenumber="162"><td class="num" id="LN162">162</td><td class="line">	 <span class='comment'>* Those chips might need another quirk flag.</span></td></tr>
+<tr class="codeline" data-linenumber="163"><td class="num" id="LN163">163</td><td class="line">	 <span class='comment'>*</span></td></tr>
+<tr class="codeline" data-linenumber="164"><td class="num" id="LN164">164</td><td class="line">	 <span class='comment'>* If the real hardware used four adjacent 24c02 chips and that</span></td></tr>
+<tr class="codeline" data-linenumber="165"><td class="num" id="LN165">165</td><td class="line">	 <span class='comment'>* were misconfigured as one 24c08, that would be a similar effect:</span></td></tr>
+<tr class="codeline" data-linenumber="166"><td class="num" id="LN166">166</td><td class="line">	 <span class='comment'>* one "eeprom" file not four, but larger reads would fail when</span></td></tr>
+<tr class="codeline" data-linenumber="167"><td class="num" id="LN167">167</td><td class="line">	 <span class='comment'>* they crossed certain pages.</span></td></tr>
+<tr class="codeline" data-linenumber="168"><td class="num" id="LN168">168</td><td class="line">	 <span class='comment'>*/</span></td></tr>
+<tr class="codeline" data-linenumber="169"><td class="num" id="LN169">169</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="170"><td class="num" id="LN170">170</td><td class="line">	<span class='comment'>/*</span></td></tr>
+<tr class="codeline" data-linenumber="171"><td class="num" id="LN171">171</td><td class="line">	 <span class='comment'>* Slave address and byte offset derive from the offset. Always</span></td></tr>
+<tr class="codeline" data-linenumber="172"><td class="num" id="LN172">172</td><td class="line">	 <span class='comment'>* set the byte address; on a multi-master board, another master</span></td></tr>
+<tr class="codeline" data-linenumber="173"><td class="num" id="LN173">173</td><td class="line">	 <span class='comment'>* may have changed the chip's "current" address pointer.</span></td></tr>
+<tr class="codeline" data-linenumber="174"><td class="num" id="LN174">174</td><td class="line">	 <span class='comment'>*/</span></td></tr>
+<tr class="codeline" data-linenumber="175"><td class="num" id="LN175">175</td><td class="line">	client = at24_translate_offset(at24, &amp;offset);</td></tr>
+<tr class="codeline" data-linenumber="176"><td class="num" id="LN176">176</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="177"><td class="num" id="LN177">177</td><td class="line">	<span class='keyword'>if</span> (count &gt; io_limit)</td></tr>
+<tr class="codeline" data-linenumber="178"><td class="num" id="LN178">178</td><td class="line">		count = io_limit;</td></tr>
+<tr class="codeline" data-linenumber="179"><td class="num" id="LN179">179</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="180"><td class="num" id="LN180">180</td><td class="line">	i = 0;</td></tr>
+<tr class="codeline" data-linenumber="181"><td class="num" id="LN181">181</td><td class="line">	<span class='keyword'>if</span> (at24-&gt;chip.flags &amp; <span class='macro'>AT24_FLAG_ADDR16<span class='macro_popup'>0x80</span></span>)</td></tr>
+<tr class="codeline" data-linenumber="182"><td class="num" id="LN182">182</td><td class="line">		msgbuf[i++] = offset &gt;&gt; 8;</td></tr>
+<tr class="codeline" data-linenumber="183"><td class="num" id="LN183">183</td><td class="line">	msgbuf[i++] = offset;</td></tr>
+<tr class="codeline" data-linenumber="184"><td class="num" id="LN184">184</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="185"><td class="num" id="LN185">185</td><td class="line">	msg[0].addr = client-&gt;addr;</td></tr>
+<tr class="codeline" data-linenumber="186"><td class="num" id="LN186">186</td><td class="line">	msg[0].buf = msgbuf;</td></tr>
+<tr class="codeline" data-linenumber="187"><td class="num" id="LN187">187</td><td class="line">	msg[0].len = i;</td></tr>
+<tr class="codeline" data-linenumber="188"><td class="num" id="LN188">188</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="189"><td class="num" id="LN189">189</td><td class="line">	msg[1].addr = client-&gt;addr;</td></tr>
+<tr class="codeline" data-linenumber="190"><td class="num" id="LN190">190</td><td class="line">	msg[1].flags = <span class='macro'>I2C_M_RD<span class='macro_popup'>0x0001</span></span>;</td></tr>
+<tr class="codeline" data-linenumber="191"><td class="num" id="LN191">191</td><td class="line">	msg[1].buf = buf;</td></tr>
+<tr class="codeline" data-linenumber="192"><td class="num" id="LN192">192</td><td class="line">	msg[1].len = count;</td></tr>
+<tr class="codeline" data-linenumber="193"><td class="num" id="LN193">193</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="194"><td class="num" id="LN194">194</td><td class="line">	<span class='comment'>/*</span></td></tr>
+<tr class="codeline" data-linenumber="195"><td class="num" id="LN195">195</td><td class="line">	 <span class='comment'>* Reads fail if the previous write didn't complete yet. We may</span></td></tr>
+<tr class="codeline" data-linenumber="196"><td class="num" id="LN196">196</td><td class="line">	 <span class='comment'>* loop a few times until this one succeeds, waiting at least</span></td></tr>
+<tr class="codeline" data-linenumber="197"><td class="num" id="LN197">197</td><td class="line">	 <span class='comment'>* long enough for one entire page write to work.</span></td></tr>
+<tr class="codeline" data-linenumber="198"><td class="num" id="LN198">198</td><td class="line">	 <span class='comment'>*/</span></td></tr>
+<tr class="codeline" data-linenumber="199"><td class="num" id="LN199">199</td><td class="line">	start = get_time_ns();</td></tr>
+<tr class="codeline" data-linenumber="200"><td class="num" id="LN200">200</td><td class="line">	<span class='keyword'>do</span> {</td></tr>
+<tr class="codeline" data-linenumber="201"><td class="num" id="LN201">201</td><td class="line">		read_time = <span class="mrange">get_time_ns()</span>;</td></tr>
+<tr><td class="num"></td><td class="line"><div id="EndPath" class="msg msgEvent" style="margin-left:17ex">Value stored to 'read_time' is never read</div></td></tr>
+<tr class="codeline" data-linenumber="202"><td class="num" id="LN202">202</td><td class="line">		status = i2c_transfer(client-&gt;adapter, msg, 2);</td></tr>
+<tr class="codeline" data-linenumber="203"><td class="num" id="LN203">203</td><td class="line">		<span class='keyword'>if</span> (status == 2)</td></tr>
+<tr class="codeline" data-linenumber="204"><td class="num" id="LN204">204</td><td class="line">			status = count;</td></tr>
+<tr class="codeline" data-linenumber="205"><td class="num" id="LN205">205</td><td class="line">		<span class='macro'>dev_dbg(&amp;client-&gt;dev, <span class='string_literal'>"read %zu@%d --&gt; %d (%llu)\n"</span>,<span class='macro_popup'>({ (7) &lt;= 6 ? dev_printf((7), ((&amp;client-&gt;dev)), ("read %zu@%d --&gt; %d (%llu)\n"<br>), count, offset, status, read_time) : 0; })</span></span></td></tr>
+<tr class="codeline" data-linenumber="206"><td class="num" id="LN206">206</td><td class="line">				<span class='macro'>count, offset, status, read_time)<span class='macro_popup'>({ (7) &lt;= 6 ? dev_printf((7), ((&amp;client-&gt;dev)), ("read %zu@%d --&gt; %d (%llu)\n"<br>), count, offset, status, read_time) : 0; })</span></span>;</td></tr>
+<tr class="codeline" data-linenumber="207"><td class="num" id="LN207">207</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="208"><td class="num" id="LN208">208</td><td class="line">		<span class='keyword'>if</span> (status == count)</td></tr>
+<tr class="codeline" data-linenumber="209"><td class="num" id="LN209">209</td><td class="line">			<span class='keyword'>return</span> count;</td></tr>
+<tr class="codeline" data-linenumber="210"><td class="num" id="LN210">210</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="211"><td class="num" id="LN211">211</td><td class="line">		<span class='comment'>/* REVISIT: at HZ=100, this is sloooow */</span></td></tr>
+<tr class="codeline" data-linenumber="212"><td class="num" id="LN212">212</td><td class="line">		mdelay(1);</td></tr>
+<tr class="codeline" data-linenumber="213"><td class="num" id="LN213">213</td><td class="line">	} <span class='keyword'>while</span> (!is_timeout(start, write_timeout * <span class='macro'>MSECOND<span class='macro_popup'>((uint64_t)(1000 * 1000))</span></span>));</td></tr>
+<tr class="codeline" data-linenumber="214"><td class="num" id="LN214">214</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="215"><td class="num" id="LN215">215</td><td class="line">	<span class='keyword'>return</span> -<span class='macro'>ETIMEDOUT<span class='macro_popup'>110</span></span>;</td></tr>
+<tr class="codeline" data-linenumber="216"><td class="num" id="LN216">216</td><td class="line">}</td></tr>
+<tr class="codeline" data-linenumber="217"><td class="num" id="LN217">217</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="218"><td class="num" id="LN218">218</td><td class="line"><span class='keyword'>static</span> ssize_t at24_read(<span class='keyword'>struct</span> at24_data *at24,</td></tr>
+<tr class="codeline" data-linenumber="219"><td class="num" id="LN219">219</td><td class="line">		<span class='keyword'>char</span> *buf, loff_t off, size_t count)</td></tr>
+<tr class="codeline" data-linenumber="220"><td class="num" id="LN220">220</td><td class="line">{</td></tr>
+<tr class="codeline" data-linenumber="221"><td class="num" id="LN221">221</td><td class="line">	ssize_t retval = 0;</td></tr>
+<tr class="codeline" data-linenumber="222"><td class="num" id="LN222">222</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="223"><td class="num" id="LN223">223</td><td class="line">	<span class='keyword'>if</span> (<span class='macro'>unlikely(!count)<span class='macro_popup'>__builtin_expect(!!(!count), 0)</span></span>)</td></tr>
+<tr class="codeline" data-linenumber="224"><td class="num" id="LN224">224</td><td class="line">		<span class='keyword'>return</span> count;</td></tr>
+<tr class="codeline" data-linenumber="225"><td class="num" id="LN225">225</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="226"><td class="num" id="LN226">226</td><td class="line">	<span class='comment'>/*</span></td></tr>
+<tr class="codeline" data-linenumber="227"><td class="num" id="LN227">227</td><td class="line">	 <span class='comment'>* Read data from chip, protecting against concurrent updates</span></td></tr>
+<tr class="codeline" data-linenumber="228"><td class="num" id="LN228">228</td><td class="line">	 <span class='comment'>* from this host, but not from other I2C masters.</span></td></tr>
+<tr class="codeline" data-linenumber="229"><td class="num" id="LN229">229</td><td class="line">	 <span class='comment'>*/</span></td></tr>
+<tr class="codeline" data-linenumber="230"><td class="num" id="LN230">230</td><td class="line">	<span class='keyword'>while</span> (count) {</td></tr>
+<tr class="codeline" data-linenumber="231"><td class="num" id="LN231">231</td><td class="line">		ssize_t	status;</td></tr>
+<tr class="codeline" data-linenumber="232"><td class="num" id="LN232">232</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="233"><td class="num" id="LN233">233</td><td class="line">		status = at24_eeprom_read(at24, buf, off, count);</td></tr>
+<tr class="codeline" data-linenumber="234"><td class="num" id="LN234">234</td><td class="line">		<span class='keyword'>if</span> (status &lt;= 0) {</td></tr>
+<tr class="codeline" data-linenumber="235"><td class="num" id="LN235">235</td><td class="line">			<span class='keyword'>if</span> (retval == 0)</td></tr>
+<tr class="codeline" data-linenumber="236"><td class="num" id="LN236">236</td><td class="line">				retval = status;</td></tr>
+<tr class="codeline" data-linenumber="237"><td class="num" id="LN237">237</td><td class="line">			<span class='keyword'>break</span>;</td></tr>
+<tr class="codeline" data-linenumber="238"><td class="num" id="LN238">238</td><td class="line">		}</td></tr>
+<tr class="codeline" data-linenumber="239"><td class="num" id="LN239">239</td><td class="line">		buf += status;</td></tr>
+<tr class="codeline" data-linenumber="240"><td class="num" id="LN240">240</td><td class="line">		off += status;</td></tr>
+<tr class="codeline" data-linenumber="241"><td class="num" id="LN241">241</td><td class="line">		count -= status;</td></tr>
+<tr class="codeline" data-linenumber="242"><td class="num" id="LN242">242</td><td class="line">		retval += status;</td></tr>
+<tr class="codeline" data-linenumber="243"><td class="num" id="LN243">243</td><td class="line">	}</td></tr>
+<tr class="codeline" data-linenumber="244"><td class="num" id="LN244">244</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="245"><td class="num" id="LN245">245</td><td class="line">	<span class='keyword'>return</span> retval;</td></tr>
+<tr class="codeline" data-linenumber="246"><td class="num" id="LN246">246</td><td class="line">}</td></tr>
+<tr class="codeline" data-linenumber="247"><td class="num" id="LN247">247</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="248"><td class="num" id="LN248">248</td><td class="line"><span class='keyword'>static</span> <span class='keyword'>int</span> at24_nvmem_read(<span class='keyword'>struct</span> device_d *dev, <span class='keyword'>int</span> off,</td></tr>
+<tr class="codeline" data-linenumber="249"><td class="num" id="LN249">249</td><td class="line">			       <span class='keyword'>void</span> *buf, <span class='keyword'>int</span> count)</td></tr>
+<tr class="codeline" data-linenumber="250"><td class="num" id="LN250">250</td><td class="line">{</td></tr>
+<tr class="codeline" data-linenumber="251"><td class="num" id="LN251">251</td><td class="line">	<span class='keyword'>struct</span> at24_data *at24 = dev-&gt;parent-&gt;priv;</td></tr>
+<tr class="codeline" data-linenumber="252"><td class="num" id="LN252">252</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="253"><td class="num" id="LN253">253</td><td class="line">	<span class='keyword'>return</span> at24_read(at24, buf, off, count);</td></tr>
+<tr class="codeline" data-linenumber="254"><td class="num" id="LN254">254</td><td class="line">}</td></tr>
+<tr class="codeline" data-linenumber="255"><td class="num" id="LN255">255</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="256"><td class="num" id="LN256">256</td><td class="line"><span class='comment'>/*</span></td></tr>
+<tr class="codeline" data-linenumber="257"><td class="num" id="LN257">257</td><td class="line"> <span class='comment'>* Note that if the hardware write-protect pin is pulled high, the whole</span></td></tr>
+<tr class="codeline" data-linenumber="258"><td class="num" id="LN258">258</td><td class="line"> <span class='comment'>* chip is normally write protected. But there are plenty of product</span></td></tr>
+<tr class="codeline" data-linenumber="259"><td class="num" id="LN259">259</td><td class="line"> <span class='comment'>* variants here, including OTP fuses and partial chip protect.</span></td></tr>
+<tr class="codeline" data-linenumber="260"><td class="num" id="LN260">260</td><td class="line"> <span class='comment'>*</span></td></tr>
+<tr class="codeline" data-linenumber="261"><td class="num" id="LN261">261</td><td class="line"> <span class='comment'>* We only use page mode writes; the alternative is sloooow. This routine</span></td></tr>
+<tr class="codeline" data-linenumber="262"><td class="num" id="LN262">262</td><td class="line"> <span class='comment'>* writes at most one page.</span></td></tr>
+<tr class="codeline" data-linenumber="263"><td class="num" id="LN263">263</td><td class="line"> <span class='comment'>*/</span></td></tr>
+<tr class="codeline" data-linenumber="264"><td class="num" id="LN264">264</td><td class="line"><span class='keyword'>static</span> ssize_t at24_eeprom_write(<span class='keyword'>struct</span> at24_data *at24, <span class='keyword'>const</span> <span class='keyword'>char</span> *buf,</td></tr>
+<tr class="codeline" data-linenumber="265"><td class="num" id="LN265">265</td><td class="line">		<span class='keyword'>unsigned</span> offset, size_t count)</td></tr>
+<tr class="codeline" data-linenumber="266"><td class="num" id="LN266">266</td><td class="line">{</td></tr>
+<tr class="codeline" data-linenumber="267"><td class="num" id="LN267">267</td><td class="line">	<span class='keyword'>struct</span> i2c_client *client;</td></tr>
+<tr class="codeline" data-linenumber="268"><td class="num" id="LN268">268</td><td class="line">	<span class='keyword'>struct</span> i2c_msg msg;</td></tr>
+<tr class="codeline" data-linenumber="269"><td class="num" id="LN269">269</td><td class="line">	ssize_t status;</td></tr>
+<tr class="codeline" data-linenumber="270"><td class="num" id="LN270">270</td><td class="line">	uint64_t start, write_time;</td></tr>
+<tr class="codeline" data-linenumber="271"><td class="num" id="LN271">271</td><td class="line">	<span class='keyword'>unsigned</span> next_page;</td></tr>
+<tr class="codeline" data-linenumber="272"><td class="num" id="LN272">272</td><td class="line">	<span class='keyword'>int</span> i = 0;</td></tr>
+<tr class="codeline" data-linenumber="273"><td class="num" id="LN273">273</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="274"><td class="num" id="LN274">274</td><td class="line">	<span class='comment'>/* Get corresponding I2C address and adjust offset */</span></td></tr>
+<tr class="codeline" data-linenumber="275"><td class="num" id="LN275">275</td><td class="line">	client = at24_translate_offset(at24, &amp;offset);</td></tr>
+<tr class="codeline" data-linenumber="276"><td class="num" id="LN276">276</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="277"><td class="num" id="LN277">277</td><td class="line">	<span class='comment'>/* write_max is at most a page */</span></td></tr>
+<tr class="codeline" data-linenumber="278"><td class="num" id="LN278">278</td><td class="line">	<span class='keyword'>if</span> (count &gt; at24-&gt;write_max)</td></tr>
+<tr class="codeline" data-linenumber="279"><td class="num" id="LN279">279</td><td class="line">		count = at24-&gt;write_max;</td></tr>
+<tr class="codeline" data-linenumber="280"><td class="num" id="LN280">280</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="281"><td class="num" id="LN281">281</td><td class="line">	<span class='comment'>/* Never roll over backwards, to the start of this page */</span></td></tr>
+<tr class="codeline" data-linenumber="282"><td class="num" id="LN282">282</td><td class="line">	next_page = <span class='macro'>roundup(offset + 1, at24-&gt;chip.page_size)<span class='macro_popup'>( { const typeof(at24-&gt;chip.page_size) __y = at24-&gt;chip<br>.page_size; (((offset + 1) + (__y - 1)) / __y) * __y; } )</span></span>;</td></tr>
+<tr class="codeline" data-linenumber="283"><td class="num" id="LN283">283</td><td class="line">	<span class='keyword'>if</span> (offset + count &gt; next_page)</td></tr>
+<tr class="codeline" data-linenumber="284"><td class="num" id="LN284">284</td><td class="line">		count = next_page - offset;</td></tr>
+<tr class="codeline" data-linenumber="285"><td class="num" id="LN285">285</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="286"><td class="num" id="LN286">286</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="287"><td class="num" id="LN287">287</td><td class="line">	msg.addr = client-&gt;addr;</td></tr>
+<tr class="codeline" data-linenumber="288"><td class="num" id="LN288">288</td><td class="line">	msg.flags = 0;</td></tr>
+<tr class="codeline" data-linenumber="289"><td class="num" id="LN289">289</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="290"><td class="num" id="LN290">290</td><td class="line">	<span class='comment'>/* msg.buf is u8 and casts will mask the values */</span></td></tr>
+<tr class="codeline" data-linenumber="291"><td class="num" id="LN291">291</td><td class="line">	msg.buf = at24-&gt;writebuf;</td></tr>
+<tr class="codeline" data-linenumber="292"><td class="num" id="LN292">292</td><td class="line">	<span class='keyword'>if</span> (at24-&gt;chip.flags &amp; <span class='macro'>AT24_FLAG_ADDR16<span class='macro_popup'>0x80</span></span>)</td></tr>
+<tr class="codeline" data-linenumber="293"><td class="num" id="LN293">293</td><td class="line">		msg.buf[i++] = offset &gt;&gt; 8;</td></tr>
+<tr class="codeline" data-linenumber="294"><td class="num" id="LN294">294</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="295"><td class="num" id="LN295">295</td><td class="line">	msg.buf[i++] = offset;</td></tr>
+<tr class="codeline" data-linenumber="296"><td class="num" id="LN296">296</td><td class="line">	memcpy(&amp;msg.buf[i], buf, count);</td></tr>
+<tr class="codeline" data-linenumber="297"><td class="num" id="LN297">297</td><td class="line">	msg.len = i + count;</td></tr>
+<tr class="codeline" data-linenumber="298"><td class="num" id="LN298">298</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="299"><td class="num" id="LN299">299</td><td class="line">	<span class='comment'>/*</span></td></tr>
+<tr class="codeline" data-linenumber="300"><td class="num" id="LN300">300</td><td class="line">	 <span class='comment'>* Writes fail if the previous one didn't complete yet. We may</span></td></tr>
+<tr class="codeline" data-linenumber="301"><td class="num" id="LN301">301</td><td class="line">	 <span class='comment'>* loop a few times until this one succeeds, waiting at least</span></td></tr>
+<tr class="codeline" data-linenumber="302"><td class="num" id="LN302">302</td><td class="line">	 <span class='comment'>* long enough for one entire page write to work.</span></td></tr>
+<tr class="codeline" data-linenumber="303"><td class="num" id="LN303">303</td><td class="line">	 <span class='comment'>*/</span></td></tr>
+<tr class="codeline" data-linenumber="304"><td class="num" id="LN304">304</td><td class="line">	start = get_time_ns();</td></tr>
+<tr class="codeline" data-linenumber="305"><td class="num" id="LN305">305</td><td class="line">	<span class='keyword'>do</span> {</td></tr>
+<tr class="codeline" data-linenumber="306"><td class="num" id="LN306">306</td><td class="line">		write_time = get_time_ns();</td></tr>
+<tr class="codeline" data-linenumber="307"><td class="num" id="LN307">307</td><td class="line">		status = i2c_transfer(client-&gt;adapter, &amp;msg, 1);</td></tr>
+<tr class="codeline" data-linenumber="308"><td class="num" id="LN308">308</td><td class="line">		<span class='keyword'>if</span> (status == 1)</td></tr>
+<tr class="codeline" data-linenumber="309"><td class="num" id="LN309">309</td><td class="line">			status = count;</td></tr>
+<tr class="codeline" data-linenumber="310"><td class="num" id="LN310">310</td><td class="line">		<span class='macro'>dev_dbg(&amp;client-&gt;dev, <span class='string_literal'>"write %zu@%d --&gt; %zd (%llu)\n"</span>,<span class='macro_popup'>({ (7) &lt;= 6 ? dev_printf((7), ((&amp;client-&gt;dev)), ("write %zu@%d --&gt; %zd (%llu)\n"<br>), count, offset, status, write_time) : 0; })</span></span></td></tr>
+<tr class="codeline" data-linenumber="311"><td class="num" id="LN311">311</td><td class="line">				<span class='macro'>count, offset, status, write_time)<span class='macro_popup'>({ (7) &lt;= 6 ? dev_printf((7), ((&amp;client-&gt;dev)), ("write %zu@%d --&gt; %zd (%llu)\n"<br>), count, offset, status, write_time) : 0; })</span></span>;</td></tr>
+<tr class="codeline" data-linenumber="312"><td class="num" id="LN312">312</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="313"><td class="num" id="LN313">313</td><td class="line">		<span class='keyword'>if</span> (status == count)</td></tr>
+<tr class="codeline" data-linenumber="314"><td class="num" id="LN314">314</td><td class="line">			<span class='keyword'>return</span> count;</td></tr>
+<tr class="codeline" data-linenumber="315"><td class="num" id="LN315">315</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="316"><td class="num" id="LN316">316</td><td class="line">		<span class='comment'>/* REVISIT: at HZ=100, this is sloooow */</span></td></tr>
+<tr class="codeline" data-linenumber="317"><td class="num" id="LN317">317</td><td class="line">		mdelay(1);</td></tr>
+<tr class="codeline" data-linenumber="318"><td class="num" id="LN318">318</td><td class="line">	} <span class='keyword'>while</span> (!is_timeout(start, write_timeout * <span class='macro'>MSECOND<span class='macro_popup'>((uint64_t)(1000 * 1000))</span></span>));</td></tr>
+<tr class="codeline" data-linenumber="319"><td class="num" id="LN319">319</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="320"><td class="num" id="LN320">320</td><td class="line">	<span class='keyword'>return</span> -<span class='macro'>ETIMEDOUT<span class='macro_popup'>110</span></span>;</td></tr>
+<tr class="codeline" data-linenumber="321"><td class="num" id="LN321">321</td><td class="line">}</td></tr>
+<tr class="codeline" data-linenumber="322"><td class="num" id="LN322">322</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="323"><td class="num" id="LN323">323</td><td class="line"><span class='keyword'>static</span> <span class='keyword'>void</span> at24_protect(<span class='keyword'>struct</span> at24_data *at24, bool prot)</td></tr>
+<tr class="codeline" data-linenumber="324"><td class="num" id="LN324">324</td><td class="line">{</td></tr>
+<tr class="codeline" data-linenumber="325"><td class="num" id="LN325">325</td><td class="line">	<span class='keyword'>if</span> (gpio_is_valid(at24-&gt;wp_gpio)) {</td></tr>
+<tr class="codeline" data-linenumber="326"><td class="num" id="LN326">326</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="327"><td class="num" id="LN327">327</td><td class="line">		<span class='keyword'>if</span> (at24-&gt;wp_active_low)</td></tr>
+<tr class="codeline" data-linenumber="328"><td class="num" id="LN328">328</td><td class="line">			prot = !prot;</td></tr>
+<tr class="codeline" data-linenumber="329"><td class="num" id="LN329">329</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="330"><td class="num" id="LN330">330</td><td class="line">		gpio_set_value(at24-&gt;wp_gpio, prot);</td></tr>
+<tr class="codeline" data-linenumber="331"><td class="num" id="LN331">331</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="332"><td class="num" id="LN332">332</td><td class="line">		udelay(50);</td></tr>
+<tr class="codeline" data-linenumber="333"><td class="num" id="LN333">333</td><td class="line">	}</td></tr>
+<tr class="codeline" data-linenumber="334"><td class="num" id="LN334">334</td><td class="line">}</td></tr>
+<tr class="codeline" data-linenumber="335"><td class="num" id="LN335">335</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="336"><td class="num" id="LN336">336</td><td class="line"><span class='keyword'>static</span> ssize_t at24_write(<span class='keyword'>struct</span> at24_data *at24, <span class='keyword'>const</span> <span class='keyword'>char</span> *buf, loff_t off,</td></tr>
+<tr class="codeline" data-linenumber="337"><td class="num" id="LN337">337</td><td class="line">			  size_t count)</td></tr>
+<tr class="codeline" data-linenumber="338"><td class="num" id="LN338">338</td><td class="line">{</td></tr>
+<tr class="codeline" data-linenumber="339"><td class="num" id="LN339">339</td><td class="line">	ssize_t retval = 0;</td></tr>
+<tr class="codeline" data-linenumber="340"><td class="num" id="LN340">340</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="341"><td class="num" id="LN341">341</td><td class="line">	<span class='keyword'>if</span> (<span class='macro'>unlikely(!count)<span class='macro_popup'>__builtin_expect(!!(!count), 0)</span></span>)</td></tr>
+<tr class="codeline" data-linenumber="342"><td class="num" id="LN342">342</td><td class="line">		<span class='keyword'>return</span> count;</td></tr>
+<tr class="codeline" data-linenumber="343"><td class="num" id="LN343">343</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="344"><td class="num" id="LN344">344</td><td class="line">	at24_protect(at24, false);</td></tr>
+<tr class="codeline" data-linenumber="345"><td class="num" id="LN345">345</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="346"><td class="num" id="LN346">346</td><td class="line">	<span class='keyword'>while</span> (count) {</td></tr>
+<tr class="codeline" data-linenumber="347"><td class="num" id="LN347">347</td><td class="line">		ssize_t	status;</td></tr>
+<tr class="codeline" data-linenumber="348"><td class="num" id="LN348">348</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="349"><td class="num" id="LN349">349</td><td class="line">		status = at24_eeprom_write(at24, buf, off, count);</td></tr>
+<tr class="codeline" data-linenumber="350"><td class="num" id="LN350">350</td><td class="line">		<span class='keyword'>if</span> (status &lt;= 0) {</td></tr>
+<tr class="codeline" data-linenumber="351"><td class="num" id="LN351">351</td><td class="line">			<span class='keyword'>if</span> (retval == 0)</td></tr>
+<tr class="codeline" data-linenumber="352"><td class="num" id="LN352">352</td><td class="line">				retval = status;</td></tr>
+<tr class="codeline" data-linenumber="353"><td class="num" id="LN353">353</td><td class="line">			<span class='keyword'>break</span>;</td></tr>
+<tr class="codeline" data-linenumber="354"><td class="num" id="LN354">354</td><td class="line">		}</td></tr>
+<tr class="codeline" data-linenumber="355"><td class="num" id="LN355">355</td><td class="line">		buf += status;</td></tr>
+<tr class="codeline" data-linenumber="356"><td class="num" id="LN356">356</td><td class="line">		off += status;</td></tr>
+<tr class="codeline" data-linenumber="357"><td class="num" id="LN357">357</td><td class="line">		count -= status;</td></tr>
+<tr class="codeline" data-linenumber="358"><td class="num" id="LN358">358</td><td class="line">		retval += status;</td></tr>
+<tr class="codeline" data-linenumber="359"><td class="num" id="LN359">359</td><td class="line">	}</td></tr>
+<tr class="codeline" data-linenumber="360"><td class="num" id="LN360">360</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="361"><td class="num" id="LN361">361</td><td class="line">	at24_protect(at24, true);</td></tr>
+<tr class="codeline" data-linenumber="362"><td class="num" id="LN362">362</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="363"><td class="num" id="LN363">363</td><td class="line">	<span class='keyword'>return</span> retval;</td></tr>
+<tr class="codeline" data-linenumber="364"><td class="num" id="LN364">364</td><td class="line">}</td></tr>
+<tr class="codeline" data-linenumber="365"><td class="num" id="LN365">365</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="366"><td class="num" id="LN366">366</td><td class="line"><span class='keyword'>static</span> <span class='keyword'>int</span> at24_nvmem_write(<span class='keyword'>struct</span> device_d *dev, <span class='keyword'>const</span> <span class='keyword'>int</span> off,</td></tr>
+<tr class="codeline" data-linenumber="367"><td class="num" id="LN367">367</td><td class="line">			       <span class='keyword'>const</span> <span class='keyword'>void</span> *buf, <span class='keyword'>int</span> count)</td></tr>
+<tr class="codeline" data-linenumber="368"><td class="num" id="LN368">368</td><td class="line">{</td></tr>
+<tr class="codeline" data-linenumber="369"><td class="num" id="LN369">369</td><td class="line">	<span class='keyword'>struct</span> at24_data *at24 = dev-&gt;parent-&gt;priv;</td></tr>
+<tr class="codeline" data-linenumber="370"><td class="num" id="LN370">370</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="371"><td class="num" id="LN371">371</td><td class="line">	<span class='keyword'>return</span> at24_write(at24, buf, off, count);</td></tr>
+<tr class="codeline" data-linenumber="372"><td class="num" id="LN372">372</td><td class="line">}</td></tr>
+<tr class="codeline" data-linenumber="373"><td class="num" id="LN373">373</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="374"><td class="num" id="LN374">374</td><td class="line"><span class='keyword'>static</span> <span class='keyword'>const</span> <span class='keyword'>struct</span> nvmem_bus at24_nvmem_bus = {</td></tr>
+<tr class="codeline" data-linenumber="375"><td class="num" id="LN375">375</td><td class="line">	.<span class='macro'>write<span class='macro_popup'>barebox_write</span></span> = at24_nvmem_write,</td></tr>
+<tr class="codeline" data-linenumber="376"><td class="num" id="LN376">376</td><td class="line">	.<span class='macro'>read<span class='macro_popup'>barebox_read</span></span>  = at24_nvmem_read,</td></tr>
+<tr class="codeline" data-linenumber="377"><td class="num" id="LN377">377</td><td class="line">};</td></tr>
+<tr class="codeline" data-linenumber="378"><td class="num" id="LN378">378</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="379"><td class="num" id="LN379">379</td><td class="line"><span class='keyword'>static</span> <span class='keyword'>int</span> at24_probe(<span class='keyword'>struct</span> device_d *dev)</td></tr>
+<tr class="codeline" data-linenumber="380"><td class="num" id="LN380">380</td><td class="line">{</td></tr>
+<tr class="codeline" data-linenumber="381"><td class="num" id="LN381">381</td><td class="line">	<span class='keyword'>struct</span> i2c_client *client = <span class='macro'>to_i2c_client(dev)<span class='macro_popup'>({ const typeof( ((struct i2c_client *)0)-&gt;dev ) *__mptr =<br> (dev); (struct i2c_client *)( (char *)__mptr - ((size_t) &amp;<br>((struct i2c_client *)0)-&gt;dev) );})</span></span>;</td></tr>
+<tr class="codeline" data-linenumber="382"><td class="num" id="LN382">382</td><td class="line">	<span class='keyword'>struct</span> at24_platform_data chip;</td></tr>
+<tr class="codeline" data-linenumber="383"><td class="num" id="LN383">383</td><td class="line">	bool writable;</td></tr>
+<tr class="codeline" data-linenumber="384"><td class="num" id="LN384">384</td><td class="line">	<span class='keyword'>struct</span> at24_data *at24;</td></tr>
+<tr class="codeline" data-linenumber="385"><td class="num" id="LN385">385</td><td class="line">	<span class='keyword'>int</span> err;</td></tr>
+<tr class="codeline" data-linenumber="386"><td class="num" id="LN386">386</td><td class="line">	<span class='keyword'>unsigned</span> i, num_addresses;</td></tr>
+<tr class="codeline" data-linenumber="387"><td class="num" id="LN387">387</td><td class="line">	<span class='keyword'>char</span> *devname;</td></tr>
+<tr class="codeline" data-linenumber="388"><td class="num" id="LN388">388</td><td class="line">	<span class='keyword'>const</span> <span class='keyword'>char</span> *alias;</td></tr>
+<tr class="codeline" data-linenumber="389"><td class="num" id="LN389">389</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="390"><td class="num" id="LN390">390</td><td class="line">	<span class='keyword'>if</span> (dev-&gt;platform_data) {</td></tr>
+<tr class="codeline" data-linenumber="391"><td class="num" id="LN391">391</td><td class="line">		chip = *(<span class='keyword'>struct</span> at24_platform_data *)dev-&gt;platform_data;</td></tr>
+<tr class="codeline" data-linenumber="392"><td class="num" id="LN392">392</td><td class="line">	} <span class='keyword'>else</span> {</td></tr>
+<tr class="codeline" data-linenumber="393"><td class="num" id="LN393">393</td><td class="line">		<span class='keyword'>unsigned</span> <span class='keyword'>long</span> magic;</td></tr>
+<tr class="codeline" data-linenumber="394"><td class="num" id="LN394">394</td><td class="line">		u32 page_size;</td></tr>
+<tr class="codeline" data-linenumber="395"><td class="num" id="LN395">395</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="396"><td class="num" id="LN396">396</td><td class="line">		err = dev_get_drvdata(dev, (<span class='keyword'>const</span> <span class='keyword'>void</span> **)&amp;magic);</td></tr>
+<tr class="codeline" data-linenumber="397"><td class="num" id="LN397">397</td><td class="line">		<span class='keyword'>if</span> (err)</td></tr>
+<tr class="codeline" data-linenumber="398"><td class="num" id="LN398">398</td><td class="line">			<span class='keyword'>return</span> err;</td></tr>
+<tr class="codeline" data-linenumber="399"><td class="num" id="LN399">399</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="400"><td class="num" id="LN400">400</td><td class="line">		chip.byte_len = <span class='macro'>BIT(magic &amp; AT24_BITMASK(AT24_SIZE_BYTELEN))<span class='macro_popup'>(1UL &lt;&lt; (magic &amp; ((1UL &lt;&lt; (5)) - 1)))</span></span>;</td></tr>
+<tr class="codeline" data-linenumber="401"><td class="num" id="LN401">401</td><td class="line">		magic &gt;&gt;= <span class='macro'>AT24_SIZE_BYTELEN<span class='macro_popup'>5</span></span>;</td></tr>
+<tr class="codeline" data-linenumber="402"><td class="num" id="LN402">402</td><td class="line">		chip.flags = magic &amp; <span class='macro'>AT24_BITMASK(AT24_SIZE_FLAGS)<span class='macro_popup'>((1UL &lt;&lt; (8)) - 1)</span></span>;</td></tr>
+<tr class="codeline" data-linenumber="403"><td class="num" id="LN403">403</td><td class="line">		<span class='keyword'>if</span> (dev-&gt;device_node &amp;&amp;</td></tr>
+<tr class="codeline" data-linenumber="404"><td class="num" id="LN404">404</td><td class="line">		    !of_property_read_u32(dev-&gt;device_node, <span class='string_literal'>"pagesize"</span>, &amp;page_size))</td></tr>
+<tr class="codeline" data-linenumber="405"><td class="num" id="LN405">405</td><td class="line">			chip.page_size = page_size;</td></tr>
+<tr class="codeline" data-linenumber="406"><td class="num" id="LN406">406</td><td class="line">		<span class='keyword'>else</span> {</td></tr>
+<tr class="codeline" data-linenumber="407"><td class="num" id="LN407">407</td><td class="line">			<span class='comment'>/*</span></td></tr>
+<tr class="codeline" data-linenumber="408"><td class="num" id="LN408">408</td><td class="line">			 <span class='comment'>* This is slow, but we can't know all eeproms, so we better</span></td></tr>
+<tr class="codeline" data-linenumber="409"><td class="num" id="LN409">409</td><td class="line">			 <span class='comment'>* play safe. Specifying custom eeprom-types via platform_data</span></td></tr>
+<tr class="codeline" data-linenumber="410"><td class="num" id="LN410">410</td><td class="line">			 <span class='comment'>* is recommended anyhow.</span></td></tr>
+<tr class="codeline" data-linenumber="411"><td class="num" id="LN411">411</td><td class="line">			 <span class='comment'>*/</span></td></tr>
+<tr class="codeline" data-linenumber="412"><td class="num" id="LN412">412</td><td class="line">			chip.page_size = 1;</td></tr>
+<tr class="codeline" data-linenumber="413"><td class="num" id="LN413">413</td><td class="line">		}</td></tr>
+<tr class="codeline" data-linenumber="414"><td class="num" id="LN414">414</td><td class="line">	}</td></tr>
+<tr class="codeline" data-linenumber="415"><td class="num" id="LN415">415</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="416"><td class="num" id="LN416">416</td><td class="line">	<span class='keyword'>if</span> (!is_power_of_2(chip.byte_len))</td></tr>
+<tr class="codeline" data-linenumber="417"><td class="num" id="LN417">417</td><td class="line">		<span class='macro'>dev_warn(&amp;client-&gt;dev,<span class='macro_popup'>({ (4) &lt;= 6 ? dev_printf((4), ((&amp;client-&gt;dev)), ("byte_len looks suspicious (no power of 2)!\n"<br>)) : 0; })</span></span></td></tr>
+<tr class="codeline" data-linenumber="418"><td class="num" id="LN418">418</td><td class="line">			<span class='string_literal'><span class='macro'>"byte_len looks suspicious (no power of 2)!\n"</span>)<span class='macro_popup'>({ (4) &lt;= 6 ? dev_printf((4), ((&amp;client-&gt;dev)), ("byte_len looks suspicious (no power of 2)!\n"<br>)) : 0; })</span></span>;</td></tr>
+<tr class="codeline" data-linenumber="419"><td class="num" id="LN419">419</td><td class="line">	<span class='keyword'>if</span> (!chip.page_size) {</td></tr>
+<tr class="codeline" data-linenumber="420"><td class="num" id="LN420">420</td><td class="line">		<span class='macro'>dev_err(&amp;client-&gt;dev, <span class='string_literal'>"page_size must not be 0!\n"</span>)<span class='macro_popup'>({ (3) &lt;= 6 ? dev_printf((3), ((&amp;client-&gt;dev)), ("page_size must not be 0!\n"<br>)) : 0; })</span></span>;</td></tr>
+<tr class="codeline" data-linenumber="421"><td class="num" id="LN421">421</td><td class="line">		err = -<span class='macro'>EINVAL<span class='macro_popup'>22</span></span>;</td></tr>
+<tr class="codeline" data-linenumber="422"><td class="num" id="LN422">422</td><td class="line">		<span class='keyword'>goto</span> err_out;</td></tr>
+<tr class="codeline" data-linenumber="423"><td class="num" id="LN423">423</td><td class="line">	}</td></tr>
+<tr class="codeline" data-linenumber="424"><td class="num" id="LN424">424</td><td class="line">	<span class='keyword'>if</span> (!is_power_of_2(chip.page_size))</td></tr>
+<tr class="codeline" data-linenumber="425"><td class="num" id="LN425">425</td><td class="line">		<span class='macro'>dev_warn(&amp;client-&gt;dev,<span class='macro_popup'>({ (4) &lt;= 6 ? dev_printf((4), ((&amp;client-&gt;dev)), ("page_size looks suspicious (no power of 2)!\n"<br>)) : 0; })</span></span></td></tr>
+<tr class="codeline" data-linenumber="426"><td class="num" id="LN426">426</td><td class="line">			<span class='string_literal'><span class='macro'>"page_size looks suspicious (no power of 2)!\n"</span>)<span class='macro_popup'>({ (4) &lt;= 6 ? dev_printf((4), ((&amp;client-&gt;dev)), ("page_size looks suspicious (no power of 2)!\n"<br>)) : 0; })</span></span>;</td></tr>
+<tr class="codeline" data-linenumber="427"><td class="num" id="LN427">427</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="428"><td class="num" id="LN428">428</td><td class="line">	<span class='keyword'>if</span> (chip.flags &amp; <span class='macro'>AT24_FLAG_TAKE8ADDR<span class='macro_popup'>0x10</span></span>)</td></tr>
+<tr class="codeline" data-linenumber="429"><td class="num" id="LN429">429</td><td class="line">		num_addresses = 8;</td></tr>
+<tr class="codeline" data-linenumber="430"><td class="num" id="LN430">430</td><td class="line">	<span class='keyword'>else</span></td></tr>
+<tr class="codeline" data-linenumber="431"><td class="num" id="LN431">431</td><td class="line">		num_addresses =	<span class='macro'>DIV_ROUND_UP(chip.byte_len,<span class='macro_popup'>(((chip.byte_len) + ((chip.flags &amp; 0x80) ? 65536 : 256) -<br> 1) / ((chip.flags &amp; 0x80) ? 65536 : 256))</span></span></td></tr>
+<tr class="codeline" data-linenumber="432"><td class="num" id="LN432">432</td><td class="line">			<span class='macro'>(chip.flags &amp; AT24_FLAG_ADDR16) ? 65536 : 256)<span class='macro_popup'>(((chip.byte_len) + ((chip.flags &amp; 0x80) ? 65536 : 256) -<br> 1) / ((chip.flags &amp; 0x80) ? 65536 : 256))</span></span>;</td></tr>
+<tr class="codeline" data-linenumber="433"><td class="num" id="LN433">433</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="434"><td class="num" id="LN434">434</td><td class="line">	at24 = xzalloc(<span class='keyword'>sizeof</span>(<span class='keyword'>struct</span> at24_data) +</td></tr>
+<tr class="codeline" data-linenumber="435"><td class="num" id="LN435">435</td><td class="line">		num_addresses * <span class='keyword'>sizeof</span>(<span class='keyword'>struct</span> i2c_client *));</td></tr>
+<tr class="codeline" data-linenumber="436"><td class="num" id="LN436">436</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="437"><td class="num" id="LN437">437</td><td class="line">	at24-&gt;chip = chip;</td></tr>
+<tr class="codeline" data-linenumber="438"><td class="num" id="LN438">438</td><td class="line">	at24-&gt;num_addresses = num_addresses;</td></tr>
+<tr class="codeline" data-linenumber="439"><td class="num" id="LN439">439</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="440"><td class="num" id="LN440">440</td><td class="line">	alias = of_alias_get(dev-&gt;device_node);</td></tr>
+<tr class="codeline" data-linenumber="441"><td class="num" id="LN441">441</td><td class="line">	<span class='keyword'>if</span> (alias) {</td></tr>
+<tr class="codeline" data-linenumber="442"><td class="num" id="LN442">442</td><td class="line">		devname = xstrdup(alias);</td></tr>
+<tr class="codeline" data-linenumber="443"><td class="num" id="LN443">443</td><td class="line">	} <span class='keyword'>else</span> {</td></tr>
+<tr class="codeline" data-linenumber="444"><td class="num" id="LN444">444</td><td class="line">		err = cdev_find_free_index(<span class='string_literal'>"eeprom"</span>);</td></tr>
+<tr class="codeline" data-linenumber="445"><td class="num" id="LN445">445</td><td class="line">		<span class='keyword'>if</span> (err &lt; 0) {</td></tr>
+<tr class="codeline" data-linenumber="446"><td class="num" id="LN446">446</td><td class="line">			<span class='macro'>dev_err(&amp;client-&gt;dev, <span class='string_literal'>"no index found to name device\n"</span>)<span class='macro_popup'>({ (3) &lt;= 6 ? dev_printf((3), ((&amp;client-&gt;dev)), ("no index found to name device\n"<br>)) : 0; })</span></span>;</td></tr>
+<tr class="codeline" data-linenumber="447"><td class="num" id="LN447">447</td><td class="line">			<span class='keyword'>goto</span> err_device_name;</td></tr>
+<tr class="codeline" data-linenumber="448"><td class="num" id="LN448">448</td><td class="line">		}</td></tr>
+<tr class="codeline" data-linenumber="449"><td class="num" id="LN449">449</td><td class="line">		devname = xasprintf(<span class='string_literal'>"eeprom%d"</span>, err);</td></tr>
+<tr class="codeline" data-linenumber="450"><td class="num" id="LN450">450</td><td class="line">	}</td></tr>
+<tr class="codeline" data-linenumber="451"><td class="num" id="LN451">451</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="452"><td class="num" id="LN452">452</td><td class="line">	writable = !(chip.flags &amp; <span class='macro'>AT24_FLAG_READONLY<span class='macro_popup'>0x40</span></span>);</td></tr>
+<tr class="codeline" data-linenumber="453"><td class="num" id="LN453">453</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="454"><td class="num" id="LN454">454</td><td class="line">	<span class='keyword'>if</span> (of_get_property(dev-&gt;device_node, <span class='string_literal'>"read-only"</span>, <span class='macro'>NULL<span class='macro_popup'>((void *)0)</span></span>))</td></tr>
+<tr class="codeline" data-linenumber="455"><td class="num" id="LN455">455</td><td class="line">		writable = 0;</td></tr>
+<tr class="codeline" data-linenumber="456"><td class="num" id="LN456">456</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="457"><td class="num" id="LN457">457</td><td class="line">	<span class='keyword'>if</span> (writable) {</td></tr>
+<tr class="codeline" data-linenumber="458"><td class="num" id="LN458">458</td><td class="line">		<span class='keyword'>unsigned</span> write_max = chip.page_size;</td></tr>
+<tr class="codeline" data-linenumber="459"><td class="num" id="LN459">459</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="460"><td class="num" id="LN460">460</td><td class="line">		<span class='keyword'>if</span> (write_max &gt; io_limit)</td></tr>
+<tr class="codeline" data-linenumber="461"><td class="num" id="LN461">461</td><td class="line">			write_max = io_limit;</td></tr>
+<tr class="codeline" data-linenumber="462"><td class="num" id="LN462">462</td><td class="line">		at24-&gt;write_max = write_max;</td></tr>
+<tr class="codeline" data-linenumber="463"><td class="num" id="LN463">463</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="464"><td class="num" id="LN464">464</td><td class="line">		<span class='comment'>/* buffer (data + address at the beginning) */</span></td></tr>
+<tr class="codeline" data-linenumber="465"><td class="num" id="LN465">465</td><td class="line">		at24-&gt;writebuf = xmalloc(write_max + 2);</td></tr>
+<tr class="codeline" data-linenumber="466"><td class="num" id="LN466">466</td><td class="line">	}</td></tr>
+<tr class="codeline" data-linenumber="467"><td class="num" id="LN467">467</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="468"><td class="num" id="LN468">468</td><td class="line">	at24-&gt;wp_gpio = -1;</td></tr>
+<tr class="codeline" data-linenumber="469"><td class="num" id="LN469">469</td><td class="line">	<span class='keyword'>if</span> (dev-&gt;device_node) {</td></tr>
+<tr class="codeline" data-linenumber="470"><td class="num" id="LN470">470</td><td class="line">		<span class='keyword'>enum</span> of_gpio_flags flags;</td></tr>
+<tr class="codeline" data-linenumber="471"><td class="num" id="LN471">471</td><td class="line">		at24-&gt;wp_gpio = of_get_named_gpio_flags(dev-&gt;device_node,</td></tr>
+<tr class="codeline" data-linenumber="472"><td class="num" id="LN472">472</td><td class="line">				<span class='string_literal'>"wp-gpios"</span>, 0, &amp;flags);</td></tr>
+<tr class="codeline" data-linenumber="473"><td class="num" id="LN473">473</td><td class="line">		<span class='keyword'>if</span> (gpio_is_valid(at24-&gt;wp_gpio)) {</td></tr>
+<tr class="codeline" data-linenumber="474"><td class="num" id="LN474">474</td><td class="line">			at24-&gt;wp_active_low = flags &amp; OF_GPIO_ACTIVE_LOW;</td></tr>
+<tr class="codeline" data-linenumber="475"><td class="num" id="LN475">475</td><td class="line">			gpio_request(at24-&gt;wp_gpio, <span class='string_literal'>"eeprom-wp"</span>);</td></tr>
+<tr class="codeline" data-linenumber="476"><td class="num" id="LN476">476</td><td class="line">			gpio_direction_output(at24-&gt;wp_gpio,</td></tr>
+<tr class="codeline" data-linenumber="477"><td class="num" id="LN477">477</td><td class="line">					!at24-&gt;wp_active_low);</td></tr>
+<tr class="codeline" data-linenumber="478"><td class="num" id="LN478">478</td><td class="line">		}</td></tr>
+<tr class="codeline" data-linenumber="479"><td class="num" id="LN479">479</td><td class="line">	}</td></tr>
+<tr class="codeline" data-linenumber="480"><td class="num" id="LN480">480</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="481"><td class="num" id="LN481">481</td><td class="line">	at24-&gt;client[0] = client;</td></tr>
+<tr class="codeline" data-linenumber="482"><td class="num" id="LN482">482</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="483"><td class="num" id="LN483">483</td><td class="line">	<span class='comment'>/* use dummy devices for multiple-address chips */</span></td></tr>
+<tr class="codeline" data-linenumber="484"><td class="num" id="LN484">484</td><td class="line">	<span class='keyword'>for</span> (i = 1; i &lt; num_addresses; i++) {</td></tr>
+<tr class="codeline" data-linenumber="485"><td class="num" id="LN485">485</td><td class="line">		<span class='keyword'>const</span> <span class='keyword'>int</span> shift = (chip.flags &amp; <span class='macro'>AT24_FLAG_BANK_BIT_2<span class='macro_popup'>0x08</span></span>) ? 2 : 0;</td></tr>
+<tr class="codeline" data-linenumber="486"><td class="num" id="LN486">486</td><td class="line">		at24-&gt;client[i] = i2c_new_dummy(client-&gt;adapter,</td></tr>
+<tr class="codeline" data-linenumber="487"><td class="num" id="LN487">487</td><td class="line">					client-&gt;addr + (i &lt;&lt; shift));</td></tr>
+<tr class="codeline" data-linenumber="488"><td class="num" id="LN488">488</td><td class="line">		<span class='keyword'>if</span> (!at24-&gt;client[i]) {</td></tr>
+<tr class="codeline" data-linenumber="489"><td class="num" id="LN489">489</td><td class="line">			<span class='macro'>dev_err(&amp;client-&gt;dev, <span class='string_literal'>"address 0x%02x unavailable\n"</span>,<span class='macro_popup'>({ (3) &lt;= 6 ? dev_printf((3), ((&amp;client-&gt;dev)), ("address 0x%02x unavailable\n"<br>), client-&gt;addr + (i &lt;&lt; shift)) : 0; })</span></span></td></tr>
+<tr class="codeline" data-linenumber="490"><td class="num" id="LN490">490</td><td class="line">					<span class='macro'>client-&gt;addr + (i &lt;&lt; shift))<span class='macro_popup'>({ (3) &lt;= 6 ? dev_printf((3), ((&amp;client-&gt;dev)), ("address 0x%02x unavailable\n"<br>), client-&gt;addr + (i &lt;&lt; shift)) : 0; })</span></span>;</td></tr>
+<tr class="codeline" data-linenumber="491"><td class="num" id="LN491">491</td><td class="line">			err = -<span class='macro'>EADDRINUSE<span class='macro_popup'>98</span></span>;</td></tr>
+<tr class="codeline" data-linenumber="492"><td class="num" id="LN492">492</td><td class="line">			<span class='keyword'>goto</span> err_clients;</td></tr>
+<tr class="codeline" data-linenumber="493"><td class="num" id="LN493">493</td><td class="line">		}</td></tr>
+<tr class="codeline" data-linenumber="494"><td class="num" id="LN494">494</td><td class="line">	}</td></tr>
+<tr class="codeline" data-linenumber="495"><td class="num" id="LN495">495</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="496"><td class="num" id="LN496">496</td><td class="line">	at24-&gt;nvmem_config.name = devname;</td></tr>
+<tr class="codeline" data-linenumber="497"><td class="num" id="LN497">497</td><td class="line">	at24-&gt;nvmem_config.dev = dev;</td></tr>
+<tr class="codeline" data-linenumber="498"><td class="num" id="LN498">498</td><td class="line">	at24-&gt;nvmem_config.read_only = !writable;</td></tr>
+<tr class="codeline" data-linenumber="499"><td class="num" id="LN499">499</td><td class="line">	at24-&gt;nvmem_config.bus = &amp;at24_nvmem_bus;</td></tr>
+<tr class="codeline" data-linenumber="500"><td class="num" id="LN500">500</td><td class="line">	at24-&gt;nvmem_config.stride = 1;</td></tr>
+<tr class="codeline" data-linenumber="501"><td class="num" id="LN501">501</td><td class="line">	at24-&gt;nvmem_config.word_size = 1;</td></tr>
+<tr class="codeline" data-linenumber="502"><td class="num" id="LN502">502</td><td class="line">	at24-&gt;nvmem_config.size = chip.byte_len;</td></tr>
+<tr class="codeline" data-linenumber="503"><td class="num" id="LN503">503</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="504"><td class="num" id="LN504">504</td><td class="line">	dev-&gt;priv = at24;</td></tr>
+<tr class="codeline" data-linenumber="505"><td class="num" id="LN505">505</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="506"><td class="num" id="LN506">506</td><td class="line">	at24-&gt;nvmem = nvmem_register(&amp;at24-&gt;nvmem_config);</td></tr>
+<tr class="codeline" data-linenumber="507"><td class="num" id="LN507">507</td><td class="line">	err = PTR_ERR_OR_ZERO(at24-&gt;nvmem);</td></tr>
+<tr class="codeline" data-linenumber="508"><td class="num" id="LN508">508</td><td class="line">	<span class='keyword'>if</span> (err)</td></tr>
+<tr class="codeline" data-linenumber="509"><td class="num" id="LN509">509</td><td class="line">		<span class='keyword'>goto</span> err_devfs_create;</td></tr>
+<tr class="codeline" data-linenumber="510"><td class="num" id="LN510">510</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="511"><td class="num" id="LN511">511</td><td class="line">	<span class='keyword'>return</span> 0;</td></tr>
+<tr class="codeline" data-linenumber="512"><td class="num" id="LN512">512</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="513"><td class="num" id="LN513">513</td><td class="line">err_devfs_create:</td></tr>
+<tr class="codeline" data-linenumber="514"><td class="num" id="LN514">514</td><td class="line">err_clients:</td></tr>
+<tr class="codeline" data-linenumber="515"><td class="num" id="LN515">515</td><td class="line">	<span class='keyword'>for</span> (i = 1; i &lt; num_addresses; i++)</td></tr>
+<tr class="codeline" data-linenumber="516"><td class="num" id="LN516">516</td><td class="line">		kfree(at24-&gt;client[i]);</td></tr>
+<tr class="codeline" data-linenumber="517"><td class="num" id="LN517">517</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="518"><td class="num" id="LN518">518</td><td class="line">	<span class='keyword'>if</span> (gpio_is_valid(at24-&gt;wp_gpio))</td></tr>
+<tr class="codeline" data-linenumber="519"><td class="num" id="LN519">519</td><td class="line">		gpio_free(at24-&gt;wp_gpio);</td></tr>
+<tr class="codeline" data-linenumber="520"><td class="num" id="LN520">520</td><td class="line">	kfree(at24-&gt;writebuf);</td></tr>
+<tr class="codeline" data-linenumber="521"><td class="num" id="LN521">521</td><td class="line">err_device_name:</td></tr>
+<tr class="codeline" data-linenumber="522"><td class="num" id="LN522">522</td><td class="line">	kfree(at24);</td></tr>
+<tr class="codeline" data-linenumber="523"><td class="num" id="LN523">523</td><td class="line">err_out:</td></tr>
+<tr class="codeline" data-linenumber="524"><td class="num" id="LN524">524</td><td class="line">	<span class='macro'>dev_dbg(&amp;client-&gt;dev, <span class='string_literal'>"probe error %d\n"</span>, err)<span class='macro_popup'>({ (7) &lt;= 6 ? dev_printf((7), ((&amp;client-&gt;dev)), ("probe error %d\n"<br>), err) : 0; })</span></span>;</td></tr>
+<tr class="codeline" data-linenumber="525"><td class="num" id="LN525">525</td><td class="line">	<span class='keyword'>return</span> err;</td></tr>
+<tr class="codeline" data-linenumber="526"><td class="num" id="LN526">526</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="527"><td class="num" id="LN527">527</td><td class="line">}</td></tr>
+<tr class="codeline" data-linenumber="528"><td class="num" id="LN528">528</td><td class="line"> </td></tr>
+<tr class="codeline" data-linenumber="529"><td class="num" id="LN529">529</td><td class="line"><span class='keyword'>static</span> <span class='keyword'>struct</span> driver_d at24_driver = {</td></tr>
+<tr class="codeline" data-linenumber="530"><td class="num" id="LN530">530</td><td class="line">	.name		= <span class='string_literal'>"at24"</span>,</td></tr>
+<tr class="codeline" data-linenumber="531"><td class="num" id="LN531">531</td><td class="line">	.probe		= at24_probe,</td></tr>
+<tr class="codeline" data-linenumber="532"><td class="num" id="LN532">532</td><td class="line">	.id_table	= at24_ids,</td></tr>
+<tr class="codeline" data-linenumber="533"><td class="num" id="LN533">533</td><td class="line">};</td></tr>
+<tr class="codeline" data-linenumber="534"><td class="num" id="LN534">534</td><td class="line"><span class='macro'>device_i2c_driver(at24_driver)<span class='macro_popup'>static int at24_driver_register(void) { return i2c_driver_register<br>(&amp;at24_driver); } static initcall_t __initcall_at24_driver_register10<br> __attribute__((__used__)) __attribute__((__section__(".initcall."<br> "10"))) = at24_driver_register</span></span>;</td></tr>
+</table></body></html>
