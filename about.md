@@ -14,6 +14,8 @@ Because it makes me sound professional, I'll say that views expressed here are m
 
 I do Linux/barebox development full-time now.
 
+<a rel="me" href="https://fosstodon.org/@a3f">Mastodon</a>
+
 `(This page was last updated on 2019-07-08)`
 
 ```
