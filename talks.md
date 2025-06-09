@@ -52,6 +52,14 @@ A gentle introduction into how Linux device driver probing works.
 
 ---
 
+## One Image to Rule Them All: Portably Handling Hardware Variants
+
+Embedded Recipes 2023
+[\[slides ☍\]](http://embedded-recipes.org/2023/schedule/one-image-to-rule-them-all/)
+[\[recording ☍\]](https://www.youtube.com/watch?v=ViaLmrrMhqk)
+
+I talk about how to design an image that is portable to many differnt boards.
+
 ## Wenn Geräte an Bäumen wachsen: Linux-Device-Tree-Portierung (German)
 
 Chemnitzer Linux-Tage 2023
