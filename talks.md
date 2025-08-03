@@ -23,8 +23,9 @@ To be held on 26th of August 2025.
 ## Upcoming: Das Hoch und Runter mit ARM-Systemen (German)
 
 FrOSCon 2025
+[\[schedule ☍\]](https://programm.froscon.org/2025/events/3378.html)
 
-To be held on either 16th or 17th of August 2025.
+To be held on 16th of August 2025.
 
 ## usb9pfs: network booting without the network
 
