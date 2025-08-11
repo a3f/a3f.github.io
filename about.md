@@ -7,12 +7,7 @@ nocomments: true
 ---
 
 
-<s>For upkeep, I do embedded Linux development at Siemens’ industrial networking division. I used to study mechanical engineering and mechatronics, but I found it not to be my cup of tee. Now I study computer science at the KIT. In my free time, I feel bad about projects I started and didn’t get around to complete till a state, where uploading them might make sense, which in turn prompts me to start new projects.
-
-Because it makes me sound professional, I'll say that views expressed here are my own and do not necessarily align with those of my employer, my not-yet-alma-mater or anyone else, really. :-)
-</s>
-
-I do Linux/barebox development full-time now.
+I do full-time embedded Linux/barebox development.
 
 <a rel="me" href="https://fosstodon.org/@a3f">Mastodon</a>
 
