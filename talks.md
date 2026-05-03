@@ -11,21 +11,21 @@ nocomments: true
 OSADL COOL April 2026 edition
 [\[abstract ☍\]](https://www.osadl.org/COOL-2026-04-Compact-OSADL-Online-Lect.cool-compactosadllectures2026-04.0.html)
 
-Discussion of a "Secure-by-Default" model for verified boot combining barebox's new security features, technical hardening measures as well as non-technical improvements in the barebox release process.
+Discussion of a "Secure-by-Default" boot model combining barebox's new security features, hardening measures as well as non-technical improvements in the release process.
 
 ## Build Once, Trust Always: Single-Image Secure Boot with barebox
 
 FOSDEM 2026: Embedded Devroom
 [\[slides & recording ☍\]](https://fosdem.org/2026/schedule/event/SZRFKD-barebox-single-image-secure-boot/)
 
-Single-image secure boot with barebox, using fuse-based state transitions, device-bound unlock tokens, and policy-driven access control to eliminate multiple bootloader variants while preserving secure debugging and recovery.
+Eliminate multiple bootloader variants while preserving secure debugging and recovery using new barebox functionality.
 
 ## Netboot without throwing a FIT
 
 FOSDEM 2026: Kernel Devroom
 [\[slides & recording ☍\]](https://fosdem.org/2026/schedule/event/7XHGHX-netboot_without_throwing_a_fit/)
 
-Modern netbooting with Linux using FIT images and initramfs tricks to stay compatible with secure boot while keeping fast, flexible NFS-based workflows. The conference-driven development resulted in barebox's [devboot feature](https://www.barebox.org/doc/latest/user/devboot.html).
+Use Kbuild FIT support and initramfs tricks to easily network boot a kernel and its modules without touchig the on-disk rootfs. The conference-driven development resulted in barebox's [devboot feature](https://www.barebox.org/doc/latest/user/devboot.html).
 
 ## Hardening the Barebox Bootloader
 
@@ -41,7 +41,7 @@ Embedded Linux Conference Europe 2025
 [\[schedule ☍\]](https://osseu2025.sched.com/event/25VqL/bootloaders-under-fire-real-world-threats-and-practical-defenses-ahmad-fatoum-pengutronix?iframe=yes&w=100%&sidebar=yes&bg=no)
 [\[recording ☍\]](https://www.youtube.com/watch?v=dermEhoAu1I)
 
-Recounting real-world attacks against U-Boot and barebox bootloaders, what can be learned from them and how barebox changed in response.
+Looking at some attacks against U-Boot and barebox bootloaders and how barebox changed in response.
 First introduction of the barebox [security policy framework](https://www.barebox.org/doc/latest/user/security-policies.html).
 
 ## Das Hoch und Runter mit ARM-Systemen (German)
