@@ -6,30 +6,55 @@ public: true
 nocomments: true
 ---
 
-## Upcoming: Hardening the Barebox Bootloader
+## Secure by Default? Unified Bootflows from Factory to Field
+
+OSADL COOL April 2026 edition
+[\[abstract ☍\]](https://www.osadl.org/COOL-2026-04-Compact-OSADL-Online-Lect.cool-compactosadllectures2026-04.0.html)
+
+Discussion of a "Secure-by-Default" model for verified boot combining barebox's new security features, technical hardening measures as well as non-technical improvements in the barebox release process.
+
+## Build Once, Trust Always: Single-Image Secure Boot with barebox
+
+FOSDEM 2026: Embedded Devroom
+[\[slides & recording ☍\]](https://fosdem.org/2026/schedule/event/SZRFKD-barebox-single-image-secure-boot/)
+
+Single-image secure boot with barebox, using fuse-based state transitions, device-bound unlock tokens, and policy-driven access control to eliminate multiple bootloader variants while preserving secure debugging and recovery.
+
+## Netboot without throwing a FIT
+
+FOSDEM 2026: Kernel Devroom
+[\[slides & recording ☍\]](https://fosdem.org/2026/schedule/event/7XHGHX-netboot_without_throwing_a_fit/)
+
+Modern netbooting with Linux using FIT images and initramfs tricks to stay compatible with secure boot while keeping fast, flexible NFS-based workflows. The conference-driven development resulted in barebox's [devboot feature](https://www.barebox.org/doc/latest/user/devboot.html).
+
+## Hardening the Barebox Bootloader
 
 Linux Security Summit Europe 2025
 [\[schedule ☍\]](https://lsseu2025.sched.com/event/25GEc/hardening-the-barebox-bootloader-ahmad-fatoum-pengutronix?iframe=no&w=100)
+[\[recording ☍\]](https://www.youtube.com/watch?v=tav_ct4emX8)
 
-To be held on 29th of August 2025.
+Recounting recent efforts to improve barebox security posture.
 
-## Upcoming: Bootloaders Under Fire: Real-World Threats and Practical Defenses
+## Bootloaders Under Fire: Real-World Threats and Practical Defenses
 
 Embedded Linux Conference Europe 2025
 [\[schedule ☍\]](https://osseu2025.sched.com/event/25VqL/bootloaders-under-fire-real-world-threats-and-practical-defenses-ahmad-fatoum-pengutronix?iframe=yes&w=100%&sidebar=yes&bg=no)
+[\[recording ☍\]](https://www.youtube.com/watch?v=dermEhoAu1I)
 
-To be held on 26th of August 2025.
+Recounting real-world attacks against U-Boot and barebox bootloaders, what can be learned from them and how barebox changed in response.
+First introduction of the barebox [security policy framework](https://www.barebox.org/doc/latest/user/security-policies.html).
 
-## Upcoming: Das Hoch und Runter mit ARM-Systemen (German)
+## Das Hoch und Runter mit ARM-Systemen (German)
 
 FrOSCon 2025
 [\[schedule ☍\]](https://programm.froscon.org/2025/events/3378.html)
+[\[recording ☍\]](https://media.ccc.de/v/froscon2025-3378-das_hoch_und_runter_mit_arm-systemen)
 
-To be held on 16th of August 2025.
+A (German) walkthrough of NXP i.MX8M bootstrap. From Boot ROM through barebox to Linux and back to power-off.
 
 ## usb9pfs: network booting without the network
 
-FOSDEM 2025
+FOSDEM 2025: Embedded Devroom
 [\[slides & recording ☍\]](https://fosdem.org/2025/schedule/event/fosdem-2025-6103-usb9pfs-network-booting-without-the-network/)
 
 This talk discusses the design of 9p and usb9pfs and showcase how streamlined development on a Yocto root file system can be with both barebox and Linux making use of usb9pfs.
@@ -46,7 +71,7 @@ I speak about how strangely DMA bugs can manifest as an excuse to generate Yu-Gi
 
 ## Linux Matchmaking: Helping devices and drivers find each other
 
-FOSDEM 2024
+FOSDEM 2024: Kernel Devroom
 [\[slides & recording ☍\]](https://archive.fosdem.org/2024/schedule/event/fosdem-2024-3222-linux-matchmaking-helping-devices-and-drivers-find-each-other/)
 
 A gentle introduction into how Linux device driver probing works.
@@ -71,7 +96,7 @@ A (german) introduction into device trees as used by Linux and barebox.
 
 ## Having Something to Hide: Trusted Key Storage in Linux
 
-FOSDEM 2023
+FOSDEM 2023: Kernel Devroom
 [\[schedule & recording ☍\]](https://archive.fosdem.org/2023/schedule/event/sth_to_hide/)
 
 Introduction to the kernel's trusted key subsystem and my work in enabling it for unattended disk decryption on NXP's i.MX line of embedded SoCs.
@@ -107,7 +132,7 @@ A (German) walkthrough on how to leverage barebox APIs to run DOOM on any hardwa
 
 ## From Reset Vector to Kernel - Navigating the ARM Matryoshka
 
-FOSDEM 2021
+FOSDEM 2021: Embedded Devroom
 [\[slides & recording ☍\]](https://archive.fosdem.org/2021/schedule/event/from_reset_vector_to_kernel/)
 
 A walkthrough of NXP i.MX8M bootstrap. From Boot ROM through barebox to Linux.
