@@ -13,12 +13,16 @@ OSADL COOL April 2026 edition
 
 Discussion of a "Secure-by-Default" boot model combining barebox's new security features, hardening measures as well as non-technical improvements in the release process.
 
+---
+
 ## Build Once, Trust Always: Single-Image Secure Boot with barebox
 
 FOSDEM 2026: Embedded Devroom
 [\[slides & recording ☍\]](https://fosdem.org/2026/schedule/event/SZRFKD-barebox-single-image-secure-boot/)
 
 Eliminate multiple bootloader variants while preserving secure debugging and recovery using new barebox functionality.
+
+---
 
 ## Netboot without throwing a FIT
 
@@ -27,6 +31,8 @@ FOSDEM 2026: Kernel Devroom
 
 Use Kbuild FIT support and initramfs tricks to easily network boot a kernel and its modules without touchig the on-disk rootfs. The conference-driven development resulted in barebox's [devboot feature](https://www.barebox.org/doc/latest/user/devboot.html).
 
+---
+
 ## Hardening the Barebox Bootloader
 
 Linux Security Summit Europe 2025
@@ -34,6 +40,8 @@ Linux Security Summit Europe 2025
 [\[recording ☍\]](https://www.youtube.com/watch?v=tav_ct4emX8)
 
 Recounting recent efforts to improve barebox security posture.
+
+---
 
 ## Bootloaders Under Fire: Real-World Threats and Practical Defenses
 
@@ -44,6 +52,8 @@ Embedded Linux Conference Europe 2025
 Looking at some attacks against U-Boot and barebox bootloaders and how barebox changed in response.
 First introduction of the barebox [security policy framework](https://www.barebox.org/doc/latest/user/security-policies.html).
 
+---
+
 ## Das Hoch und Runter mit ARM-Systemen (German)
 
 FrOSCon 2025
@@ -51,6 +61,8 @@ FrOSCon 2025
 [\[recording ☍\]](https://media.ccc.de/v/froscon2025-3378-das_hoch_und_runter_mit_arm-systemen)
 
 A (German) walkthrough of NXP i.MX8M bootstrap. From Boot ROM through barebox to Linux and back to power-off.
+
+---
 
 ## usb9pfs: network booting without the network
 
@@ -69,6 +81,8 @@ Embedded Linux Conference Europe 2024
 
 I speak about how strangely DMA bugs can manifest as an excuse to generate Yu-Gi-Oh! cards.
 
+---
+
 ## Linux Matchmaking: Helping devices and drivers find each other
 
 FOSDEM 2024: Kernel Devroom
@@ -86,6 +100,8 @@ Embedded Recipes 2023
 
 I talk about how to design an image that is portable to many differnt boards.
 
+---
+
 ## Wenn Geräte an Bäumen wachsen: Linux-Device-Tree-Portierung (German)
 
 Chemnitzer Linux-Tage 2023
@@ -93,6 +109,8 @@ Chemnitzer Linux-Tage 2023
 [\[recording ☍\]](https://media.ccc.de/v/clt23-251-wenn-gerate-an-baumen-wachsen-linux-device-tree-portierung#t=1)
 
 A (german) introduction into device trees as used by Linux and barebox.
+
+---
 
 ## Having Something to Hide: Trusted Key Storage in Linux
 
@@ -110,6 +128,8 @@ Embedded Linux Conference Europe 2022
 [\[recording ☍\]](https://www.youtube.com/watch?v=84Za-iWEcNU)
 
 Building an OTA-capable Yocto-based BSP with mainline components and no vendor layer.
+
+---
 
 ## DOOM auf STM32: Barebox Mars Domination (German)
 
@@ -130,12 +150,16 @@ FrOSCon 2021
 home appliance".
 A (German) walkthrough on how to leverage barebox APIs to run DOOM on any hardware supported by barebox.
 
+---
+
 ## From Reset Vector to Kernel - Navigating the ARM Matryoshka
 
 FOSDEM 2021: Embedded Devroom
 [\[slides & recording ☍\]](https://archive.fosdem.org/2021/schedule/event/from_reset_vector_to_kernel/)
 
 A walkthrough of NXP i.MX8M bootstrap. From Boot ROM through barebox to Linux.
+
+---
 
 ## Initializing RISC-V: A Guided Tour for ARM Developers
 
