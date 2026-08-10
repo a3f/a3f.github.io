@@ -6,6 +6,42 @@ public: true
 nocomments: true
 ---
 
+## FIT Happens: How Secure Boot Wasn't
+
+Embedded Linux Conference Europe 2026
+[\[schedule ☍\]](https://osselceu2026.sched.com/event/2RaWy/fit-happens-how-secure-boot-wasnt-ahmad-fatoum-pengutronix-ek)
+
+To be held in Prague on 7th October 2026 11:20-12:00 CEST.
+
+---
+
+## barebox and the Last Nasal Demon Riders
+
+Open Source Firmware Conference 2026
+[\[abstract ☍\]](https://talks.osfc.io/osfc-2026/talk/AAGWG7/)
+
+To be held in Amsterdam on 15th September 2026 15:30-16:00 CEST.
+
+---
+
+## Runtime Access Control in the Bootloader
+
+Open Source Firmware Conference 2026
+[\[abstract ☍\]](https://talks.osfc.io/osfc-2026/talk/DERT3G/)
+
+To be held in Amsterdam on 15th September 2026 10:30-10:45 CEST.
+
+---
+
+## Verkuppeln unter Linux: Wie Geräte und Treiber zueinander finden
+
+FrOSCon 2026
+[\[abstract ☍\]](https://programm.froscon.org/froscon2026/talk/d1436077-aebb-4fec-acd3-1d0818b8ffc2/)
+
+To be held in Sankt Augustin on 16th August 2026 15:00-16:00 CEST.
+
+---
+
 ## Secure by Default? Unified Bootflows from Factory to Field
 
 OSADL COOL April 2026 edition
